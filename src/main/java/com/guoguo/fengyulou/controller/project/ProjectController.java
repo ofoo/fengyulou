@@ -1,8 +1,10 @@
 package com.guoguo.fengyulou.controller.project;
 
 import com.guoguo.common.ServerResponse;
+import com.guoguo.fengyulou.controller.BaseController;
 import com.guoguo.fengyulou.entity.project.Project;
 import com.guoguo.fengyulou.service.project.ProjectService;
+import com.guoguo.util.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -19,7 +22,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/fyl")
-public class ProjectController {
+public class ProjectController extends BaseController {
 
     @Autowired
     private ProjectService projectService;
@@ -30,10 +33,11 @@ public class ProjectController {
      * @return
      */
     @RequestMapping("/project/list/page")
-    public String list(HttpServletRequest request, Project project) {
+    public String list(HttpServletRequest request, HttpSession session, Project project) {
+        project.setUserId(getUserId(session));
         request.setAttribute("pageInfo", projectService.getProjectListPage(project));
         request.setAttribute("data", project);
-        return "/project/project-list";
+        return "project/project-list";
     }
 
     /**
@@ -43,23 +47,24 @@ public class ProjectController {
      * @return
      */
     @RequestMapping("/project/insert")
-    public String insert(HttpServletRequest request) {
+    public String insert(HttpServletRequest request, HttpSession session) {
         request.setAttribute("pageTitle", "添加项目");
         return "project/project-save";
     }
 
     /**
      * 修改页面
-     *
      * @param request
-     * @param id
+     * @param session
+     * @param project
      * @return
      */
-    @RequestMapping("/project/update/{id}")
-    public String update(HttpServletRequest request, @PathVariable Long id) {
+    @RequestMapping("/project/update")
+    public String update(HttpServletRequest request, HttpSession session, Project project) {
         request.setAttribute("pageTitle", "修改项目");
         // 查询项目
-        request.setAttribute("data", projectService.getProjectById(id));
+        project.setUserId(getUserId(session));
+        request.setAttribute("data", projectService.getProjectByIdAndUserId(project));
         return "project/project-save";
     }
 
@@ -71,10 +76,11 @@ public class ProjectController {
      */
     @RequestMapping("/project/ajax/save")
     @ResponseBody
-    public ServerResponse ajaxSave(Project project) {
+    public ServerResponse ajaxSave(Project project, HttpSession session) {
         if (StringUtils.isBlank(project.getName())) {
             return ServerResponse.createByErrorMessage("请输入项目名称");
         }
+        project.setUserId(getUserId(session));
         return projectService.saveProject(project);
     }
 
@@ -86,8 +92,11 @@ public class ProjectController {
      */
     @RequestMapping("/project/ajax/delete")
     @ResponseBody
-    public ServerResponse ajaxSave(@RequestParam List<Long> ids) {
-        return projectService.deleteProjectByIds(ids);
+    public ServerResponse ajaxDelete(@RequestParam List<Long> ids, HttpSession session) {
+        if (ObjectUtils.isNull(ids)) {
+            return ServerResponse.createByErrorMessage("请选择数据");
+        }
+        return projectService.deleteProjectByIdsAndUserId(ids,getUserId(session));
     }
 
     /**
@@ -97,8 +106,10 @@ public class ProjectController {
      * @return
      */
     @RequestMapping("/project/ajax/list")
-    public String ajaxList(HttpServletRequest request) {
-        request.setAttribute("list", projectService.getProjectList(null));
+    public String ajaxList(HttpServletRequest request, HttpSession session) {
+        Project project = new Project();
+        project.setUserId(getUserId(session));
+        request.setAttribute("list", projectService.getProjectList(project));
         return "common/select-item";
     }
 }

@@ -2,12 +2,12 @@ $(function () {
     $(".menu ul li").click(function () {
         $(this).find("dl").slideToggle("fast").parent().siblings().find("dl").slideUp("fast");
         $(this).find("span i").toggleClass('action').parents().siblings().find("span i").removeClass('action');
-        $(this).addClass("text-primary");
     })
     // 左侧导航选中
     var current = $("[href='" + location.pathname + "']");
     current.click();
     current.addClass("text-primary");
+    current.parent().parent().parent().find("span").addClass("text-primary");
     // 取消文本输入框自动补全功能
     $("input").attr("autocomplete", "off");
     // 关闭页面，并刷新
@@ -187,6 +187,7 @@ function closePage() {
     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
     console.log(index)
     parent.layer.close(index); //再执行关闭
+    parent.initFun()
 }
 
 /**

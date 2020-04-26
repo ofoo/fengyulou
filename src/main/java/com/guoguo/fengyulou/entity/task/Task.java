@@ -40,6 +40,10 @@ public class Task {
      * 0正常 1删除
      */
     private Integer delete;
+    /**
+     * 用户id
+     */
+    private Long userId;
 
     /**
      * 页码

@@ -44,4 +44,19 @@ public interface MemberService {
      * @return
      */
     ServerResponse deleteMemberByIds(List<Long> ids);
+
+    /**
+     * 按id和用户id查询
+     * @param member
+     * @return
+     */
+    Member getMemberByIdAndUserId(Member member);
+
+    /**
+     * 按id和用户id删除
+     * @param ids
+     * @param userId
+     * @return
+     */
+    ServerResponse deleteMemberByIdsAndUserId(List<Long> ids, Long userId);
 }

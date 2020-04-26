@@ -1,5 +1,6 @@
 package com.guoguo.fengyulou.dao.project;
 
+import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.entity.project.Project;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,4 +20,12 @@ public interface ProjectDao {
     int deleteProjectByIds(List<Long> ids);
 
     int getProjectCountByProject(Project project);
+
+    Project getProjectByIdAndUserId(Project project);
+
+    int updateProjectByIdAndUserId(Project project);
+
+    int getProjectCountByNameAndUserId(Project project);
+
+    int deleteProjectByIdsAndUserId(@Param("ids") List<Long> ids, @Param("userId") Long userId);
 }

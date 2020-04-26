@@ -24,6 +24,10 @@ public class User {
      * 0正常 1删除
      */
     private Integer delete;
+    /**
+     * 用户类型 0普通用户 1管理员
+     */
+    private Integer type;
 
     /**
      * 页码

@@ -19,4 +19,12 @@ public interface TaskLabelDao {
     int deleteTaskLabelByIds(List<Long> ids);
 
     int getTaskLabelCountByTaskLabel(TaskLabel taskLabel);
+
+    TaskLabel getTaskLabelByIdAndUserId(TaskLabel taskLabel);
+
+    int updateTaskLabelByIdAndUserId(TaskLabel taskLabel);
+
+    int getTaskLabelCountByNameAndUserId(TaskLabel taskLabel);
+
+    int deleteTaskLabelByIdsAndUserId(@Param("ids") List<Long> ids, @Param("userId") Long userId);
 }

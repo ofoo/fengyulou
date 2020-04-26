@@ -1,7 +1,9 @@
 package com.guoguo.fengyulou.controller.member.label;
 
 import com.guoguo.common.ServerResponse;
+import com.guoguo.fengyulou.controller.BaseController;
 import com.guoguo.fengyulou.entity.member.label.MemberLabel;
+import com.guoguo.fengyulou.entity.user.User;
 import com.guoguo.fengyulou.service.member.label.MemberLabelService;
 import com.guoguo.util.ObjectUtils;
 import com.guoguo.util.StringUtils;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -20,7 +23,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/fyl")
-public class MemberLabelController {
+public class MemberLabelController extends BaseController {
 
     @Autowired
     private MemberLabelService memberLabelService;
@@ -33,8 +36,9 @@ public class MemberLabelController {
      * @return
      */
     @RequestMapping("/memberLabel/list/page")
-    public String list(HttpServletRequest request, MemberLabel memberLabel) {
+    public String list(HttpServletRequest request, HttpSession session, MemberLabel memberLabel) {
         request.setAttribute("data", memberLabel);
+        memberLabel.setUserId(getUserId(session));
         request.setAttribute("pageInfo", memberLabelService.getMemberLabelListPage(memberLabel));
         return "/member/label/member-label-list";
     }
@@ -46,7 +50,7 @@ public class MemberLabelController {
      * @return
      */
     @RequestMapping("/memberLabel/insert")
-    public String insert(HttpServletRequest request) {
+    public String insert(HttpServletRequest request, HttpSession session) {
         request.setAttribute("pageTitle", "添加人员标签");
         return "member/label/member-label-save";
     }
@@ -55,14 +59,16 @@ public class MemberLabelController {
      * 修改页面
      *
      * @param request
-     * @param id
+     * @param session
+     * @param memberLabel
      * @return
      */
-    @RequestMapping("/memberLabel/update/{id}")
-    public String update(HttpServletRequest request, @PathVariable Long id) {
+    @RequestMapping("/memberLabel/update")
+    public String update(HttpServletRequest request, HttpSession session, MemberLabel memberLabel) {
         request.setAttribute("pageTitle", "修改人员标签");
         // 查询人员标签
-        request.setAttribute("data", memberLabelService.getMemberLabelById(id));
+        memberLabel.setUserId(getUserId(session));
+        request.setAttribute("data", memberLabelService.getMemberLabelByIdAndUserId(memberLabel));
         return "member/label/member-label-save";
     }
 
@@ -74,10 +80,11 @@ public class MemberLabelController {
      */
     @RequestMapping("/memberLabel/ajax/save")
     @ResponseBody
-    public ServerResponse ajaxSave(MemberLabel memberLabel) {
+    public ServerResponse ajaxSave(MemberLabel memberLabel, HttpSession session) {
         if (StringUtils.isBlank(memberLabel.getName())) {
             return ServerResponse.createByErrorMessage("请输入人员标签名称");
         }
+        memberLabel.setUserId(getUserId(session));
         return memberLabelService.saveMemberLabel(memberLabel);
     }
 
@@ -89,8 +96,11 @@ public class MemberLabelController {
      */
     @RequestMapping("/memberLabel/ajax/delete")
     @ResponseBody
-    public ServerResponse ajaxDelete(@RequestParam List<Long> ids) {
-        return memberLabelService.deleteMemberLabelByIds(ids);
+    public ServerResponse ajaxDelete(@RequestParam List<Long> ids, HttpSession session) {
+        if (ObjectUtils.isNull(ids)) {
+            return ServerResponse.createByErrorMessage("请选择数据");
+        }
+        return memberLabelService.deleteMemberLabelByIdsAndUserId(ids, getUserId(session));
     }
 
     /**
@@ -100,8 +110,10 @@ public class MemberLabelController {
      * @return
      */
     @RequestMapping("/memberLabel/ajax/list")
-    public String ajaxList(HttpServletRequest request) {
-        request.setAttribute("list", memberLabelService.getMemberLabelList(null));
+    public String ajaxList(HttpServletRequest request, HttpSession session) {
+        MemberLabel memberLabel = new MemberLabel();
+        memberLabel.setUserId(getUserId(session));
+        request.setAttribute("list", memberLabelService.getMemberLabelList(memberLabel));
         return "common/select-item";
     }
 }

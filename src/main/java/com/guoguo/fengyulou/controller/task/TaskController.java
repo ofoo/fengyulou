@@ -2,6 +2,7 @@ package com.guoguo.fengyulou.controller.task;
 
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.controller.BaseController;
+import com.guoguo.fengyulou.entity.member.Member;
 import com.guoguo.fengyulou.entity.project.Project;
 import com.guoguo.fengyulou.entity.task.Task;
 import com.guoguo.fengyulou.entity.task.label.TaskLabel;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -43,7 +45,8 @@ public class TaskController extends BaseController {
      * @return
      */
     @RequestMapping("/task/list/page")
-    public String list(HttpServletRequest request, Task task) {
+    public String list(HttpServletRequest request, HttpSession session, Task task) {
+        task.setUserId(getUserId(session));
         request.setAttribute("pageInfo", taskService.getTaskListPage(task));
         request.setAttribute("data", task);
         return "task/task-list";
@@ -56,14 +59,20 @@ public class TaskController extends BaseController {
      * @return
      */
     @RequestMapping("/task/insert")
-    public String insert(HttpServletRequest request) {
+    public String insert(HttpServletRequest request, HttpSession session) {
         request.setAttribute("pageTitle", "添加任务");
         // 查询项目列表
-        request.setAttribute("projectList", projectService.getProjectList(null));
+        Project project = new Project();
+        project.setUserId(getUserId(session));
+        request.setAttribute("projectList", projectService.getProjectList(project));
         // 查询任务标签列表
-        request.setAttribute("taskLabelList", taskLabelService.getTaskLabelList(null));
+        TaskLabel taskLabel = new TaskLabel();
+        taskLabel.setUserId(getUserId(session));
+        request.setAttribute("taskLabelList", taskLabelService.getTaskLabelList(taskLabel));
         // 查询人员列表
-        request.setAttribute("memberList", memberService.getMemberList(null));
+        Member member = new Member();
+        member.setUserId(getUserId(session));
+        request.setAttribute("memberList", memberService.getMemberList(member));
         return "task/task-save";
     }
 
@@ -74,20 +83,24 @@ public class TaskController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping("/task/update/{id}")
-    public String update(HttpServletRequest request, @PathVariable Long id) {
+    @RequestMapping("/task/update")
+    public String update(HttpServletRequest request, HttpSession session, Task task) {
         request.setAttribute("pageTitle", "修改任务");
         // 查询任务
-        Task task = taskService.getTaskById(id);
-        request.setAttribute("data", task);
+        task.setUserId(getUserId(session));
+        request.setAttribute("data", taskService.getTaskByIdAndUserId(task));
         // 查询项目列表
-        List<Project> projectList = projectService.getProjectList(null);
-        request.setAttribute("projectList", projectList);
+        Project project = new Project();
+        project.setUserId(getUserId(session));
+        request.setAttribute("projectList", projectService.getProjectList(project));
         // 查询任务标签列表
-        List<TaskLabel> taskLabelList = taskLabelService.getTaskLabelList(null);
-        request.setAttribute("taskLabelList", taskLabelList);
+        TaskLabel taskLabel = new TaskLabel();
+        taskLabel.setUserId(getUserId(session));
+        request.setAttribute("taskLabelList", taskLabelService.getTaskLabelList(taskLabel));
         // 查询人员列表
-        request.setAttribute("memberList", memberService.getMemberList(null));
+        Member member = new Member();
+        member.setUserId(getUserId(session));
+        request.setAttribute("memberList", memberService.getMemberList(member));
         return "task/task-save";
     }
 
@@ -99,7 +112,7 @@ public class TaskController extends BaseController {
      */
     @RequestMapping("/task/ajax/save")
     @ResponseBody
-    private ServerResponse ajaxSave(Task task) {
+    private ServerResponse ajaxSave(HttpSession session, Task task) {
         if (StringUtils.isBlank(task.getSketch())) {
             return ServerResponse.createByErrorMessage("请输入任务简述");
         }
@@ -115,6 +128,7 @@ public class TaskController extends BaseController {
         if (task.getStatus() == null || (task.getStatus() < 0 && task.getStatus() > 1)) {
             return ServerResponse.createByErrorMessage("请选择任务状态");
         }
+        task.setUserId(getUserId(session));
         return taskService.saveTask(task);
     }
 
@@ -126,8 +140,11 @@ public class TaskController extends BaseController {
      */
     @RequestMapping("/task/ajax/delete")
     @ResponseBody
-    private ServerResponse ajaxDelete(@RequestParam List<Long> ids) {
-        return taskService.deleteTaskByIds(ids);
+    private ServerResponse ajaxDelete(@RequestParam List<Long> ids, HttpSession session) {
+        if (ObjectUtils.isNull(ids)) {
+            return ServerResponse.createByErrorMessage("请选择数据");
+        }
+        return taskService.deleteTaskByIdsAndUserId(ids,getUserId(session));
     }
 
     /**
@@ -135,7 +152,7 @@ public class TaskController extends BaseController {
      */
     @RequestMapping("/task/ajax/updateStatus")
     @ResponseBody
-    private ServerResponse ajaxUpdateStatus(@RequestParam List<Long> ids) {
-        return taskService.updateStatusByIds(ids);
+    private ServerResponse ajaxUpdateStatus(@RequestParam List<Long> ids, HttpSession session) {
+        return taskService.updateStatusByIdsAndUserId(ids,getUserId(session));
     }
 }

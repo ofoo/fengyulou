@@ -26,7 +26,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public PageInfo<Project> getProjectListPage(Project project) {
-        PageHelper.startPage(project.getPageNum()==null?1:project.getPageNum(), project.getPageSize()==null?10:project.getPageSize());
+        PageHelper.startPage(project.getPageNum() == null ? 1 : project.getPageNum(), project.getPageSize() == null ? 10 : project.getPageSize());
         List<Project> list = projectDao.getProjectList(project);
         PageInfo<Project> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -48,13 +48,13 @@ public class ProjectServiceImpl implements ProjectService {
                 return ServerResponse.createByError(ResponseCode.EXIST);
             }
             // 修改
-            int rows = projectDao.updateProjectById(project);
+            int rows = projectDao.updateProjectByIdAndUserId(project);
             if (rows > 0) {
                 return ServerResponse.createBySuccess();
             }
         } else {
             // 验证数据是否重复
-            int count = projectDao.getProjectCountByName(project.getName());
+            int count = projectDao.getProjectCountByNameAndUserId(project);
             if (count > 0) {
                 return ServerResponse.createByError(ResponseCode.EXIST);
             }
@@ -70,6 +70,23 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ServerResponse deleteProjectByIds(List<Long> ids) {
         int rows = projectDao.deleteProjectByIds(ids);
+        if (rows > 0) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
+
+    @Override
+    public Project getProjectByIdAndUserId(Project project) {
+        if (ObjectUtils.isNull(project.getId())) {
+            return null;
+        }
+        return projectDao.getProjectByIdAndUserId(project);
+    }
+
+    @Override
+    public ServerResponse deleteProjectByIdsAndUserId(List<Long> ids, Long userId) {
+        int rows = projectDao.deleteProjectByIdsAndUserId(ids, userId);
         if (rows > 0) {
             return ServerResponse.createBySuccess();
         }

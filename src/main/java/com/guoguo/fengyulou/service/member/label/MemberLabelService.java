@@ -43,4 +43,19 @@ public interface MemberLabelService {
      * @return
      */
     ServerResponse saveMemberLabel(MemberLabel memberLabel);
+
+    /**
+     * 按id和用户id查询
+     * @param memberLabel
+     * @return
+     */
+    MemberLabel getMemberLabelByIdAndUserId(MemberLabel memberLabel);
+
+    /**
+     * 按id和用户id删除
+     * @param ids
+     * @param userId
+     * @return
+     */
+    ServerResponse deleteMemberLabelByIdsAndUserId(List<Long> ids, Long userId);
 }

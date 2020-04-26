@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guoguo.fengyulou.dao.project.ProjectDao">
     <insert id="insertProject">
-        insert into fengyulou_project(`name`) values (#{name})
+        insert into fengyulou_project(`name`,user_id) values (#{name},#{userId})
     </insert>
     <update id="updateProjectById">
         update fengyulou_project set `name`=#{name} where id=#{id}
@@ -13,11 +13,22 @@
             #{item}
         </foreach>
     </update>
+    <update id="updateProjectByIdAndUserId">
+        update fengyulou_project set `name`=#{name} where id=#{id} and user_id=#{userId}
+    </update>
+    <update id="deleteProjectByIdsAndUserId">
+        update fengyulou_project set `delete`=1 where id in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and user_id=#{userId}
+    </update>
 
     <select id="getProjectList" resultType="com.guoguo.fengyulou.entity.project.Project">
         select id,`name` from fengyulou_project
         <where>
             `delete`=0
+            and user_id=#{userId}
             <if test="name!=null and name!=''">
                 and `name` like CONCAT('%',#{name},'%')
             </if>
@@ -31,6 +42,12 @@
         select ifnull(count(1),0) from fengyulou_project where `name`=#{name}
     </select>
     <select id="getProjectCountByProject" resultType="java.lang.Integer">
-        select ifnull(count(1),0) from fengyulou_project where `name`=#{name} and id!=#{id}
+        select ifnull(count(1),0) from fengyulou_project where `name`=#{name} and user_id=#{userId} and id!=#{id}
+    </select>
+    <select id="getProjectByIdAndUserId" resultType="com.guoguo.fengyulou.entity.project.Project">
+        select id,`name` from fengyulou_project where id=#{id} and user_id=#{userId} limit 1
+    </select>
+    <select id="getProjectCountByNameAndUserId" resultType="java.lang.Integer">
+        select ifnull(count(1),0) from fengyulou_project where `name`=#{name} and user_id=#{userId}
     </select>
 </mapper>

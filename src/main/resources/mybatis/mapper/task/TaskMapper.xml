@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guoguo.fengyulou.dao.task.TaskDao">
     <insert id="insertTask">
-        insert into fengyulou_task(project_id, sketch, task_label_id, member_id) values (#{projectId},#{sketch},#{taskLabelId},#{memberId})
+        insert into fengyulou_task(project_id, sketch, task_label_id, member_id,user_id) values (#{projectId},#{sketch},#{taskLabelId},#{memberId},#{userId})
     </insert>
     <update id="deleteTaskByIds">
         update fengyulou_task set `delete`=1 where id in
@@ -27,6 +27,32 @@
             #{item}
         </foreach>
     </update>
+    <update id="updateTaskByIdAndUserId">
+        update fengyulou_task set
+        project_id=#{projectId},
+        sketch=#{sketch},
+        task_label_id=#{taskLabelId},
+        status=#{status},
+        <if test="status==0">finish_time=null,</if>
+        <if test="status==1">finish_time=now(),</if>
+        member_id=#{memberId}
+        where id=#{id}
+        and user_id=#{userId}
+    </update>
+    <update id="deleteTaskByIdsAndUserId">
+        update fengyulou_task set `delete`=1 where id in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and user_id=#{userId}
+    </update>
+    <update id="updateStatusByIdsAndUserId">
+        update fengyulou_task set `status`=1,finish_time=now() where id in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and user_id=#{userId}
+    </update>
 
     <select id="getTaskList" resultType="com.guoguo.fengyulou.entity.task.Task">
         select
@@ -43,6 +69,7 @@
         left join fengyulou_member on fengyulou_task.member_id=fengyulou_member.id
         <where>
             fengyulou_task.`delete`=0
+            and fengyulou_task.user_id=#{userId}
             <if test="projectName!=null and projectName!=''">
                 and fengyulou_project.name like CONCAT('%',#{projectName},'%')
             </if>
@@ -75,6 +102,20 @@
         fengyulou_task.member_id
         from fengyulou_task
         where id=#{id}
+        limit 1
+    </select>
+    <select id="getTaskByIdAndUserId" resultType="com.guoguo.fengyulou.entity.task.Task">
+        select
+        fengyulou_task.id,
+        fengyulou_task.project_id,
+        fengyulou_task.sketch,
+        fengyulou_task.task_label_id,
+        fengyulou_task.status,
+        fengyulou_task.finish_time,
+        fengyulou_task.member_id
+        from fengyulou_task
+        where id=#{id}
+        and user_id=#{userId}
         limit 1
     </select>
 </mapper>

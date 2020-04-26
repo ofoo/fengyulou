@@ -14,6 +14,8 @@ public class WebConfigurer implements WebMvcConfigurer {
 
     @Autowired
     private LoginVerifyInterceptor loginVerifyInterceptor;
+    @Autowired
+    private IdentityVerifyInterceptor identityVerifyInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -24,10 +26,16 @@ public class WebConfigurer implements WebMvcConfigurer {
         List<String> excludePathList=new ArrayList<>();
         excludePathList.add("/fyl/user/ajaxLogin");
         registry.addInterceptor(loginVerifyInterceptor).excludePathPatterns(excludePathList).addPathPatterns(list);
+        list = new ArrayList<>();
+        list.add("/user/list/page");
+        list.add("/user/insert");
+        list.add("/user/update/*");
+        list.add("/user/ajax/save");
+        registry.addInterceptor(identityVerifyInterceptor).addPathPatterns(list);
     }
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("login");
-    }
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/").setViewName("login");
+//    }
 }

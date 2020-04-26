@@ -2,8 +2,10 @@ package com.guoguo.fengyulou.controller.task.label;
 
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.controller.BaseController;
+import com.guoguo.fengyulou.entity.task.Task;
 import com.guoguo.fengyulou.entity.task.label.TaskLabel;
 import com.guoguo.fengyulou.service.task.label.TaskLabelService;
+import com.guoguo.util.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -33,7 +36,8 @@ public class TaskLabelController extends BaseController {
      * @return
      */
     @RequestMapping("/taskLabel/list/page")
-    public String list(HttpServletRequest request, TaskLabel taskLabel) {
+    public String list(HttpServletRequest request, HttpSession session, TaskLabel taskLabel) {
+        taskLabel.setUserId(getUserId(session));
         request.setAttribute("pageInfo", taskLabelService.getTaskLabelListPage(taskLabel));
         request.setAttribute("data", taskLabel);
         return "task/label/task-label-list";
@@ -46,23 +50,24 @@ public class TaskLabelController extends BaseController {
      * @return
      */
     @RequestMapping("/taskLabel/insert")
-    public String insert(HttpServletRequest request) {
+    public String insert(HttpServletRequest request, HttpSession session) {
         request.setAttribute("pageTitle", "添加任务标签");
         return "task/label/task-label-save";
     }
 
     /**
      * 修改页面
-     *
      * @param request
-     * @param id
+     * @param session
+     * @param taskLabel
      * @return
      */
-    @RequestMapping("/taskLabel/update/{id}")
-    public String update(HttpServletRequest request, @PathVariable Long id) {
+    @RequestMapping("/taskLabel/update")
+    public String update(HttpServletRequest request, HttpSession session, TaskLabel taskLabel) {
         request.setAttribute("pageTitle", "修改任务标签");
         // 查询任务标签
-        request.setAttribute("data", taskLabelService.getTaskLabelById(id));
+        taskLabel.setUserId(getUserId(session));
+        request.setAttribute("data", taskLabelService.getTaskLabelByIdAndUserId(taskLabel));
         return "task/label/task-label-save";
     }
 
@@ -74,10 +79,11 @@ public class TaskLabelController extends BaseController {
      */
     @RequestMapping("/taskLabel/ajax/save")
     @ResponseBody
-    public ServerResponse ajaxSave(TaskLabel taskLabel) {
+    public ServerResponse ajaxSave(TaskLabel taskLabel, HttpSession session) {
         if (StringUtils.isBlank(taskLabel.getName())) {
             return ServerResponse.createByErrorMessage("请输入任务标签名称");
         }
+        taskLabel.setUserId(getUserId(session));
         return taskLabelService.saveTaskLabel(taskLabel);
     }
 
@@ -89,8 +95,11 @@ public class TaskLabelController extends BaseController {
      */
     @RequestMapping("/taskLabel/ajax/delete")
     @ResponseBody
-    public ServerResponse ajaxDelete(@RequestParam List<Long> ids) {
-        return taskLabelService.deleteTaskLabelByIds(ids);
+    public ServerResponse ajaxDelete(@RequestParam List<Long> ids, HttpSession session) {
+        if (ObjectUtils.isNull(ids)) {
+            return ServerResponse.createByErrorMessage("请选择数据");
+        }
+        return taskLabelService.deleteTaskLabelByIdsAndUserId(ids,getUserId(session));
     }
 
     /**
@@ -99,8 +108,10 @@ public class TaskLabelController extends BaseController {
      * @return
      */
     @RequestMapping("/taskLabel/ajax/list")
-    public String ajaxList(HttpServletRequest request) {
-        request.setAttribute("list", taskLabelService.getTaskLabelList(null));
+    public String ajaxList(HttpServletRequest request, HttpSession session) {
+        TaskLabel taskLabel = new TaskLabel();
+        taskLabel.setUserId(getUserId(session));
+        request.setAttribute("list", taskLabelService.getTaskLabelList(taskLabel));
         return "/common/select-item";
     }
 }

@@ -73,7 +73,7 @@
                 return;
             }
             var id = $(".checkbox:checked")[0].value;
-            openPage('/fyl/member/update/' + id)
+            openPage('/fyl/member/update?id=' + id)
         })
         // 删除
         $('#fengyulou-delete').on('click', function () {

@@ -16,9 +16,17 @@ public class CommonConstant {
     /**
      * 正确提示
      */
-    public static final String GREEN_MSG="操作成功";
+    public static final String GREEN_MSG = "操作成功";
     /**
      * 错误提示
      */
     public static final String RED_MSG = "操作失败";
+    /**
+     * 首页面
+     */
+    public static final String INDEX = "/fyl/task/list/page";
+    /**
+     * 登录页
+     */
+    public static final String LOGIN = "/";
 }

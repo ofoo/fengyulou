@@ -41,4 +41,13 @@ public interface TaskLabelService {
      * @return
      */
     ServerResponse deleteTaskLabelByIds(List<Long> ids);
+
+    /**
+     * 按id和用户id查询
+     * @param taskLabel
+     * @return
+     */
+    TaskLabel getTaskLabelByIdAndUserId(TaskLabel taskLabel);
+
+    ServerResponse deleteTaskLabelByIdsAndUserId(List<Long> ids, Long userId);
 }

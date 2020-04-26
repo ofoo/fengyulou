@@ -27,7 +27,7 @@ public class TaskLabelServiceImpl implements TaskLabelService {
 
     @Override
     public PageInfo<TaskLabel> getTaskLabelListPage(TaskLabel taskLabel) {
-        PageHelper.startPage(taskLabel.getPageNum()==null?1:taskLabel.getPageNum(), taskLabel.getPageSize()==null?10:taskLabel.getPageSize());
+        PageHelper.startPage(taskLabel.getPageNum() == null ? 1 : taskLabel.getPageNum(), taskLabel.getPageSize() == null ? 10 : taskLabel.getPageSize());
         List<TaskLabel> list = taskLabelDao.getTaskLabelList(taskLabel);
         PageInfo<TaskLabel> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -49,13 +49,13 @@ public class TaskLabelServiceImpl implements TaskLabelService {
                 return ServerResponse.createByError(ResponseCode.EXIST);
             }
             // 修改
-            int rows = taskLabelDao.updateTaskLabelById(taskLabel);
+            int rows = taskLabelDao.updateTaskLabelByIdAndUserId(taskLabel);
             if (rows > 0) {
                 return ServerResponse.createBySuccess();
             }
         } else {
             // 验证数据是否重复
-            int count = taskLabelDao.getTaskLabelCountByName(taskLabel.getName());
+            int count = taskLabelDao.getTaskLabelCountByNameAndUserId(taskLabel);
             if (count > 0) {
                 return ServerResponse.createByError(ResponseCode.EXIST);
             }
@@ -71,6 +71,23 @@ public class TaskLabelServiceImpl implements TaskLabelService {
     @Override
     public ServerResponse deleteTaskLabelByIds(List<Long> ids) {
         int rows = taskLabelDao.deleteTaskLabelByIds(ids);
+        if (rows > 0) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
+
+    @Override
+    public TaskLabel getTaskLabelByIdAndUserId(TaskLabel taskLabel) {
+        if (ObjectUtils.isNull(taskLabel.getId())) {
+            return null;
+        }
+        return taskLabelDao.getTaskLabelByIdAndUserId(taskLabel);
+    }
+
+    @Override
+    public ServerResponse deleteTaskLabelByIdsAndUserId(List<Long> ids, Long userId) {
+        int rows = taskLabelDao.deleteTaskLabelByIdsAndUserId(ids, userId);
         if (rows > 0) {
             return ServerResponse.createBySuccess();
         }

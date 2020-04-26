@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public PageInfo<Member> getMemberListPage(Member member) {
-        PageHelper.startPage(member.getPageNum()==null?1:member.getPageNum(), member.getPageSize()==null?10:member.getPageSize());
+        PageHelper.startPage(member.getPageNum() == null ? 1 : member.getPageNum(), member.getPageSize() == null ? 10 : member.getPageSize());
         List<Member> list = memberDao.getMemberList(member);
         PageInfo<Member> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -52,14 +52,14 @@ public class MemberServiceImpl implements MemberService {
                 }
             }
             // 修改
-            int rows = memberDao.updateMemberById(member);
+            int rows = memberDao.updateMemberByIdAndUserId(member);
             if (rows > 0) {
                 return ServerResponse.createBySuccess();
             }
         } else {
             if (StringUtils.isNotBlank(member.getMobile())) {
                 // 验证数据是否重复
-                int count = memberDao.getMemberCountByMobile(member.getMobile());
+                int count = memberDao.getMemberCountByMobileAndUserId(member);
                 if (count > 0) {
                     return ServerResponse.createByError(ResponseCode.EXIST);
                 }
@@ -76,6 +76,20 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public ServerResponse deleteMemberByIds(List<Long> ids) {
         int rows = memberDao.deleteMemberByIds(ids);
+        if (rows > 0) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
+
+    @Override
+    public Member getMemberByIdAndUserId(Member member) {
+        return memberDao.getMemberByIdAndUserId(member);
+    }
+
+    @Override
+    public ServerResponse deleteMemberByIdsAndUserId(List<Long> ids, Long userId) {
+        int rows = memberDao.deleteMemberByIdsAndUserId(ids, userId);
         if (rows > 0) {
             return ServerResponse.createBySuccess();
         }

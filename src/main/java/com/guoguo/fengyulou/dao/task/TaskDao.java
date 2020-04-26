@@ -17,4 +17,12 @@ public interface TaskDao {
     int insertTask(Task task);
 
     int updateStatusByIds(List<Long> ids);
+
+    Task getTaskByIdAndUserId(Task task);
+
+    int updateTaskByIdAndUserId(Task task);
+
+    int deleteTaskByIdsAndUserId(List<Long> ids, Long userId);
+
+    int updateStatusByIdsAndUserId(@Param("ids") List<Long> ids, @Param("userId") Long userId);
 }

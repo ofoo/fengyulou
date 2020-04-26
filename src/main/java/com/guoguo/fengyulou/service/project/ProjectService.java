@@ -43,4 +43,19 @@ public interface ProjectService {
      * @return
      */
     ServerResponse deleteProjectByIds(List<Long> ids);
+
+    /**
+     * 按id和用户id查询
+     * @param project
+     * @return
+     */
+    Project getProjectByIdAndUserId(Project project);
+
+    /**
+     * 按id和用户id删除
+     * @param ids
+     * @param userId
+     * @return
+     */
+    ServerResponse deleteProjectByIdsAndUserId(List<Long> ids, Long userId);
 }

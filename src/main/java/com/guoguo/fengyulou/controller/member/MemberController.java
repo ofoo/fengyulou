@@ -1,11 +1,15 @@
 package com.guoguo.fengyulou.controller.member;
 
 import com.guoguo.common.ServerResponse;
+import com.guoguo.fengyulou.controller.BaseController;
 import com.guoguo.fengyulou.entity.member.Member;
+import com.guoguo.fengyulou.entity.member.label.MemberLabel;
 import com.guoguo.fengyulou.service.member.MemberService;
 import com.guoguo.fengyulou.service.member.label.MemberLabelService;
 import com.guoguo.util.ObjectUtils;
 import com.guoguo.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -21,7 +26,9 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/fyl")
-public class MemberController {
+public class MemberController extends BaseController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     @Autowired
     private MemberService memberService;
@@ -34,8 +41,9 @@ public class MemberController {
      * @return
      */
     @RequestMapping("/member/list/page")
-    public String list(HttpServletRequest request, Member member) {
+    public String list(HttpServletRequest request, HttpSession session, Member member) {
         request.setAttribute("data", member);
+        member.setUserId(getUserId(session));
         request.setAttribute("pageInfo", memberService.getMemberListPage(member));
         return "/member/member-list";
     }
@@ -47,10 +55,16 @@ public class MemberController {
      * @return
      */
     @RequestMapping("/member/insert")
-    public String insert(HttpServletRequest request) {
+    public String insert(HttpServletRequest request, HttpSession session) {
         request.setAttribute("pageTitle", "添加人员");
         // 查询人员标签列表
-        request.setAttribute("memberLabelList", memberLabelService.getMemberLabelList(null));
+        MemberLabel memberLabel = new MemberLabel();
+        memberLabel.setUserId(getUserId(session));
+        request.setAttribute("memberLabelList", memberLabelService.getMemberLabelList(memberLabel));
+        // task=任务页面打开
+        String str = request.getParameter("str");
+        logger.info("str={}", str);
+        request.setAttribute("str", str);
         return "member/member-save";
     }
 
@@ -58,16 +72,19 @@ public class MemberController {
      * 修改页面
      *
      * @param request
-     * @param id
+     * @param session
+     * @param member
      * @return
      */
-    @RequestMapping("/member/update/{id}")
-    public String update(HttpServletRequest request, @PathVariable Long id) {
+    @RequestMapping("/member/update")
+    public String update(HttpServletRequest request, HttpSession session, Member member) {
         request.setAttribute("pageTitle", "修改人员");
         // 查询人员
-        request.setAttribute("data", memberService.getMemberById(id));
+        request.setAttribute("data", memberService.getMemberByIdAndUserId(member));
         // 查询人员标签列表
-        request.setAttribute("memberLabelList", memberLabelService.getMemberLabelList(null));
+        MemberLabel memberLabel = new MemberLabel();
+        memberLabel.setUserId(getUserId(session));
+        request.setAttribute("memberLabelList", memberLabelService.getMemberLabelList(memberLabel));
         return "member/member-save";
     }
 
@@ -79,13 +96,14 @@ public class MemberController {
      */
     @RequestMapping("/member/ajax/save")
     @ResponseBody
-    public ServerResponse ajaxSave(Member member) {
+    public ServerResponse ajaxSave(Member member, HttpSession session) {
         if (StringUtils.isBlank(member.getName())) {
             return ServerResponse.createByErrorMessage("请输入人员名称");
         }
         if (ObjectUtils.isNull(member.getMemberLabelId())) {
             return ServerResponse.createByErrorMessage("请选择人员标签");
         }
+        member.setUserId(getUserId(session));
         return memberService.saveMember(member);
     }
 
@@ -97,8 +115,11 @@ public class MemberController {
      */
     @RequestMapping("/member/ajax/delete")
     @ResponseBody
-    public ServerResponse ajaxDelete(@RequestParam List<Long> ids) {
-        return memberService.deleteMemberByIds(ids);
+    public ServerResponse ajaxDelete(@RequestParam List<Long> ids, HttpSession session) {
+        if (ObjectUtils.isNull(ids)) {
+            return ServerResponse.createByErrorMessage("请选择数据");
+        }
+        return memberService.deleteMemberByIdsAndUserId(ids, getUserId(session));
     }
 
     /**
@@ -108,8 +129,10 @@ public class MemberController {
      * @return
      */
     @RequestMapping("/member/ajax/list")
-    public String ajaxList(HttpServletRequest request) {
-        request.setAttribute("list", memberService.getMemberList(null));
+    public String ajaxList(HttpServletRequest request, HttpSession session) {
+        Member member = new Member();
+        member.setUserId(getUserId(session));
+        request.setAttribute("list", memberService.getMemberList(member));
         return "common/select-item";
     }
 }

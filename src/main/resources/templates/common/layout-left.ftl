@@ -24,6 +24,14 @@
                     <dt><a href="/fyl/project/list/page">项目列表</a></dt>
                 </dl>
             </li>
+            <#if current.type==1>
+            <li>
+                <span>用户管理<i class="icon"></i></span>
+                <dl>
+                    <dt><a href="/fyl/user/list/page">用户列表</a></dt>
+                </dl>
+            </li>
+            </#if>
         </ul>
     </div>
 </div>

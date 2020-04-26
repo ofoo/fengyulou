@@ -1,5 +1,6 @@
 package com.guoguo.fengyulou.dao.member.label;
 
+import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.entity.member.label.MemberLabel;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,4 +20,12 @@ public interface MemberLabelDao {
     int getMemberLabelCountByName(@Param("name") String name);
 
     int insertMemberLabel(MemberLabel memberLabel);
+
+    MemberLabel getMemberLabelByIdAndUserId(MemberLabel memberLabel);
+
+    int getMemberLabelCountByNameByUserId(MemberLabel memberLabel);
+
+    int updateMemberLabelByIdAndUserId(MemberLabel memberLabel);
+
+    int deleteMemberLabelByIdsAndUserId(@Param("ids") List<Long> ids, @Param("userId") Long userId);
 }

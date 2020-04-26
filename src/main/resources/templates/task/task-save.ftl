@@ -106,7 +106,7 @@
     })
     // 添加执行人
     $("#member-insert").on("click", function () {
-        openPage("/fyl/member/insert");
+        openPage("/fyl/member/insert?str=task");
     })
     // 保存任务
     $("#fengyulou-save").on("click", function () {
@@ -114,6 +114,13 @@
             msgFun(data.msg)
         })
     })
+
+    function initFun(){
+        // 刷新人员列表
+        ajaxFunText("/fyl/member/ajax/list", function (data) {
+            $("#memberId").html(data);
+        })
+    }
 </script>
 </body>
 </html>

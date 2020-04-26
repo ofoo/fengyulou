@@ -26,7 +26,7 @@ public class MemberLabelServiceImpl implements MemberLabelService {
 
     @Override
     public PageInfo<MemberLabel> getMemberLabelListPage(MemberLabel memberLabel) {
-        PageHelper.startPage(memberLabel.getPageNum()==null?1:memberLabel.getPageNum(), memberLabel.getPageSize()==null?10:memberLabel.getPageSize());
+        PageHelper.startPage(memberLabel.getPageNum() == null ? 1 : memberLabel.getPageNum(), memberLabel.getPageSize() == null ? 10 : memberLabel.getPageSize());
         List<MemberLabel> list = memberLabelDao.getMemberLabelList(memberLabel);
         PageInfo<MemberLabel> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -57,13 +57,13 @@ public class MemberLabelServiceImpl implements MemberLabelService {
                 return ServerResponse.createByError(ResponseCode.EXIST);
             }
             // 修改
-            int rows = memberLabelDao.updateMemberLabelById(memberLabel);
+            int rows = memberLabelDao.updateMemberLabelByIdAndUserId(memberLabel);
             if (rows > 0) {
                 return ServerResponse.createBySuccess();
             }
         } else {
             // 检查数据是否重复
-            int count = memberLabelDao.getMemberLabelCountByName(memberLabel.getName());
+            int count = memberLabelDao.getMemberLabelCountByNameByUserId(memberLabel);
             if (count > 0) {
                 return ServerResponse.createByError(ResponseCode.EXIST);
             }
@@ -72,6 +72,23 @@ public class MemberLabelServiceImpl implements MemberLabelService {
             if (rows > 0) {
                 return ServerResponse.createBySuccess();
             }
+        }
+        return ServerResponse.createByError();
+    }
+
+    @Override
+    public MemberLabel getMemberLabelByIdAndUserId(MemberLabel memberLabel) {
+        if (ObjectUtils.isNull(memberLabel.getId())) {
+            return null;
+        }
+        return memberLabelDao.getMemberLabelByIdAndUserId(memberLabel);
+    }
+
+    @Override
+    public ServerResponse deleteMemberLabelByIdsAndUserId(List<Long> ids, Long userId) {
+        int rows = memberLabelDao.deleteMemberLabelByIdsAndUserId(ids, userId);
+        if (rows > 0) {
+            return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
     }

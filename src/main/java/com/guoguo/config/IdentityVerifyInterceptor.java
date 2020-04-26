@@ -2,6 +2,7 @@ package com.guoguo.config;
 
 import com.guoguo.common.CommonConstant;
 import com.guoguo.fengyulou.constant.UserConstant;
+import com.guoguo.fengyulou.entity.user.User;
 import com.guoguo.util.ObjectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -11,15 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 登录验证
+ * 用户身份验证
  */
 @Component
-public class LoginVerifyInterceptor implements HandlerInterceptor {
+public class IdentityVerifyInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Object obj = request.getSession().getAttribute(UserConstant.CURRENT);
-        if (ObjectUtils.isNull(obj)) {
+        User user = (User) request.getSession().getAttribute(UserConstant.CURRENT);
+        if (ObjectUtils.isNotNull(user) && !user.getType().equals(UserConstant.ADMIN)) {
             response.sendRedirect(CommonConstant.LOGIN);
             return false;
         }

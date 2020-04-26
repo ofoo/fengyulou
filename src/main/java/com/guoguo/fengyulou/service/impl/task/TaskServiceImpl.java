@@ -25,7 +25,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public PageInfo<Task> getTaskListPage(Task task) {
-        PageHelper.startPage(task.getPageNum()==null?1:task.getPageNum(), task.getPageSize()==null?10:task.getPageSize());
+        PageHelper.startPage(task.getPageNum() == null ? 1 : task.getPageNum(), task.getPageSize() == null ? 10 : task.getPageSize());
         List<Task> list = taskDao.getTaskList(task);
         PageInfo<Task> pageInfo = new PageInfo<>(list);
         return pageInfo;
@@ -51,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
         task.setSketch(task.getSketch().trim());
         if (ObjectUtils.isNotNull(task.getId())) {
             // 按id修改数据
-            int rows = taskDao.updateTaskById(task);
+            int rows = taskDao.updateTaskByIdAndUserId(task);
             if (rows > 0) {
                 return ServerResponse.createBySuccess();
             }
@@ -68,6 +68,32 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public ServerResponse updateStatusByIds(List<Long> ids) {
         int rows = taskDao.updateStatusByIds(ids);
+        if (rows > 0) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
+
+    @Override
+    public Task getTaskByIdAndUserId(Task task) {
+        if (ObjectUtils.isNull(task.getId())) {
+            return null;
+        }
+        return taskDao.getTaskByIdAndUserId(task);
+    }
+
+    @Override
+    public ServerResponse deleteTaskByIdsAndUserId(List<Long> ids, Long userId) {
+        int rows = taskDao.deleteTaskByIdsAndUserId(ids, userId);
+        if (rows > 0) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
+    }
+
+    @Override
+    public ServerResponse updateStatusByIdsAndUserId(List<Long> ids, Long userId) {
+        int rows = taskDao.updateStatusByIdsAndUserId(ids, userId);
         if (rows > 0) {
             return ServerResponse.createBySuccess();
         }

@@ -51,4 +51,27 @@ public interface TaskService {
      * @return
      */
     ServerResponse updateStatusByIds(List<Long> ids);
+
+    /**
+     * 按id和用户id查询
+     * @param task
+     * @return
+     */
+    Task getTaskByIdAndUserId(Task task);
+
+    /**
+     * 按id和用户删除
+     * @param ids
+     * @param userId
+     * @return
+     */
+    ServerResponse deleteTaskByIdsAndUserId(List<Long> ids, Long userId);
+
+    /**
+     * 按id和用户id修改任务状态
+     * @param ids
+     * @param userId
+     * @return
+     */
+    ServerResponse updateStatusByIdsAndUserId(List<Long> ids, Long userId);
 }
