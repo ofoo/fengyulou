@@ -1,4 +1,3 @@
-<#--
 <#if (pageInfo.pages>0)>
 <ul class="pagination data-page">
             <#if pageInfo.isFirstPage>
@@ -35,4 +34,4 @@
             </li>
             </#if>
 </ul>
-</#if>-->
+</#if>
