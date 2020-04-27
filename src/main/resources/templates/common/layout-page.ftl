@@ -17,7 +17,7 @@
                 <#if pageInfo.pageNum==num>
                     <li class="active"><a href="javascript:void(0)">${num}</a></li>
                 <#else>
-                    <li><a href="javascript:void(0)" data-page="${num}" class="search">${num}</a></li>
+                    <li><a href="javascript:void(0)" data-page="${num}" class="page-search">${num}</a></li>
                 </#if>
             </#list>
             <#if pageInfo.isLastPage>
