@@ -63,7 +63,7 @@ function delFun(url, param, callBack) {
     });
 }
 
-$('#fengyulou-search').on('click', function () {
+$('#fengyulou-search,.page-search').on('click', function () {
     $('#pageNum').val($(this).data("page"))
     $('.search-from').submit()
 })
