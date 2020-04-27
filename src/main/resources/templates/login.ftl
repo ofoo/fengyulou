@@ -3,9 +3,14 @@
 <head>
     <#assign title="登录"/>
     <#include "common/header-script.ftl">
+    <style>
+        .box{
+            display: none;
+        }
+    </style>
 </head>
 <body>
-<div class="container" style="margin-top: 100px">
+<div class="container box">
     <div class="col-md-offset-4 col-md-4">
         <form id="dataForm" class="well">
             <div class="page-header" style="margin-top: 0px">
@@ -36,6 +41,8 @@
                 })
             })
         })
+        verticalCenter(".box");
+        resizeArray.push('.box');
     })
 </script>
 </body>

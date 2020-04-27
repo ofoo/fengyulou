@@ -1,4 +1,13 @@
 $(function () {
+    // 监听浏览器窗口变化
+    window.addEventListener('resize', function () {
+        if(resizeArray.length>0){
+            for (var i in resizeArray){
+                verticalCenter(resizeArray[i]);
+            }
+        }
+    })
+    // 左侧导航
     $(".menu ul li").click(function () {
         $(this).find("dl").slideToggle("fast").parent().siblings().find("dl").slideUp("fast");
         $(this).find("span i").toggleClass('action').parents().siblings().find("span i").removeClass('action');
@@ -272,7 +281,7 @@ function ajaxFunText(url, callBack) {
 function msgFunCallBack(msg, callBack) {
     layer.msg(msg, {
         time: 1000,
-        offset: 't',
+        // offset: 't',
     }, callBack)
 }
 
@@ -283,7 +292,7 @@ function msgFunCallBack(msg, callBack) {
 function msgFun(msg) {
     layer.msg(msg, {
         time: 1000,
-        offset: 't',
+        // offset: 't',
     })
 }
 
@@ -299,3 +308,17 @@ function checkSelect(msg) {
     }
     return true;
 }
+
+// 设置浏览器垂直居中
+function verticalCenter(str) {
+    var windowHeight = $(window).height();
+    var weizhi = windowHeight / 2;
+    var boxHeight = $(".box").height();
+    var shiji = weizhi - boxHeight / 2;
+    $(str).css({
+        'margin-top': shiji + 'px'
+    })
+    $(str).fadeIn();
+}
+
+var resizeArray = new Array();
