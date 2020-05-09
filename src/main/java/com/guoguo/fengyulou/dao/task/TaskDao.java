@@ -22,7 +22,7 @@ public interface TaskDao {
 
     int updateTaskByIdAndUserId(Task task);
 
-    int deleteTaskByIdsAndUserId(List<Long> ids, Long userId);
+    int deleteTaskByIdsAndUserId(@Param("ids") List<Long> ids, @Param("userId") Long userId);
 
     int updateStatusByIdsAndUserId(@Param("ids") List<Long> ids, @Param("userId") Long userId);
 }
