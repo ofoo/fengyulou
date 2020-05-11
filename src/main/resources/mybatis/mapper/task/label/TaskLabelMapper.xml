@@ -42,7 +42,7 @@
         select ifnull(count(1),0) from fengyulou_task_label where `name`=#{name}
     </select>
     <select id="getTaskLabelCountByTaskLabel" resultType="java.lang.Integer">
-        select ifnull(count(1),0) from fengyulou_task_label where `name`=#{name} and uer_id=#{userId} and id!=#{id}
+        select ifnull(count(1),0) from fengyulou_task_label where `name`=#{name} and user_id=#{userId} and id!=#{id}
     </select>
     <select id="getTaskLabelByIdAndUserId" resultType="com.guoguo.fengyulou.entity.task.label.TaskLabel">
         select id,`name` from fengyulou_task_label where id=#{id} and user_id=#{userId} limit 1
