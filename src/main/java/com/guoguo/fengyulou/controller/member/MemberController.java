@@ -80,6 +80,7 @@ public class MemberController extends BaseController {
     public String update(HttpServletRequest request, HttpSession session, Member member) {
         request.setAttribute("pageTitle", "修改人员");
         // 查询人员
+        member.setUserId(getUserId(session));
         request.setAttribute("data", memberService.getMemberByIdAndUserId(member));
         // 查询人员标签列表
         MemberLabel memberLabel = new MemberLabel();
