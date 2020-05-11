@@ -7,7 +7,7 @@
 <body>
 <div class="container-fluid">
     <form class="form-horizontal data-form" id="dataForm">
-        <input type="hidden" name="id" value="${(data.id)!}">
+        <input type="hidden" name="id" id="dataId" value="${(data.id)!}">
         <div class="form-group">
             <label class="col-md-2 control-label text-danger">任务简述</label>
             <div class="col-md-5">
@@ -49,7 +49,7 @@
                 <select class="form-control" id="memberId" name="memberId">
                 <#list memberList as item>
                     <option value="${item.id}"
-                                <#if ((data.taskLabelId)!0)==item.id>selected</#if>>${item.name}</option>
+                                <#if ((data.memberId)!0)==item.id>selected</#if>>${item.name}</option>
                 </#list>
                 </select>
             </div>
@@ -111,7 +111,11 @@
     // 保存任务
     $("#fengyulou-save").on("click", function () {
         ajaxFunParam("/fyl/task/ajax/save", $("#dataForm").serialize(), function (data) {
-            msgFun(data.msg)
+            msgFunCallBack(data.msg,function(){
+                if (data.status == 0) {
+                    $("#dataId").val(data.data)
+                }
+            })
         })
     })
 

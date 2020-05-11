@@ -7,7 +7,7 @@
 <body>
 <div class="container-fluid">
     <form class="form-horizontal data-form" id="dataForm">
-        <input type="hidden" name="id" value="${(data.id)!}">
+        <input type="hidden" name="id" id="dataId" value="${(data.id)!}">
         <div class="form-group">
             <label class="col-md-2 control-label text-danger">项目名称</label>
             <div class="col-md-5">
@@ -30,7 +30,11 @@
     // 保存数据
     $("#fengyulou-save").on("click", function () {
         ajaxFunParam("/fyl/project/ajax/save", $("#dataForm").serialize(), function (data) {
-            msgFun(data.msg)
+            msgFunCallBack(data.msg,function(){
+                if (data.status == 0) {
+                    $("#dataId").val(data.data)
+                }
+            })
         })
     })
 </script>

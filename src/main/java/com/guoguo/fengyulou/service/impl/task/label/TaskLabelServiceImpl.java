@@ -62,7 +62,7 @@ public class TaskLabelServiceImpl implements TaskLabelService {
             // 添加
             int rows = taskLabelDao.insertTaskLabel(taskLabel);
             if (rows > 0) {
-                return ServerResponse.createBySuccess();
+                return ServerResponse.createBySuccess(taskLabel.getId());
             }
         }
         return ServerResponse.createByError();

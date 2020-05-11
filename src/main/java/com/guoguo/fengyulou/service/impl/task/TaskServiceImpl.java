@@ -59,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
             // 添加数据
             int rows = taskDao.insertTask(task);
             if (rows > 0) {
-                return ServerResponse.createBySuccess();
+                return ServerResponse.createBySuccess(task.getId());
             }
         }
         return ServerResponse.createByError();

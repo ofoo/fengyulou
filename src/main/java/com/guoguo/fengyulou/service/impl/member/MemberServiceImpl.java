@@ -67,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
             // 添加
             int rows = memberDao.insertMember(member);
             if (rows > 0) {
-                return ServerResponse.createBySuccess();
+                return ServerResponse.createBySuccess(member.getId());
             }
         }
         return ServerResponse.createByError();

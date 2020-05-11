@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guoguo.fengyulou.dao.member.MemberDao">
-    <insert id="insertMember">
+    <insert id="insertMember" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_member(`name`,member_label_id,mobile,user_id) values (#{name},#{memberLabelId},#{mobile},#{userId})
     </insert>
     <update id="updateMemberById">

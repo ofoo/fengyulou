@@ -61,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService {
             // 添加
             int rows = projectDao.insertProject(project);
             if (rows > 0) {
-                return ServerResponse.createBySuccess();
+                return ServerResponse.createBySuccess(project.getId());
             }
         }
         return ServerResponse.createByError();

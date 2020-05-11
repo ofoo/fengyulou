@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
             user.setType(0);
             int rows = userDao.insertUser(user);
             if (rows > 0) {
-                return ServerResponse.createBySuccess();
+                return ServerResponse.createBySuccess(user.getId());
             }
         }
         return ServerResponse.createByError();

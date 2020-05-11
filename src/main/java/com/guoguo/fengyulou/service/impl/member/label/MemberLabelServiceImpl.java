@@ -70,7 +70,7 @@ public class MemberLabelServiceImpl implements MemberLabelService {
             // 添加
             int rows = memberLabelDao.insertMemberLabel(memberLabel);
             if (rows > 0) {
-                return ServerResponse.createBySuccess();
+                return ServerResponse.createBySuccess(memberLabel.getId());
             }
         }
         return ServerResponse.createByError();

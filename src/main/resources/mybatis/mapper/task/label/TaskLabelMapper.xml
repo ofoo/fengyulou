@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guoguo.fengyulou.dao.task.label.TaskLabelDao">
-    <insert id="insertTaskLabel">
+    <insert id="insertTaskLabel" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_task_label(`name`,user_id) values (#{name},#{userId})
     </insert>
     <update id="updateTaskLabelById">
