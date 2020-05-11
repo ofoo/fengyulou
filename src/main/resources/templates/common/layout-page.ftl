@@ -8,7 +8,7 @@
             </li>
             <#else>
             <li>
-                <a href="javascript:void(0)" aria-label="Previous" data-page="1" class="search">
+                <a href="javascript:void(0)" aria-label="Previous" data-page="1" class="page-search">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -28,7 +28,7 @@
             </li>
             <#else>
             <li>
-                <a href="javascript:void(0)" aria-label="Next" data-page="${pageInfo.pages}" class="search">
+                <a href="javascript:void(0)" aria-label="Next" data-page="${pageInfo.pages}" class="page-search">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
