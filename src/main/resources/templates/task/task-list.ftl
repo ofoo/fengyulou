@@ -57,7 +57,7 @@
                 <th><strong>任务简述</strong></th>
                 <th width="5%"><strong>任务状态</strong></th>
                 <th width="5%"><strong>任务标签</strong></th>
-                <th width="5%"><strong>完成时间</strong></th>
+                <th width="6%"><strong>完成时间</strong></th>
                 <th width="5%"><strong>执行人</strong></th>
             </tr>
             </thead>
