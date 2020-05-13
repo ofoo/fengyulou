@@ -9,7 +9,7 @@
     <#include "../common/layout-left.ftl">
     <div class="admin-right">
         <#include "../common/layout-navtitle.ftl">
-        <form class="search-from" method="post" action="/fyl/task/list/page">
+        <#--<form class="search-from" method="post" action="/fyl/task/list/page">
             <input type="hidden" name="pageNum" id="pageNum">
             <div class="row form-group">
                 <div class="col-md-2">
@@ -41,7 +41,7 @@
                     <input name="sketch" id="sketch" type="text" class="form-control" value="${(data.sketch)!}" placeholder="任务简述">
                 </div>
             </div>
-        </form>
+        </form>-->
         <div class="fun-btn btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-success" id="fengyulou-insert">添加</button>
             <button type="button" class="btn btn-primary" id="fengyulou-update">修改</button>
