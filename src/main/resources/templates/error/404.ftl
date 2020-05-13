@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>错误页面</title>
+    <title>404</title>
 </head>
 <body>
-${message}
+<p>404</p>
 </body>
 </html>

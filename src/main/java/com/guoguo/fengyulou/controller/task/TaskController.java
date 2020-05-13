@@ -80,7 +80,8 @@ public class TaskController extends BaseController {
      * 修改页面
      *
      * @param request
-     * @param id
+     * @param session
+     * @param task
      * @return
      */
     @RequestMapping("/task/update")
@@ -144,7 +145,7 @@ public class TaskController extends BaseController {
         if (ObjectUtils.isNull(ids)) {
             return ServerResponse.createByErrorMessage("请选择数据");
         }
-        return taskService.deleteTaskByIdsAndUserId(ids,getUserId(session));
+        return taskService.deleteTaskByIdsAndUserId(ids, getUserId(session));
     }
 
     /**
@@ -153,6 +154,6 @@ public class TaskController extends BaseController {
     @RequestMapping("/task/ajax/updateStatus")
     @ResponseBody
     private ServerResponse ajaxUpdateStatus(@RequestParam List<Long> ids, HttpSession session) {
-        return taskService.updateStatusByIdsAndUserId(ids,getUserId(session));
+        return taskService.updateStatusByIdsAndUserId(ids, getUserId(session));
     }
 }

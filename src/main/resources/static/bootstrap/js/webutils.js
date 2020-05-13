@@ -1,8 +1,8 @@
 $(function () {
     // 监听浏览器窗口变化
     window.addEventListener('resize', function () {
-        if(resizeArray.length>0){
-            for (var i in resizeArray){
+        if (resizeArray.length > 0) {
+            for (var i in resizeArray) {
                 verticalCenter(resizeArray[i]);
             }
         }
@@ -269,6 +269,25 @@ function ajaxFunText(url, callBack) {
         success: callBack,
         error: function () {
             console.log('操作失败')
+        }
+    });
+}
+
+function aaa() {
+    var s = $('#file')[0].files[0];
+    var formData = new FormData();
+    formData.append("file_data", s);
+    formData.append("type", "1");
+    $.ajax({
+        url: "SpringMVC/fileUpload",
+        type: 'POST',
+        cache: false,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (result) {
+        },
+        error: function (err) {
         }
     });
 }
