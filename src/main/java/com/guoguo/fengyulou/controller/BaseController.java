@@ -21,6 +21,7 @@ public class BaseController {
         User user = (User) session.getAttribute(UserConstant.CURRENT);
         if (ObjectUtils.isNull(user)) {
             return null;
+            //123
         }
         return user.getId();
     }
