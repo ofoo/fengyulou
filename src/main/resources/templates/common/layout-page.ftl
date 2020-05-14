@@ -1,4 +1,5 @@
 <#if (pageInfo.pages>0)>
+<p class="mb20">共<strong class="text-danger">${pageInfo.pages}</strong>页，每页显示<strong class="text-danger">${pageInfo.pageSize}</strong>条数据，总共<strong class="text-danger">${pageInfo.total}</strong>条数据</p>
 <ul class="pagination data-page">
             <#if pageInfo.isFirstPage>
             <li class="disabled">

@@ -12,6 +12,12 @@
                 </dl>
             </li>
             <li>
+                <span>云服务器<i class="icon"></i></span>
+                <dl>
+                    <dt><a href="/fyl/computer/list/page">机器列表</a></dt>
+                </dl>
+            </li>
+            <li>
                 <span>人员管理<i class="icon"></i></span>
                 <dl>
                     <dt><a href="/fyl/member/list/page">人员列表</a></dt>
