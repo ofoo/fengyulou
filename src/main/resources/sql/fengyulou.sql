@@ -1,7 +1,30 @@
 ﻿# Host: localhost  (Version 5.7.27-log)
-# Date: 2020-04-27 01:48:52
+# Date: 2020-05-15 03:00:46
 # Generator: MySQL-Front 6.1  (Build 1.26)
 
+
+#
+# Structure for table "fengyulou_computer"
+#
+
+DROP TABLE IF EXISTS `fengyulou_computer`;
+CREATE TABLE `fengyulou_computer` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL DEFAULT '0' COMMENT '项目id',
+  `host` varchar(255) NOT NULL DEFAULT '' COMMENT '主机',
+  `port` varchar(255) NOT NULL DEFAULT '' COMMENT '端口',
+  `account` varchar(255) NOT NULL DEFAULT '' COMMENT '账号',
+  `password` varchar(255) NOT NULL DEFAULT '' COMMENT '密码',
+  `delete` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0正常 1删除',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='任务表';
+
+#
+# Data for table "fengyulou_computer"
+#
+
+INSERT INTO `fengyulou_computer` VALUES (1,1,'123','22','123','123',1,1),(2,1,'123.56.102.170','22','3453','345',0,1),(3,3,'123111','22','12311','1111',1,1);
 
 #
 # Structure for table "fengyulou_member"
@@ -16,7 +39,7 @@ CREATE TABLE `fengyulou_member` (
   `delete` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0正常 1删除',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='人员表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='人员表';
 
 #
 # Data for table "fengyulou_member"
@@ -35,7 +58,7 @@ CREATE TABLE `fengyulou_member_label` (
   `delete` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0正常 1删除',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='人员标签表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='人员标签表';
 
 #
 # Data for table "fengyulou_member_label"
@@ -54,13 +77,13 @@ CREATE TABLE `fengyulou_project` (
   `delete` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0正常 1删除',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='项目表';
 
 #
 # Data for table "fengyulou_project"
 #
 
-INSERT INTO `fengyulou_project` VALUES (1,'刷锅女皇',0,1),(2,'遛狗女王',0,2);
+INSERT INTO `fengyulou_project` VALUES (1,'刷锅女皇',0,1),(2,'遛狗女王',0,2),(3,'逛公园',0,1);
 
 #
 # Structure for table "fengyulou_task"
@@ -78,13 +101,13 @@ CREATE TABLE `fengyulou_task` (
   `delete` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0正常 1删除',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='任务表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='任务表';
 
 #
 # Data for table "fengyulou_task"
 #
 
-INSERT INTO `fengyulou_task` VALUES (1,1,'饭后刷锅',1,0,NULL,1,0,1),(2,2,'遛狗',2,1,'2020-04-27',3,0,2);
+INSERT INTO `fengyulou_task` VALUES (1,1,'饭后刷锅',1,0,NULL,1,0,1),(2,2,'遛狗',2,1,'2020-04-27',3,0,2),(3,1,'123',1,0,NULL,1,0,1);
 
 #
 # Structure for table "fengyulou_task_label"
@@ -97,7 +120,7 @@ CREATE TABLE `fengyulou_task_label` (
   `delete` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0正常 1删除',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='任务标签表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='任务标签表';
 
 #
 # Data for table "fengyulou_task_label"
@@ -124,4 +147,4 @@ CREATE TABLE `fengyulou_user` (
 # Data for table "fengyulou_user"
 #
 
-INSERT INTO `fengyulou_user` VALUES (1,'guochao','D19BE809FA02E18DB9A34E905F08AB84','郭超',0,1),(2,'yangwenli','D19BE809FA02E18DB9A34E905F08AB84','杨文黎',0,0),(3,'qinliwei','D19BE809FA02E18DB9A34E905F08AB84','秦莉薇',0,0),(4,'123','D19BE809FA02E18DB9A34E905F08AB84','123',0,0),(5,'daqeq','D19BE809FA02E18DB9A34E905F08AB84','qwer',0,0),(6,'asdf','D19BE809FA02E18DB9A34E905F08AB84','asdf',0,0);
+INSERT INTO `fengyulou_user` VALUES (1,'guochao','D19BE809FA02E18DB9A34E905F08AB84','郭超',0,1),(2,'yangwenli','D19BE809FA02E18DB9A34E905F08AB84','杨文黎',1,0),(3,'qinliwei','D19BE809FA02E18DB9A34E905F08AB84','秦莉薇',1,0),(4,'123','D19BE809FA02E18DB9A34E905F08AB84','123',1,0),(5,'daqeq','D19BE809FA02E18DB9A34E905F08AB84','qwer',1,0),(6,'asdf','D19BE809FA02E18DB9A34E905F08AB84','asdf',1,0);

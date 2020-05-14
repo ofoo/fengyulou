@@ -44,7 +44,7 @@
                 <td><input type="checkbox" name="ids" value="${data.id}" class="checkbox"></td>
                 <td><span class="label label-success">${(data.projectName)!}</span></td>
                 <td>${(data.host)!}</td>
-                <td><span class="label label-danger">${(data.port)!}</span></td>
+                <td><span class="text-danger">${(data.port)!}</span></td>
                 <td>${(data.account)!}</td>
                 <td>${(data.password)!}</td>
             </tr>

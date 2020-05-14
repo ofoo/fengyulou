@@ -19,7 +19,7 @@
     </update>
 
     <select id="getUserByLoginName" resultType="com.guoguo.fengyulou.entity.user.User">
-        select id,login_name,password,`name`,`type` from fengyulou_user where login_name=#{loginName}
+        select id,login_name,password,`name`,`type` from fengyulou_user where login_name=#{loginName} and `delete`=0
     </select>
     <select id="getUserList" resultType="com.guoguo.fengyulou.entity.user.User">
         select
