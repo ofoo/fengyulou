@@ -4,8 +4,14 @@
     <#assign title="登录"/>
     <#include "common/header-script.ftl">
     <style>
+        body{
+            background-color: #f4f4f4;
+        }
         .box{
             display: none;
+        }
+        .well{
+            background-color: #ffffff;
         }
     </style>
 </head>
