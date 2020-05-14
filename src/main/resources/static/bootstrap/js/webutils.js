@@ -273,6 +273,31 @@ function ajaxFunText(url, callBack) {
     });
 }
 
+//ajax分页方法获取数据
+var ajaxUrl;//记录上次ajax分页的url
+var ajaxparameters;//记录上次ajax分页的参数
+var ajaxcallBack;
+function ajaxPage(url, parameters, pageNum, callBack) {
+    ajaxUrl = url;
+    ajaxparameters = parameters;
+    ajaxcallBack = callBack;
+    parameters = 'page.currentPage=' + pageNum + '' + parameters;
+    $.ajax({
+        type: "POST",
+        dataType: "text",
+        url: baselocation + url,
+        data: parameters,
+        cache: true,
+        async: false,
+        success: callBack
+    });
+}
+
+//点击分页
+function goPageAjax(pageNum) {
+    ajaxPage(ajaxUrl, ajaxparameters, pageNum, ajaxcallBack);
+}
+
 function aaa() {
     var s = $('#file')[0].files[0];
     var formData = new FormData();
