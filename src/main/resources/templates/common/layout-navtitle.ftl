@@ -6,7 +6,7 @@
     <div class="btn-group exit">
         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-        ${current.name} <span class="caret"></span>
+        ${curUser.name} <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-menu-right">
             <li><a href="javascript:void(0)" id="fengyulou-pwd">修改密码</a></li>

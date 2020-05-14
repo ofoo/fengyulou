@@ -2,6 +2,7 @@ package com.guoguo.fengyulou.service.impl.user;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.guoguo.common.CurrentUserManager;
 import com.guoguo.common.ResponseCode;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.constant.UserConstant;
@@ -22,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private CurrentUserManager currentUserManager;
 
     @Override
     public ServerResponse login(User user) {
@@ -36,8 +39,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse updatePasswordById(HttpSession session, String password) {
-        User user = (User) session.getAttribute(UserConstant.CURRENT);
+    public ServerResponse updatePasswordById(String password) {
+        User user = currentUserManager.getUser();
         user.setPassword(MD5Util.MD5EncodeUtf8(password));
         int rows = userDao.updatePasswordById(user);
         if (rows > 0) {

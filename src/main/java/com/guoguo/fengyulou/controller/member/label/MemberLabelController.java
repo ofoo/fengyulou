@@ -1,15 +1,13 @@
 package com.guoguo.fengyulou.controller.member.label;
 
+import com.guoguo.common.CurrentUserManager;
 import com.guoguo.common.ServerResponse;
-import com.guoguo.fengyulou.controller.BaseController;
 import com.guoguo.fengyulou.entity.member.label.MemberLabel;
-import com.guoguo.fengyulou.entity.user.User;
 import com.guoguo.fengyulou.service.member.label.MemberLabelService;
 import com.guoguo.util.ObjectUtils;
 import com.guoguo.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,10 +21,12 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/fyl")
-public class MemberLabelController extends BaseController {
+public class MemberLabelController {
 
     @Autowired
     private MemberLabelService memberLabelService;
+    @Autowired
+    private CurrentUserManager currentUserManager;
 
     /**
      * 列表页面
@@ -38,7 +38,7 @@ public class MemberLabelController extends BaseController {
     @RequestMapping("/memberLabel/list/page")
     public String list(HttpServletRequest request, HttpSession session, MemberLabel memberLabel) {
         request.setAttribute("data", memberLabel);
-        memberLabel.setUserId(getUserId(session));
+        memberLabel.setUserId(currentUserManager.getUserId());
         request.setAttribute("pageInfo", memberLabelService.getMemberLabelListPage(memberLabel));
         return "/member/label/member-label-list";
     }
@@ -67,7 +67,7 @@ public class MemberLabelController extends BaseController {
     public String update(HttpServletRequest request, HttpSession session, MemberLabel memberLabel) {
         request.setAttribute("pageTitle", "修改人员标签");
         // 查询人员标签
-        memberLabel.setUserId(getUserId(session));
+        memberLabel.setUserId(currentUserManager.getUserId());
         request.setAttribute("data", memberLabelService.getMemberLabelByIdAndUserId(memberLabel));
         return "member/label/member-label-save";
     }
@@ -84,7 +84,7 @@ public class MemberLabelController extends BaseController {
         if (StringUtils.isBlank(memberLabel.getName())) {
             return ServerResponse.createByErrorMessage("请输入人员标签名称");
         }
-        memberLabel.setUserId(getUserId(session));
+        memberLabel.setUserId(currentUserManager.getUserId());
         return memberLabelService.saveMemberLabel(memberLabel);
     }
 
@@ -100,7 +100,7 @@ public class MemberLabelController extends BaseController {
         if (ObjectUtils.isNull(ids)) {
             return ServerResponse.createByErrorMessage("请选择数据");
         }
-        return memberLabelService.deleteMemberLabelByIdsAndUserId(ids, getUserId(session));
+        return memberLabelService.deleteMemberLabelByIdsAndUserId(ids, currentUserManager.getUserId());
     }
 
     /**
@@ -112,7 +112,7 @@ public class MemberLabelController extends BaseController {
     @RequestMapping("/memberLabel/ajax/list")
     public String ajaxList(HttpServletRequest request, HttpSession session) {
         MemberLabel memberLabel = new MemberLabel();
-        memberLabel.setUserId(getUserId(session));
+        memberLabel.setUserId(currentUserManager.getUserId());
         request.setAttribute("list", memberLabelService.getMemberLabelList(memberLabel));
         return "common/select-item";
     }

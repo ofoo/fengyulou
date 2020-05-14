@@ -11,6 +11,7 @@ import java.util.List;
 public interface UserService {
     /**
      * 用户登录验证
+     *
      * @param user
      * @return
      */
@@ -19,11 +20,10 @@ public interface UserService {
     /**
      * 按id修改用户密码
      *
-     * @param session
      * @param password
      * @return
      */
-    ServerResponse updatePasswordById(HttpSession session, String password);
+    ServerResponse updatePasswordById(String password);
 
     /**
      * 按条件分页查询
@@ -35,6 +35,7 @@ public interface UserService {
 
     /**
      * 按id查询
+     *
      * @param id
      * @return
      */
@@ -42,6 +43,7 @@ public interface UserService {
 
     /**
      * 保存用户
+     *
      * @param user
      * @return
      */
@@ -49,6 +51,7 @@ public interface UserService {
 
     /**
      * 按id删除数据
+     *
      * @param ids
      * @return
      */

@@ -29,4 +29,12 @@ public class CommonConstant {
      * 登录页
      */
     public static final String LOGIN = "/";
+    /**
+     * 用户标记
+     */
+    public static final String UUID = "UUID";
+    /**
+     * 当前用户
+     */
+    public static final String CUR_USER="curUser";
 }

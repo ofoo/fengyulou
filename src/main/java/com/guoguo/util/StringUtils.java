@@ -1,5 +1,7 @@
 package com.guoguo.util;
 
+import com.guoguo.common.CommonConstant;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -15,21 +17,50 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 
+ * @author : qinggang.liu 305050016@qq.com
  * @ClassName com.neixunbao.platform.core.util.StringUtils
  * @description 字符串工具类
- * @author : qinggang.liu 305050016@qq.com
  * @Create Date : 2013-12-13 下午2:23:56
  */
 public class StringUtils {
 
     /**
+     * 验证字符串为空
+     *
+     * @param cs
+     * @return
+     */
+    public static boolean isBlank(CharSequence cs) {
+        return org.apache.commons.lang3.StringUtils.isBlank(cs);
+    }
+
+    /**
+     * 验证字符串不为空
+     *
+     * @param cs
+     * @return
+     */
+    public static boolean isNotBlank(CharSequence cs) {
+        return org.apache.commons.lang3.StringUtils.isNotBlank(cs);
+    }
+
+    /**
+     * 获取唯一标记
+     * @return
+     */
+    public static String uuid(){
+        StringBuffer stringBuffer = new StringBuffer(CommonConstant.UUID);
+        stringBuffer.append("_");
+        stringBuffer.append(UUID.randomUUID().toString().replace("-",""));
+        return stringBuffer.toString();
+    }
+
+    /**
      * 手机号中奖4位加星号
-     * 
-     * @author liuqinggang
+     *
      * @param mobile
      * @return String
-     * 
+     * @author liuqinggang
      */
     public static String starMobile(String mobile) {
         if (mobile.length() == 11) {
@@ -42,10 +73,10 @@ public class StringUtils {
 
     /**
      * 生成指定长度的随机字符串
-     * 
-     * @author liuqinggang
+     *
      * @param strLength
      * @return
+     * @author liuqinggang
      */
     public static String getRandomString(int strLength) {
         StringBuffer buffer = new StringBuffer();
@@ -75,11 +106,10 @@ public class StringUtils {
 
     /**
      * MD5加密方法
-     * 
-     * @author liuqinggang
-     * @param str
-     *            String
+     *
+     * @param str String
      * @return String
+     * @author liuqinggang
      */
     public static String md5(String str) {
         if (str == null) {
@@ -105,10 +135,10 @@ public class StringUtils {
 
     /**
      * 验证Email地址是否有效
-     * 
-     * @author liuqinggang
+     *
      * @param sEmail
      * @return boolean
+     * @author liuqinggang
      */
     public static boolean validEmail(String sEmail) {
         String pattern = "^([a-z0-9A-Z]+[-|\\.|_]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
@@ -117,10 +147,10 @@ public class StringUtils {
 
     /**
      * 验证字符是否大长
-     * 
-     * @author liuqinggang
+     *
      * @param str
      * @return
+     * @author liuqinggang
      */
     public static boolean validMaxLen(String str, int length) {
         if (str == null || str.equals("")) {
@@ -135,10 +165,10 @@ public class StringUtils {
 
     /**
      * 验证字符是否长度太小
-     * 
-     * @author liuqinggang
+     *
      * @param str
      * @return boolean
+     * @author liuqinggang
      */
     public static boolean validMinLen(String str, int length) {
         if (str == null || str.equals("")) {
@@ -153,7 +183,7 @@ public class StringUtils {
 
     /**
      * 验证两个字符串是否相等且不能为空
-     * 
+     *
      * @param str1
      * @param str2
      * @return
@@ -167,7 +197,7 @@ public class StringUtils {
 
     /**
      * 将字符型转为Int
-     * 
+     *
      * @param str
      * @return
      */
@@ -187,7 +217,7 @@ public class StringUtils {
 
     /**
      * 把数组转换成String
-     * 
+     *
      * @param array
      * @return
      */
@@ -208,7 +238,7 @@ public class StringUtils {
 
     /**
      * 得到WEB-INF的绝对路�?
-     * 
+     *
      * @return
      */
     public static String getWebInfPath() {
@@ -229,7 +259,7 @@ public class StringUtils {
 
     /**
      * 得到根目录绝对路�?(不包含WEB-INF)
-     * 
+     *
      * @return
      */
     public static String getRootPath() {
@@ -255,7 +285,7 @@ public class StringUtils {
 
     /**
      * 格式化页�?
-     * 
+     *
      * @param page
      * @return
      */
@@ -275,7 +305,7 @@ public class StringUtils {
 
     /**
      * 将计量单位字节转换为相应单位
-     * 
+     *
      * @param size
      * @return
      */
@@ -301,7 +331,7 @@ public class StringUtils {
 
     /**
      * 得到32位随机字
-     * 
+     *
      * @return
      */
     public static String getEntry() {
@@ -313,7 +343,7 @@ public class StringUtils {
 
     /**
      * 将中文汉字转成UTF8编码
-     * 
+     *
      * @param str
      * @return
      */
@@ -343,12 +373,12 @@ public class StringUtils {
 
     /**
      * 得到10个数字的大写，0-9
-     * 
+     *
      * @param num
      * @return
      */
     public static String getChineseNum(int num) {
-        String[] chineseNum = new String[] { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
+        String[] chineseNum = new String[]{"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
         return chineseNum[num];
     }
 
@@ -360,7 +390,7 @@ public class StringUtils {
 
     /**
      * 去除HTML 元素
-     * 
+     *
      * @param element
      * @return
      */
@@ -388,7 +418,7 @@ public class StringUtils {
 
     /**
      * clear trim to String
-     * 
+     *
      * @return
      */
     public static String toTrim(String strtrim) {
@@ -408,7 +438,7 @@ public class StringUtils {
 
     /**
      * 按传入字数截断并加结尾符号
-     * 
+     *
      * @param sourceStr
      * @param length
      * @param charactor
@@ -460,7 +490,7 @@ public class StringUtils {
 
     /**
      * 替换email中@符号前的一半字符为*号
-     * 
+     *
      * @param email
      * @return
      */
@@ -488,11 +518,9 @@ public class StringUtils {
     private static final String regex_mobile = "^1\\d{10}$";
 
     /**
-     * 
-     * @author liuqinggang
      * @param tocheckNo
      * @return 手机号码校验
-     * 
+     * @author liuqinggang
      */
     public static boolean isMobileNo(String tocheckNo) {
         return Pattern.matches(regex_mobile, tocheckNo);
@@ -501,13 +529,10 @@ public class StringUtils {
     private static final String regex_digital = "^[1-9]\\d{0,}";
 
     /**
-     * 
-     * @author liuqinggang
      * @param source
-     * @param ingoreDigital
-     *            忽略数字校验
+     * @param ingoreDigital 忽略数字校验
      * @return
-     * 
+     * @author liuqinggang
      */
     public static boolean neNullAndDigital(String source, boolean ingoreDigital, Integer length) {
         boolean isvalid = false;
@@ -525,10 +550,10 @@ public class StringUtils {
 
     /**
      * 验证字符串是否为空
-     * 
-     * @author liuqinggang
+     *
      * @param str
      * @return true:不为空
+     * @author liuqinggang
      */
     public static boolean validNull(String str) {
         if (str == null || str.trim().equals("")) {
@@ -538,11 +563,9 @@ public class StringUtils {
     }
 
     /**
-     * 
-     * @author liuqinggang
      * @param str
      * @return
-     * 
+     * @author liuqinggang
      */
     public static boolean validNull(String... str) {
         for (int i = 0; i < str.length; i++) {
@@ -579,14 +602,14 @@ public class StringUtils {
         StringBuffer sRand = new StringBuffer("");
         for (int i = 0; i < n; i++) {
             String rand = String.valueOf(random.nextInt(10));
-            sRand .append(rand);
+            sRand.append(rand);
         }
         return sRand.toString();
     }
 
     /**
      * 序列号备用随机数
-     * 
+     *
      * @return
      */
     public static String getSysTimeRandom() {
@@ -596,7 +619,7 @@ public class StringUtils {
 
     /**
      * 商品订单序列号备用随机数--指定位数
-     * 
+     *
      * @return
      */
     public static String getSysTimeRandom(int count) {
@@ -621,7 +644,7 @@ public class StringUtils {
 
     /**
      * 参数转换
-     * 
+     *
      * @param source
      * @return
      */
@@ -636,7 +659,7 @@ public class StringUtils {
 
     /**
      * 参数转换 renli.yu
-     * 
+     *
      * @param source
      * @return
      */
@@ -720,7 +743,7 @@ public class StringUtils {
 
     /**
      * Description : 讲字符串类型转换为java.sql.Timestamp
-     * 
+     *
      * @param time
      * @return
      */
@@ -739,7 +762,7 @@ public class StringUtils {
 
     /**
      * 随机取模
-     * 
+     *
      * @return
      */
     public static String randomBase() {
@@ -752,7 +775,7 @@ public class StringUtils {
 
     /**
      * 根据用户账户ID取模
-     * 
+     *
      * @param id
      * @return
      */
@@ -767,8 +790,7 @@ public class StringUtils {
     }
 
     /**
-     * @param strIp1
-     *            获取的分销商IP
+     * @param strIp1         获取的分销商IP
      * @param StrIp2数据库白名单IP
      * @return
      */
@@ -823,12 +845,10 @@ public class StringUtils {
 
     /**
      * 组装字符串 为字符串添加前缀后缀 add by wangweijie
-     * 
+     *
      * @param str
-     * @param prefix
-     *            前缀
-     * @param suffix
-     *            后缀
+     * @param prefix 前缀
+     * @param suffix 后缀
      * @return
      */
     public static String packagingString(String str, String prefix, String suffix) {
@@ -843,7 +863,7 @@ public class StringUtils {
 
     /**
      * 字符串对以分号分隔的字符串转化为数组，并对数组按有小到大的排序 add by wangweijie 2012-11-16
-     * 
+     *
      * @return
      */
     public static String[] sortArray(String[] array) {
@@ -888,7 +908,7 @@ public class StringUtils {
 
     /**
      * 判断字符串是否为空
-     * 
+     *
      * @param str
      * @return true(空); false(非空)
      */
@@ -902,7 +922,7 @@ public class StringUtils {
 
     /**
      * 格式化日期
-     * 
+     *
      * @param oldDate
      * @return
      */

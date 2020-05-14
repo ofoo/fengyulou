@@ -1,7 +1,7 @@
 package com.guoguo.fengyulou.controller.task;
 
+import com.guoguo.common.CurrentUserManager;
 import com.guoguo.common.ServerResponse;
-import com.guoguo.fengyulou.controller.BaseController;
 import com.guoguo.fengyulou.entity.member.Member;
 import com.guoguo.fengyulou.entity.project.Project;
 import com.guoguo.fengyulou.entity.task.Task;
@@ -14,7 +14,6 @@ import com.guoguo.util.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +27,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/fyl")
-public class TaskController extends BaseController {
+public class TaskController {
 
     @Autowired
     private TaskService taskService;
@@ -38,6 +37,8 @@ public class TaskController extends BaseController {
     private ProjectService projectService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private CurrentUserManager currentUserManager;
 
     /**
      * 列表页面
@@ -46,7 +47,7 @@ public class TaskController extends BaseController {
      */
     @RequestMapping("/task/list/page")
     public String list(HttpServletRequest request, HttpSession session, Task task) {
-        task.setUserId(getUserId(session));
+        task.setUserId(currentUserManager.getUserId());
         request.setAttribute("pageInfo", taskService.getTaskListPage(task));
         request.setAttribute("data", task);
         return "task/task-list";
@@ -61,17 +62,19 @@ public class TaskController extends BaseController {
     @RequestMapping("/task/insert")
     public String insert(HttpServletRequest request, HttpSession session) {
         request.setAttribute("pageTitle", "添加任务");
+        //获取用户id
+        Long userId = currentUserManager.getUserId();
         // 查询项目列表
         Project project = new Project();
-        project.setUserId(getUserId(session));
+        project.setUserId(userId);
         request.setAttribute("projectList", projectService.getProjectList(project));
         // 查询任务标签列表
         TaskLabel taskLabel = new TaskLabel();
-        taskLabel.setUserId(getUserId(session));
+        taskLabel.setUserId(userId);
         request.setAttribute("taskLabelList", taskLabelService.getTaskLabelList(taskLabel));
         // 查询人员列表
         Member member = new Member();
-        member.setUserId(getUserId(session));
+        member.setUserId(userId);
         request.setAttribute("memberList", memberService.getMemberList(member));
         return "task/task-save";
     }
@@ -87,20 +90,22 @@ public class TaskController extends BaseController {
     @RequestMapping("/task/update")
     public String update(HttpServletRequest request, HttpSession session, Task task) {
         request.setAttribute("pageTitle", "修改任务");
+        //获取用户id
+        Long userId = currentUserManager.getUserId();
         // 查询任务
-        task.setUserId(getUserId(session));
+        task.setUserId(userId);
         request.setAttribute("data", taskService.getTaskByIdAndUserId(task));
         // 查询项目列表
         Project project = new Project();
-        project.setUserId(getUserId(session));
+        project.setUserId(userId);
         request.setAttribute("projectList", projectService.getProjectList(project));
         // 查询任务标签列表
         TaskLabel taskLabel = new TaskLabel();
-        taskLabel.setUserId(getUserId(session));
+        taskLabel.setUserId(userId);
         request.setAttribute("taskLabelList", taskLabelService.getTaskLabelList(taskLabel));
         // 查询人员列表
         Member member = new Member();
-        member.setUserId(getUserId(session));
+        member.setUserId(userId);
         request.setAttribute("memberList", memberService.getMemberList(member));
         return "task/task-save";
     }
@@ -129,7 +134,7 @@ public class TaskController extends BaseController {
         if (task.getStatus() == null || (task.getStatus() < 0 && task.getStatus() > 1)) {
             return ServerResponse.createByErrorMessage("请选择任务状态");
         }
-        task.setUserId(getUserId(session));
+        task.setUserId(currentUserManager.getUserId());
         return taskService.saveTask(task);
     }
 
@@ -145,7 +150,7 @@ public class TaskController extends BaseController {
         if (ObjectUtils.isNull(ids)) {
             return ServerResponse.createByErrorMessage("请选择数据");
         }
-        return taskService.deleteTaskByIdsAndUserId(ids, getUserId(session));
+        return taskService.deleteTaskByIdsAndUserId(ids, currentUserManager.getUserId());
     }
 
     /**
@@ -154,6 +159,6 @@ public class TaskController extends BaseController {
     @RequestMapping("/task/ajax/updateStatus")
     @ResponseBody
     private ServerResponse ajaxUpdateStatus(@RequestParam List<Long> ids, HttpSession session) {
-        return taskService.updateStatusByIdsAndUserId(ids, getUserId(session));
+        return taskService.updateStatusByIdsAndUserId(ids, currentUserManager.getUserId());
     }
 }

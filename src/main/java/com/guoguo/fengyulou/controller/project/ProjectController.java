@@ -1,14 +1,13 @@
 package com.guoguo.fengyulou.controller.project;
 
+import com.guoguo.common.CurrentUserManager;
 import com.guoguo.common.ServerResponse;
-import com.guoguo.fengyulou.controller.BaseController;
 import com.guoguo.fengyulou.entity.project.Project;
 import com.guoguo.fengyulou.service.project.ProjectService;
 import com.guoguo.util.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,10 +21,12 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/fyl")
-public class ProjectController extends BaseController {
+public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private CurrentUserManager currentUserManager;
 
     /**
      * 列表页面
@@ -34,7 +35,7 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/project/list/page")
     public String list(HttpServletRequest request, HttpSession session, Project project) {
-        project.setUserId(getUserId(session));
+        project.setUserId(currentUserManager.getUserId());
         request.setAttribute("pageInfo", projectService.getProjectListPage(project));
         request.setAttribute("data", project);
         return "project/project-list";
@@ -54,6 +55,7 @@ public class ProjectController extends BaseController {
 
     /**
      * 修改页面
+     *
      * @param request
      * @param session
      * @param project
@@ -63,7 +65,7 @@ public class ProjectController extends BaseController {
     public String update(HttpServletRequest request, HttpSession session, Project project) {
         request.setAttribute("pageTitle", "修改项目");
         // 查询项目
-        project.setUserId(getUserId(session));
+        project.setUserId(currentUserManager.getUserId());
         request.setAttribute("data", projectService.getProjectByIdAndUserId(project));
         return "project/project-save";
     }
@@ -80,7 +82,7 @@ public class ProjectController extends BaseController {
         if (StringUtils.isBlank(project.getName())) {
             return ServerResponse.createByErrorMessage("请输入项目名称");
         }
-        project.setUserId(getUserId(session));
+        project.setUserId(currentUserManager.getUserId());
         return projectService.saveProject(project);
     }
 
@@ -96,7 +98,7 @@ public class ProjectController extends BaseController {
         if (ObjectUtils.isNull(ids)) {
             return ServerResponse.createByErrorMessage("请选择数据");
         }
-        return projectService.deleteProjectByIdsAndUserId(ids,getUserId(session));
+        return projectService.deleteProjectByIdsAndUserId(ids, currentUserManager.getUserId());
     }
 
     /**
@@ -108,7 +110,7 @@ public class ProjectController extends BaseController {
     @RequestMapping("/project/ajax/list")
     public String ajaxList(HttpServletRequest request, HttpSession session) {
         Project project = new Project();
-        project.setUserId(getUserId(session));
+        project.setUserId(currentUserManager.getUserId());
         request.setAttribute("list", projectService.getProjectList(project));
         return "common/select-item";
     }
