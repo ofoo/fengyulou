@@ -5,6 +5,7 @@ import com.guoguo.util.ObjectUtils;
 import com.guoguo.util.StringUtils;
 import com.guoguo.util.WebUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -90,7 +91,7 @@ public class CurrentUserManager {
      */
     public void login(HttpServletResponse response, User user) {
         String uuid = StringUtils.uuid();
-        redisManager.set(uuid, user);
-        WebUtils.setCookie(response, CommonConstant.UUID, uuid, 1);
+        redisManager.setDays(uuid, user, StringUtils.strTurnLong(TimeConstant.NUMBER_ONE));
+        WebUtils.setCookie(response, CommonConstant.UUID, uuid, StringUtils.strTurnInt(TimeConstant.NUMBER_ONE));
     }
 }

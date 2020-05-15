@@ -37,4 +37,8 @@ public class CommonConstant {
      * 当前用户
      */
     public static final String CUR_USER="curUser";
+    /**
+     * 用户默认密码
+     */
+    public static final String DEF_PWD = "111111";
 }

@@ -37,7 +37,7 @@
         <div class="form-group">
             <label class="col-md-2 control-label text-danger">账号</label>
             <div class="col-md-5">
-                <input type="text" name="account" class="form-control" id="host" value="${(data.account)!}" placeholder="账号">
+                <input type="text" name="account" class="form-control" id="host" value="${(data.account)!'root'}" placeholder="账号">
             </div>
         </div>
         <div class="form-group">
@@ -67,6 +67,8 @@
                         $("#projectId").html(data);
                     })
                     layer.close(index);
+                }else{
+                    msgFun(data.msg)
                 }
             })
         });

@@ -1,6 +1,8 @@
 package com.guoguo.util;
 
 import com.guoguo.common.CommonConstant;
+import jdk.nashorn.internal.ir.IdentNode;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -22,7 +24,36 @@ import java.util.regex.Pattern;
  * @description 字符串工具类
  * @Create Date : 2013-12-13 下午2:23:56
  */
+@Slf4j
 public class StringUtils {
+
+    /**
+     * String转int
+     * @param str
+     * @return
+     */
+    public static int strTurnInt(String str) {
+        try {
+            return Integer.parseInt(str);
+        } catch (Exception e) {
+            log.error("String转int异常", e);
+        }
+        return 0;
+    }
+
+    /**
+     * String转long
+     * @param str
+     * @return
+     */
+    public static long strTurnLong(String str) {
+        try {
+            return Long.parseLong(str);
+        } catch (Exception e) {
+            log.error("String转int异常", e);
+        }
+        return 0;
+    }
 
     /**
      * 验证字符串为空
@@ -46,12 +77,15 @@ public class StringUtils {
 
     /**
      * 获取唯一标记
+     *
      * @return
      */
-    public static String uuid(){
+    public static String uuid() {
         StringBuffer stringBuffer = new StringBuffer(CommonConstant.UUID);
         stringBuffer.append("_");
-        stringBuffer.append(UUID.randomUUID().toString().replace("-",""));
+        stringBuffer.append(System.currentTimeMillis());
+        stringBuffer.append("_");
+        stringBuffer.append(UUID.randomUUID().toString().replace("-", ""));
         return stringBuffer.toString();
     }
 

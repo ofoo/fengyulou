@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class RedisManager {
     @Autowired
@@ -11,6 +13,7 @@ public class RedisManager {
 
     /**
      * 读取缓存
+     *
      * @param key
      * @return
      */
@@ -20,6 +23,7 @@ public class RedisManager {
 
     /**
      * 写入缓存
+     *
      * @param key
      * @param value
      * @return
@@ -33,9 +37,72 @@ public class RedisManager {
         }
         return false;
     }
-    public boolean set(final String key, Object value) {
+
+    /**
+     * 按天存储
+     *
+     * @param key
+     * @param value
+     * @param days
+     * @return
+     */
+    public boolean setDays(final String key, Object value, long days) {
         try {
-            redisTemplate.opsForValue().set(key, StaticObject.gson.toJson(value));
+            redisTemplate.opsForValue().set(key, StaticObject.gson.toJson(value), days, TimeUnit.DAYS);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 按小时存储
+     *
+     * @param key
+     * @param value
+     * @param hours
+     * @return
+     */
+    public boolean setHours(final String key, Object value, long hours) {
+        try {
+            redisTemplate.opsForValue().set(key, StaticObject.gson.toJson(value), hours, TimeUnit.HOURS);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 按分钟存储
+     *
+     * @param key
+     * @param value
+     * @param minutes
+     * @return
+     */
+    public boolean setMinutes(final String key, Object value, long minutes) {
+        try {
+            redisTemplate.opsForValue().set(key, StaticObject.gson.toJson(value), minutes, TimeUnit.MINUTES);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 按秒存储
+     *
+     * @param key
+     * @param value
+     * @param seconds
+     * @return
+     */
+    public boolean setSeconds(final String key, Object value, long seconds) {
+        try {
+            redisTemplate.opsForValue().set(key, StaticObject.gson.toJson(value), seconds, TimeUnit.SECONDS);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,6 +112,7 @@ public class RedisManager {
 
     /**
      * 更新缓存
+     *
      * @param key
      * @param value
      * @return
@@ -61,6 +129,7 @@ public class RedisManager {
 
     /**
      * 删除缓存
+     *
      * @param key
      * @return
      */

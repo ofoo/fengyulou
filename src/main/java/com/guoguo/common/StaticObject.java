@@ -8,4 +8,5 @@ import com.google.gson.GsonBuilder;
  */
 public class StaticObject {
     protected static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
 }
