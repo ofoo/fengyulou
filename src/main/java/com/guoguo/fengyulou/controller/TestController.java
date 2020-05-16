@@ -22,6 +22,7 @@ public class TestController {
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
         OperatingSystem operatingSystem = userAgent.getOperatingSystem();
         System.out.println(operatingSystem.getId());
+        System.out.println(operatingSystem.getManufacturer().getId());
 
         return map;
     }
