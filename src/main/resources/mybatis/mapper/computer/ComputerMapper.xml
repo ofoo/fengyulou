@@ -2,36 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guoguo.fengyulou.dao.computer.ComputerDao">
     <insert id="insertComputer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into fengyulou_computer(project_id, host, port, account,password,user_id) values (#{projectId},#{host},#{port},#{account},#{password},#{userId})
+        insert into fengyulou_computer(project_id, host, port, account,password,user_id,add_time,update_time) values (#{projectId},#{host},#{port},#{account},#{password},#{userId},now(),now())
     </insert>
-    <update id="deleteComputerByIds">
-        update fengyulou_computer set `delete`=1 where id in
-        <foreach collection="list" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </update>
-    <update id="updateComputerById">
-        update fengyulou_computer set
-        project_id=#{projectId},
-        host=#{host},
-        port=#{port},
-        account=#{account},
-        password=#{password}
-        where id=#{id}
-    </update>
-    <update id="updateStatusByIds">
-        update fengyulou_computer set `status`=1,finish_time=now() where id in
-        <foreach collection="list" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </update>
     <update id="updateComputerByIdAndUserId">
         update fengyulou_computer set
         project_id=#{projectId},
         host=#{host},
         port=#{port},
         account=#{account},
-        password=#{password}
+        password=#{password},
+        update_time=now()
         where id=#{id}
         and user_id=#{userId}
     </update>
@@ -89,8 +69,5 @@
     </select>
     <select id="getComputerCountByNameAndUserId" resultType="java.lang.Integer">
         select ifnull(count(1),0) from fengyulou_computer where `host`=#{host} and user_id=#{userId}
-    </select>
-    <select id="getComputerCountByComputer" resultType="java.lang.Integer">
-        select ifnull(count(1),0) from fengyulou_computer where `host`=#{host} and user_id=#{userId} and id!=#{id}
     </select>
 </mapper>

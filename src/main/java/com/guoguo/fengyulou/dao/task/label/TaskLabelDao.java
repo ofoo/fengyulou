@@ -8,15 +8,7 @@ import java.util.List;
 public interface TaskLabelDao {
     List<TaskLabel> getTaskLabelList(TaskLabel taskLabel);
 
-    TaskLabel getTaskLabelById(@Param("id") Long id);
-
-    int updateTaskLabelById(TaskLabel taskLabel);
-
-    int getTaskLabelCountByName(@Param("name") String name);
-
     int insertTaskLabel(TaskLabel taskLabel);
-
-    int deleteTaskLabelByIds(List<Long> ids);
 
     int getTaskLabelCountByTaskLabel(TaskLabel taskLabel);
 

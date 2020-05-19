@@ -1,32 +1,20 @@
 package com.guoguo.fengyulou.entity.project;
 
+import com.guoguo.common.BaseEntity;
 import lombok.Data;
 
 /**
  * 项目
  */
 @Data
-public class Project {
+public class Project extends BaseEntity {
     private Long id;
     /**
      * 名称
      */
     private String name;
     /**
-     * 0正常 1删除
-     */
-    private Integer delete;
-    /**
      * 用户id
      */
     private Long userId;
-
-    /**
-     * 页码
-     */
-    private Integer pageNum;
-    /**
-     * 每页条数
-     */
-    private Integer pageSize;
 }

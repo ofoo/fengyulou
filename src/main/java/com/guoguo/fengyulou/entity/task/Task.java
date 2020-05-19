@@ -1,5 +1,6 @@
 package com.guoguo.fengyulou.entity.task;
 
+import com.guoguo.common.BaseEntity;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,7 +10,7 @@ import java.util.Date;
  * 任务
  */
 @Data
-public class Task {
+public class Task extends BaseEntity {
     private Long id;
     /**
      * 项目id
@@ -37,28 +38,16 @@ public class Task {
      */
     private Long memberId;
     /**
-     * 0正常 1删除
-     */
-    private Integer delete;
-    /**
      * 用户id
      */
     private Long userId;
 
     /**
-     * 页码
-     */
-    private Integer pageNum;
-    /**
-     * 每页条数
-     */
-    private Integer pageSize;
-    /**
      * 项目名称
      */
     private String projectName;
     /**
-     * 任务标签
+     * 任务标签名称
      */
     private String taskLabelName;
     /**

@@ -32,20 +32,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ServerResponse deleteTaskByIds(List<Long> ids) {
-        int rows = taskDao.deleteTaskByIds(ids);
-        if (rows > 0) {
-            return ServerResponse.createBySuccess();
-        }
-        return ServerResponse.createByError();
-    }
-
-    @Override
-    public Task getTaskById(Long id) {
-        return taskDao.getTaskById(id);
-    }
-
-    @Override
     public ServerResponse saveTask(Task task) {
         // 去除空格
         task.setSketch(task.getSketch().trim());
@@ -61,15 +47,6 @@ public class TaskServiceImpl implements TaskService {
             if (rows > 0) {
                 return ServerResponse.createBySuccess(task.getId());
             }
-        }
-        return ServerResponse.createByError();
-    }
-
-    @Override
-    public ServerResponse updateStatusByIds(List<Long> ids) {
-        int rows = taskDao.updateStatusByIds(ids);
-        if (rows > 0) {
-            return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
     }

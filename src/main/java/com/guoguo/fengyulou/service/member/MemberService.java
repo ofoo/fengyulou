@@ -24,29 +24,16 @@ public interface MemberService {
     PageInfo<Member> getMemberListPage(Member member);
 
     /**
-     * 按id查询
-     *
-     * @param id
-     * @return
-     */
-    Member getMemberById(Long id);
-
-    /**
      * 保存数据
+     *
      * @param member
      * @return
      */
     ServerResponse saveMember(Member member);
 
     /**
-     * 按id删除数据
-     * @param ids
-     * @return
-     */
-    ServerResponse deleteMemberByIds(List<Long> ids);
-
-    /**
      * 按id和用户id查询
+     *
      * @param member
      * @return
      */
@@ -54,6 +41,7 @@ public interface MemberService {
 
     /**
      * 按id和用户id删除
+     *
      * @param ids
      * @param userId
      * @return

@@ -33,11 +33,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project getProjectById(Long id) {
-        return projectDao.getProjectById(id);
-    }
-
-    @Override
     public ServerResponse saveProject(Project project) {
         // 去除空格
         project.setName(project.getName().trim());
@@ -63,15 +58,6 @@ public class ProjectServiceImpl implements ProjectService {
             if (rows > 0) {
                 return ServerResponse.createBySuccess(project.getId());
             }
-        }
-        return ServerResponse.createByError();
-    }
-
-    @Override
-    public ServerResponse deleteProjectByIds(List<Long> ids) {
-        int rows = projectDao.deleteProjectByIds(ids);
-        if (rows > 0) {
-            return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
     }

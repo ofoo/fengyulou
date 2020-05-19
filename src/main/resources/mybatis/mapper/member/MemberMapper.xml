@@ -4,15 +4,6 @@
     <insert id="insertMember" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_member(`name`,member_label_id,mobile,user_id) values (#{name},#{memberLabelId},#{mobile},#{userId})
     </insert>
-    <update id="updateMemberById">
-        update fengyulou_member set `name`=#{name},member_label_id=#{memberLabelId},mobile=#{mobile} where id=#{id}
-    </update>
-    <update id="deleteMemberByIds">
-        update fengyulou_member set `delete`=1 where id in
-        <foreach collection="list" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </update>
     <update id="updateMemberByIdAndUserId">
         update fengyulou_member set `name`=#{name},member_label_id=#{memberLabelId},mobile=#{mobile} where id=#{id} and user_id=#{userId}
     </update>
@@ -46,12 +37,6 @@
             </if>
         </where>
         order by fengyulou_member.id desc
-    </select>
-    <select id="getMemberById" resultType="com.guoguo.fengyulou.entity.member.Member">
-        select id,`name`,member_label_id,mobile from fengyulou_member where id=#{id} limit 1
-    </select>
-    <select id="getMemberCountByMobile" resultType="java.lang.Integer">
-        select ifnull(count(1),0) from fengyulou_member where mobile=#{mobile}
     </select>
     <select id="getMemberCountByMember" resultType="java.lang.Integer">
         select ifnull(count(1),0) from fengyulou_member where mobile=#{mobile} and user_id=#{userId} and id!=#{id}

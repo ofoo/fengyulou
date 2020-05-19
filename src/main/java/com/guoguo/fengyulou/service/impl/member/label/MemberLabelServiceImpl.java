@@ -33,20 +33,6 @@ public class MemberLabelServiceImpl implements MemberLabelService {
     }
 
     @Override
-    public MemberLabel getMemberLabelById(Long id) {
-        return memberLabelDao.getMemberLabelById(id);
-    }
-
-    @Override
-    public ServerResponse deleteMemberLabelByIds(List<Long> ids) {
-        int rows = memberLabelDao.deleteMemberLabelByIds(ids);
-        if (rows > 0) {
-            return ServerResponse.createBySuccess();
-        }
-        return ServerResponse.createByError();
-    }
-
-    @Override
     public ServerResponse saveMemberLabel(MemberLabel memberLabel) {
         // 去除空格
         memberLabel.setName(memberLabel.getName().trim());

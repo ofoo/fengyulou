@@ -4,15 +4,6 @@
     <insert id="insertProject" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_project(`name`,user_id) values (#{name},#{userId})
     </insert>
-    <update id="updateProjectById">
-        update fengyulou_project set `name`=#{name} where id=#{id}
-    </update>
-    <update id="deleteProjectByIds">
-        update fengyulou_project set `delete`=1 where id in
-        <foreach collection="list" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </update>
     <update id="updateProjectByIdAndUserId">
         update fengyulou_project set `name`=#{name} where id=#{id} and user_id=#{userId}
     </update>
@@ -34,12 +25,6 @@
             </if>
         </where>
         order by id desc
-    </select>
-    <select id="getProjectById" resultType="com.guoguo.fengyulou.entity.project.Project">
-        select id,`name` from fengyulou_project where id=#{id} limit 1
-    </select>
-    <select id="getProjectCountByName" resultType="java.lang.Integer">
-        select ifnull(count(1),0) from fengyulou_project where `name`=#{name}
     </select>
     <select id="getProjectCountByProject" resultType="java.lang.Integer">
         select ifnull(count(1),0) from fengyulou_project where `name`=#{name} and user_id=#{userId} and id!=#{id}

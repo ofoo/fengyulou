@@ -1,12 +1,13 @@
 package com.guoguo.fengyulou.entity.member;
 
+import com.guoguo.common.BaseEntity;
 import lombok.Data;
 
 /**
  * 人员
  */
 @Data
-public class Member {
+public class Member extends BaseEntity {
     private Long id;
     /**
      * 人员姓名
@@ -21,24 +22,12 @@ public class Member {
      */
     private String mobile;
     /**
-     * 0正常 1删除
-     */
-    private Integer delete;
-    /**
      * 用户id
      */
     private Long userId;
 
     /**
-     * 页码
-     */
-    private Integer pageNum;
-    /**
-     * 每页条数
-     */
-    private Integer pageSize;
-    /**
-     * 人员标签
+     * 人员标签名称
      */
     private String memberLabelName;
 }

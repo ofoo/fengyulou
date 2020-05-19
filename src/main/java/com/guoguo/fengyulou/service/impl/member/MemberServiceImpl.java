@@ -34,11 +34,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member getMemberById(Long id) {
-        return memberDao.getMemberById(id);
-    }
-
-    @Override
     public ServerResponse saveMember(Member member) {
         // 去除空格
         member.setName(member.getName().trim());
@@ -69,15 +64,6 @@ public class MemberServiceImpl implements MemberService {
             if (rows > 0) {
                 return ServerResponse.createBySuccess(member.getId());
             }
-        }
-        return ServerResponse.createByError();
-    }
-
-    @Override
-    public ServerResponse deleteMemberByIds(List<Long> ids) {
-        int rows = memberDao.deleteMemberByIds(ids);
-        if (rows > 0) {
-            return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
     }

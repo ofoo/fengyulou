@@ -5,7 +5,6 @@ import com.github.pagehelper.PageInfo;
 import com.guoguo.common.ResponseCode;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.dao.task.label.TaskLabelDao;
-import com.guoguo.fengyulou.entity.task.Task;
 import com.guoguo.fengyulou.entity.task.label.TaskLabel;
 import com.guoguo.fengyulou.service.task.label.TaskLabelService;
 import com.guoguo.util.ObjectUtils;
@@ -34,11 +33,6 @@ public class TaskLabelServiceImpl implements TaskLabelService {
     }
 
     @Override
-    public TaskLabel getTaskLabelById(Long id) {
-        return taskLabelDao.getTaskLabelById(id);
-    }
-
-    @Override
     public ServerResponse saveTaskLabel(TaskLabel taskLabel) {
         // 去除空格
         taskLabel.setName(taskLabel.getName().trim());
@@ -64,15 +58,6 @@ public class TaskLabelServiceImpl implements TaskLabelService {
             if (rows > 0) {
                 return ServerResponse.createBySuccess(taskLabel.getId());
             }
-        }
-        return ServerResponse.createByError();
-    }
-
-    @Override
-    public ServerResponse deleteTaskLabelByIds(List<Long> ids) {
-        int rows = taskLabelDao.deleteTaskLabelByIds(ids);
-        if (rows > 0) {
-            return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
     }

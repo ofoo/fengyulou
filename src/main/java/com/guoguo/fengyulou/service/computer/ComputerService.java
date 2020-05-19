@@ -25,32 +25,11 @@ public interface ComputerService {
     PageInfo<Computer> getComputerListPage(Computer computer);
 
     /**
-     * 根据id删除
-     * @param ids
-     * @return
-     */
-    ServerResponse deleteComputerByIds(List<Long> ids);
-
-    /**
-     * 根据id查询
-     * @param id
-     * @return
-     */
-    Computer getComputerById(Long id);
-
-    /**
      * 保存数据
      * @param computer
      * @return
      */
     ServerResponse saveComputer(Computer computer);
-
-    /**
-     * 修改云服务器状态完成
-     * @param ids
-     * @return
-     */
-    ServerResponse updateStatusByIds(List<Long> ids);
 
     /**
      * 按id和用户id查询

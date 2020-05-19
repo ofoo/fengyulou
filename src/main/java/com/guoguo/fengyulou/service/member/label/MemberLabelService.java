@@ -24,20 +24,6 @@ public interface MemberLabelService {
     PageInfo<MemberLabel> getMemberLabelListPage(MemberLabel memberLabel);
 
     /**
-     * 按id查询
-     * @param id
-     * @return
-     */
-    MemberLabel getMemberLabelById(Long id);
-
-    /**
-     * 按id删除数据
-     * @param ids
-     * @return
-     */
-    ServerResponse deleteMemberLabelByIds(List<Long> ids);
-
-    /**
      * 保存数据
      * @param memberLabel
      * @return

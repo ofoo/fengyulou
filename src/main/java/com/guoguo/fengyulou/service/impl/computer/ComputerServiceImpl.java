@@ -33,20 +33,6 @@ public class ComputerServiceImpl implements ComputerService {
     }
 
     @Override
-    public ServerResponse deleteComputerByIds(List<Long> ids) {
-        int rows = computerDao.deleteComputerByIds(ids);
-        if (rows > 0) {
-            return ServerResponse.createBySuccess();
-        }
-        return ServerResponse.createByError();
-    }
-
-    @Override
-    public Computer getComputerById(Long id) {
-        return computerDao.getComputerById(id);
-    }
-
-    @Override
     public ServerResponse saveComputer(Computer computer) {
         // 去除空格
         computer.setHost(computer.getHost().trim());
@@ -75,15 +61,6 @@ public class ComputerServiceImpl implements ComputerService {
             if (rows > 0) {
                 return ServerResponse.createBySuccess(computer.getId());
             }
-        }
-        return ServerResponse.createByError();
-    }
-
-    @Override
-    public ServerResponse updateStatusByIds(List<Long> ids) {
-        int rows = computerDao.updateStatusByIds(ids);
-        if (rows > 0) {
-            return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
     }

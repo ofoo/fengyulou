@@ -24,25 +24,11 @@ public interface ProjectService {
     PageInfo<Project> getProjectListPage(Project project);
 
     /**
-     * 按id查询
-     * @param id
-     * @return
-     */
-    Project getProjectById(Long id);
-
-    /**
      * 保存项目
      * @param project
      * @return
      */
     ServerResponse saveProject(Project project);
-
-    /**
-     * 按id删除数据
-     * @param ids
-     * @return
-     */
-    ServerResponse deleteProjectByIds(List<Long> ids);
 
     /**
      * 按id和用户id查询
