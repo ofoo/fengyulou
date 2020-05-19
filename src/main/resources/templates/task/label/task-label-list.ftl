@@ -28,6 +28,7 @@
             <button type="button" class="btn btn-danger" id="fengyulou-delete">删除</button>
         </div>
         <form id="dataForm"></form>
+
         <table class="table table-bordered table-hover">
             <thead>
             <tr>
