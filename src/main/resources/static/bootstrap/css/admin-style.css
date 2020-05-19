@@ -98,3 +98,7 @@ h1 {
 .mb20{
     margin-bottom: 20px;
 }
+ul.ztree{
+    height: 300px;
+    overflow: auto;
+}

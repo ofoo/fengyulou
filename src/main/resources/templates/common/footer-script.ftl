@@ -7,4 +7,6 @@
 <script src="/iCheck/js/icheck.js"></script>
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
 <script src="/datepicker/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="/ztree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/ztree/js/jquery.ztree.excheck.js"></script>
 <script src="/bootstrap/js/webutils.js"></script>
