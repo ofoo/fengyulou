@@ -2,8 +2,10 @@ package com.guoguo.fengyulou.controller.member.monitor;
 
 import com.guoguo.common.CurrentUserManager;
 import com.guoguo.common.ServerResponse;
+import com.guoguo.common.StaticObject;
 import com.guoguo.fengyulou.entity.member.monitor.MemberMonitor;
 import com.guoguo.fengyulou.service.member.monitor.MemberMonitorService;
+import com.guoguo.fengyulou.service.user.UserService;
 import com.guoguo.util.ObjectUtils;
 import com.guoguo.util.StringUtils;
 import org.slf4j.Logger;
@@ -31,6 +33,8 @@ public class MemberMonitorController {
     private MemberMonitorService memberMonitorService;
     @Autowired
     private CurrentUserManager currentUserManager;
+    @Autowired
+    private UserService userService;
 
     /**
      * 列表页面
@@ -42,6 +46,8 @@ public class MemberMonitorController {
 //        request.setAttribute("data", memberMonitor);
 //        memberMonitor.setUserId(currentUserManager.getUserId());
 //        request.setAttribute("pageInfo", memberMonitorService.getMemberMonitorListPage(memberMonitor));
+//        userService.
+        request.setAttribute("ztreeData",StaticObject.gson.toJson());
         return "/member/monitor/member-monitor-list";
     }
 

@@ -7,6 +7,6 @@ import com.google.gson.GsonBuilder;
  * 静态对象
  */
 public class StaticObject {
-    protected static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+    public static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
 }
