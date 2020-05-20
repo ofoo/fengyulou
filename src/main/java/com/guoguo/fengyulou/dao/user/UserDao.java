@@ -1,6 +1,7 @@
 package com.guoguo.fengyulou.dao.user;
 
 import com.guoguo.fengyulou.entity.user.User;
+import com.guoguo.fengyulou.entity.user.UserMember;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -23,4 +24,7 @@ public interface UserDao {
     int getUserCountByLoginName(String loginName);
 
     int deleteUserByIds(List<Long> ids);
+
+    List<UserMember> getUserMemberList();
+
 }

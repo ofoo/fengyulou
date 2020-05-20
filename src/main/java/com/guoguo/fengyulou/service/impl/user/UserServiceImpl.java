@@ -8,6 +8,8 @@ import com.guoguo.common.ResponseCode;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.dao.user.UserDao;
 import com.guoguo.fengyulou.entity.user.User;
+import com.guoguo.fengyulou.entity.user.UserMember;
+import com.guoguo.fengyulou.service.member.MemberService;
 import com.guoguo.fengyulou.service.user.UserService;
 import com.guoguo.util.MD5Util;
 import com.guoguo.util.ObjectUtils;
@@ -15,6 +17,7 @@ import com.guoguo.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,6 +25,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private MemberService memberService;
     @Autowired
     private CurrentUserManager currentUserManager;
 
@@ -107,5 +112,19 @@ public class UserServiceImpl implements UserService {
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
+    }
+
+    @Override
+    public List<UserMember> getUserMemberList() {
+        List<UserMember> list = userDao.getUserMemberList();
+        if (ObjectUtils.isNull(list)) {
+            return Collections.emptyList();
+        }
+        for (UserMember userMember : list) {
+            userMember.setNocheck(true);
+            List<UserMember> children = memberService.getUserMemberListByUserId(userMember.getId());
+            userMember.setChildren(children);
+        }
+        return list;
     }
 }

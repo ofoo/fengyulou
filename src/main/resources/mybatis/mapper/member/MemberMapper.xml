@@ -47,4 +47,7 @@
     <select id="getMemberByIdAndUserId" resultType="com.guoguo.fengyulou.entity.member.Member">
         select id,`name`,member_label_id,mobile from fengyulou_member where id=#{id} and user_id=#{userId} limit 1
     </select>
+    <select id="getUserMemberListByUserId" resultType="com.guoguo.fengyulou.entity.user.UserMember">
+        select id,`name` from fengyulou_member where `delete`=0 and user_id=#{userId}
+    </select>
 </mapper>

@@ -35,34 +35,17 @@ public class MemberMonitorServiceImpl implements MemberMonitorService {
 
     @Override
     public ServerResponse saveMemberMonitor(MemberMonitor memberMonitor) {
-        // 去除空格
-        memberMonitor.setName(memberMonitor.getName().trim());
-        memberMonitor.setMobile(memberMonitor.getMobile().trim());
-        if (ObjectUtils.isNotNull(memberMonitor.getId())) {
-            if (StringUtils.isNotBlank(memberMonitor.getMobile())) {
-                // 验证数据是否重复
-                int count = memberMonitorDao.getMemberMonitorCountByMemberMonitor(memberMonitor);
-                if (count > 0) {
-                    return ServerResponse.createByError(ResponseCode.EXIST);
-                }
-            }
-            // 修改
-            int rows = memberMonitorDao.updateMemberMonitorByIdAndUserId(memberMonitor);
-            if (rows > 0) {
-                return ServerResponse.createBySuccess();
-            }
-        } else {
-            if (StringUtils.isNotBlank(memberMonitor.getMobile())) {
-                // 验证数据是否重复
-                int count = memberMonitorDao.getMemberMonitorCountByMobileAndUserId(memberMonitor);
-                if (count > 0) {
-                    return ServerResponse.createByError(ResponseCode.EXIST);
-                }
-            }
-            // 添加
+        if (memberMonitor.getChecked()) {
+            //添加
             int rows = memberMonitorDao.insertMemberMonitor(memberMonitor);
             if (rows > 0) {
                 return ServerResponse.createBySuccess(memberMonitor.getId());
+            }
+        }else{
+            //删除
+            int rows = memberMonitorDao.deleteMemberMonitorByUserIdAndMemberId(memberMonitor);
+            if (rows > 0) {
+                return ServerResponse.createBySuccess();
             }
         }
         return ServerResponse.createByError();

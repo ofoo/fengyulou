@@ -19,4 +19,6 @@ public interface MemberMonitorDao {
     MemberMonitor getMemberMonitorByIdAndUserId(MemberMonitor memberMonitor);
 
     int deleteMemberMonitorByIdsAndUserId(@Param("ids") List<Long> ids, @Param("userId") Long userId);
+
+    int deleteMemberMonitorByUserIdAndMemberId(MemberMonitor memberMonitor);
 }

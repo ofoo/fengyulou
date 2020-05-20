@@ -3,6 +3,7 @@ package com.guoguo.fengyulou.service.member;
 import com.github.pagehelper.PageInfo;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.entity.member.Member;
+import com.guoguo.fengyulou.entity.user.UserMember;
 
 import java.util.List;
 
@@ -47,4 +48,11 @@ public interface MemberService {
      * @return
      */
     ServerResponse deleteMemberByIdsAndUserId(List<Long> ids, Long userId);
+
+    /**
+     * 按用户id查询人员
+     * @param userId
+     * @return
+     */
+    List<UserMember> getUserMemberListByUserId(Long userId);
 }

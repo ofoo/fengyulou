@@ -4,6 +4,8 @@ import com.guoguo.common.CurrentUserManager;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.common.StaticObject;
 import com.guoguo.fengyulou.entity.member.monitor.MemberMonitor;
+import com.guoguo.fengyulou.entity.user.UserMember;
+import com.guoguo.fengyulou.service.member.MemberService;
 import com.guoguo.fengyulou.service.member.monitor.MemberMonitorService;
 import com.guoguo.fengyulou.service.user.UserService;
 import com.guoguo.util.ObjectUtils;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 人员监听
@@ -35,6 +38,8 @@ public class MemberMonitorController {
     private CurrentUserManager currentUserManager;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MemberService memberService;
 
     /**
      * 列表页面
@@ -43,11 +48,10 @@ public class MemberMonitorController {
      */
     @RequestMapping("/memberMonitor/list/page")
     public String list(HttpServletRequest request, HttpSession session, MemberMonitor memberMonitor) {
-//        request.setAttribute("data", memberMonitor);
-//        memberMonitor.setUserId(currentUserManager.getUserId());
-//        request.setAttribute("pageInfo", memberMonitorService.getMemberMonitorListPage(memberMonitor));
-//        userService.
-        request.setAttribute("ztreeData",StaticObject.gson.toJson());
+        List<UserMember> userList = userService.getUserMemberList();
+        String json = StaticObject.gson.toJson(userList);
+        System.out.println(json);
+        request.setAttribute("ztreeData",json);
         return "/member/monitor/member-monitor-list";
     }
 
@@ -95,8 +99,8 @@ public class MemberMonitorController {
     @RequestMapping("/memberMonitor/ajax/save")
     @ResponseBody
     public ServerResponse ajaxSave(MemberMonitor memberMonitor, HttpSession session) {
-        if (StringUtils.isBlank(memberMonitor.getName())) {
-            return ServerResponse.createByErrorMessage("请输入人员名称");
+        if (ObjectUtils.isNull(memberMonitor.getMemberId())) {
+            return ServerResponse.createBySuccessMessage("请选择人员");
         }
         memberMonitor.setUserId(currentUserManager.getUserId());
         return memberMonitorService.saveMemberMonitor(memberMonitor);

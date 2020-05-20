@@ -2,6 +2,7 @@ package com.guoguo.fengyulou.dao.member;
 
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.entity.member.Member;
+import com.guoguo.fengyulou.entity.user.UserMember;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface MemberDao {
     Member getMemberByIdAndUserId(Member member);
 
     int deleteMemberByIdsAndUserId(@Param("ids") List<Long> ids, @Param("userId") Long userId);
+
+    List<UserMember> getUserMemberListByUserId(@Param("userId") Long userId);
 }

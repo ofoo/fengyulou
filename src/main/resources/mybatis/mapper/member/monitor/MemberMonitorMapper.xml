@@ -2,39 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guoguo.fengyulou.dao.member.monitor.MemberMonitorDao">
     <insert id="insertMemberMonitor" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into fengyulou_member(`name`,member_label_id,mobile,user_id) values (#{name},#{memberLabelId},#{mobile},#{userId})
+        insert into fengyulou_member_monitor(user_id_one,`member_id`,user_id_two,insert_time) values (#{userIdOne},#{memberId},#{userIdTwo},now())
     </insert>
-    <update id="updateMemberMonitorByIdAndUserId">
-        update fengyulou_member set `name`=#{name},member_label_id=#{memberLabelId},mobile=#{mobile} where id=#{id} and user_id=#{userId}
-    </update>
-    <update id="deleteMemberMonitorByIdsAndUserId">
-        update fengyulou_member set `delete`=1 where id in
-        <foreach collection="ids" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        and user_id=#{userId}
+    <update id="deleteMemberMonitorByUserIdAndMemberId">
+        update fengyulou_member_monitor set `delete`=1 where user_id=#{userId} and member_id=#{memberId} and `delete`=0
     </update>
 
     <select id="getMemberMonitorList" resultType="com.guoguo.fengyulou.entity.member.monitor.MemberMonitor">
         select
-        fengyulou_member.id,
-        fengyulou_member.`name`,
-        fengyulou_member.mobile,
-        fengyulou_member_label.name memberLabelName
-        from fengyulou_member
-        left join fengyulou_member_label on fengyulou_member.member_label_id=fengyulou_member_label.id
+        fengyulou_member_monitor.id,
+        fengyulou_user.name userOneName,
+        fengyulou_member.name memberName
+        from fengyulou_member_monitor
+        left join fengyulou_user on fengyulou_user.id=fengyulou_member_monitor.user_id_one
+        left join fengyulou_member on fengyulou_member.id=fengyulou_member_monitor.member_id
         <where>
             fengyulou_member.`delete`=0
-            and fengyulou_member.user_id=#{userId}
-            <if test="name!=null and name!=''">
-                and fengyulou_member.`name` like CONCAT('%',#{name},'%')
-            </if>
-            <if test="memberLabelName!=null and memberLabelName!=''">
-                and fengyulou_member_label.`name` like CONCAT('%',#{memberLabelName},'%')
-            </if>
-            <if test="mobile!=null and mobile!=''">
-                and fengyulou_member.`mobile` like CONCAT('%',#{mobile},'%')
-            </if>
         </where>
         order by fengyulou_member.id desc
     </select>
@@ -47,4 +30,13 @@
     <select id="getMemberMonitorByIdAndUserId" resultType="com.guoguo.fengyulou.entity.member.monitor.MemberMonitor">
         select id,`name`,member_label_id,mobile from fengyulou_member where id=#{id} and user_id=#{userId} limit 1
     </select>
+    <!--CREATE TABLE `fengyulou_member` (
+    `Id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL DEFAULT '' COMMENT '人员名称',
+    `member_label_id` int(11) NOT NULL DEFAULT '0' COMMENT '人员标签id',
+    `mobile` varchar(255) DEFAULT '' COMMENT '人员手机',
+    `delete` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0正常 1删除',
+    `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+    PRIMARY KEY (`Id`)
+    ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='人员表';-->
 </mapper>

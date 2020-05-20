@@ -6,6 +6,7 @@ import com.guoguo.common.ResponseCode;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.dao.member.MemberDao;
 import com.guoguo.fengyulou.entity.member.Member;
+import com.guoguo.fengyulou.entity.user.UserMember;
 import com.guoguo.fengyulou.service.member.MemberService;
 import com.guoguo.util.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -80,5 +81,10 @@ public class MemberServiceImpl implements MemberService {
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();
+    }
+
+    @Override
+    public List<UserMember> getUserMemberListByUserId(Long userId) {
+        return memberDao.getUserMemberListByUserId(userId);
     }
 }

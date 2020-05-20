@@ -47,4 +47,7 @@
     <select id="getUserCountByLoginName" resultType="java.lang.Integer">
         select ifnull(count(1),0) from fengyulou_user where login_name=#{loginName}
     </select>
+    <select id="getUserMemberList" resultType="com.guoguo.fengyulou.entity.user.UserMember">
+        select id,`name` from fengyulou_user where `type`!=1 and `delete`=0
+    </select>
 </mapper>

@@ -4,30 +4,26 @@ import com.guoguo.common.BaseEntity;
 import lombok.Data;
 
 /**
- * 人员
+ * 人员监听
  */
 @Data
 public class MemberMonitor extends BaseEntity {
     private Long id;
     /**
-     * 人员姓名
+     * 被监听人id
      */
-    private String name;
+    private Long userIdOne;
     /**
-     * 人员标签id
+     * 人员id
      */
-    private Long memberLabelId;
+    private Long memberId;
     /**
-     * 人员手机号
+     * 监听人id
      */
-    private String mobile;
-    /**
-     * 用户id
-     */
-    private Long userId;
+    private Long userIdTwo;
 
     /**
-     * 人员标签名称
+     * true选中/false未选中
      */
-    private String memberLabelName;
+    private Boolean checked;
 }

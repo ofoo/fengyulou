@@ -3,6 +3,7 @@ package com.guoguo.fengyulou.service.user;
 import com.github.pagehelper.PageInfo;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.entity.user.User;
+import com.guoguo.fengyulou.entity.user.UserMember;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
@@ -56,4 +57,10 @@ public interface UserService {
      * @return
      */
     ServerResponse deleteUserByIds(List<Long> ids);
+
+    /**
+     * 获取全部用户 除管理员
+     * @return
+     */
+    List<UserMember> getUserMemberList();
 }
