@@ -54,5 +54,8 @@ public class Task extends BaseEntity {
      * 人员姓名
      */
     private String memberName;
-
+    /**
+     * 0正常 1禁用（不可以修改、和删除）
+     */
+    private Integer disabled;
 }

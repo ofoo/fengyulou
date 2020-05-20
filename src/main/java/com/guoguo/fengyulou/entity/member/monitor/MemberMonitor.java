@@ -26,4 +26,12 @@ public class MemberMonitor extends BaseEntity {
      * true选中/false未选中
      */
     private Boolean checked;
+    /**
+     * 被监听用户名称
+     */
+    private String userOneName;
+    /**
+     * 人员名称
+     */
+    private String memberName;
 }

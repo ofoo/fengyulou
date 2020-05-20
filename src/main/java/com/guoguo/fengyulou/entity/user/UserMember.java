@@ -17,6 +17,10 @@ public class UserMember {
      */
     private String name;
     /**
+     * 用户id
+     */
+    private Long userId;
+    /**
      * 子节点集合
      */
     private List<UserMember> children;

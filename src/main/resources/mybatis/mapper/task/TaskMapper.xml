@@ -29,7 +29,6 @@
         <foreach collection="ids" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
-        and user_id=#{userId}
     </update>
 
     <select id="getTaskList" resultType="com.guoguo.fengyulou.entity.task.Task">
@@ -40,14 +39,16 @@
         fengyulou_task_label.name taskLabelName,
         fengyulou_task.status,
         fengyulou_task.finish_time,
-        fengyulou_member.name memberName
-        from fengyulou_task
+        fengyulou_member.name memberName,
+        fengyulou_task_user.disabled
+        from fengyulou_task_user
+        left join fengyulou_task on fengyulou_task.id=fengyulou_task_user.task_id
         left join fengyulou_project on fengyulou_task.project_id=fengyulou_project.id
         left join fengyulou_task_label on fengyulou_task.task_label_id=fengyulou_task_label.id
         left join fengyulou_member on fengyulou_task.member_id=fengyulou_member.id
         <where>
             fengyulou_task.`delete`=0
-            and fengyulou_task.user_id=#{userId}
+            and fengyulou_task_user.user_id=#{userId}
             <if test="projectName!=null and projectName!=''">
                 and fengyulou_project.name like CONCAT('%',#{projectName},'%')
             </if>

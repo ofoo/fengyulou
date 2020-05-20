@@ -84,6 +84,7 @@ $('.checkall').on('ifClicked', function (event) {
         $(".checkbox").iCheck('uncheck');
     }
 });
+//选择
 $('.checkbox').on('ifChecked', function (event) {
     var len = $('.checkbox').length;
     var checkLen = $('.checkbox:checked').length;
@@ -93,13 +94,15 @@ $('.checkbox').on('ifChecked', function (event) {
     var val = $(this).val();
     var input = '<input type="hidden" id="cb' + val + '" value="' + val + '" name="ids">';
     $('#dataForm').append(input);
+    check();
 });
 
-// 取消全选
+// 取消选择
 $('.checkbox').on('ifUnchecked', function (event) {
     $(".checkall").iCheck('uncheck');
     var val = $(this).val();
     $('#cb' + val).remove();
+    unCheck()
 });
 
 /**
@@ -352,6 +355,13 @@ function checkSelect(msg) {
     }
     return true;
 }
+function checkSelect() {
+    var length = $(".checkbox:checked").length;
+    if (length == 0) {
+        return false;
+    }
+    return true;
+}
 
 // 设置浏览器垂直居中
 function verticalCenter(str) {
@@ -366,3 +376,12 @@ function verticalCenter(str) {
 }
 
 var resizeArray = new Array();
+
+//列表复选框选中后调用
+function check(){
+    console.log(123)
+}
+//列表复选框取消选中后调用
+function unCheck(){
+    console.log(321)
+}

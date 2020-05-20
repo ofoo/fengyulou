@@ -22,6 +22,7 @@
                 <dl>
                     <dt><a href="/fyl/member/list/page">人员列表</a></dt>
                     <dt><a href="/fyl/memberLabel/list/page">人员标签</a></dt>
+                    <dt><a href="/fyl/memberMonitor/list/page">人员监听</a></dt>
                 </dl>
             </li>
             <li>

@@ -4,12 +4,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.dao.task.TaskDao;
+import com.guoguo.fengyulou.dao.task.user.TaskUserDao;
+import com.guoguo.fengyulou.entity.member.monitor.MemberMonitor;
 import com.guoguo.fengyulou.entity.task.Task;
+import com.guoguo.fengyulou.entity.task.user.TaskUser;
+import com.guoguo.fengyulou.service.member.monitor.MemberMonitorService;
 import com.guoguo.fengyulou.service.task.TaskService;
 import com.guoguo.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,6 +23,10 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private TaskDao taskDao;
+    @Autowired
+    private TaskUserDao taskUserDao;
+    @Autowired
+    private MemberMonitorService memberMonitorService;
 
     @Override
     public List<Task> getTaskList(Task task) {
@@ -32,6 +42,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public ServerResponse saveTask(Task task) {
         // 去除空格
         task.setSketch(task.getSketch().trim());
@@ -45,6 +56,24 @@ public class TaskServiceImpl implements TaskService {
             // 添加数据
             int rows = taskDao.insertTask(task);
             if (rows > 0) {
+                List<TaskUser> taskUserList = new ArrayList<>();
+                TaskUser taskUser = new TaskUser();
+                taskUser.setUserId(task.getUserId());
+                taskUser.setTaskId(task.getId());
+                taskUser.setDisabled(0);
+                taskUserList.add(taskUser);
+                //获取用户监听列表
+                List<MemberMonitor> memberMonitorList = memberMonitorService.getMemberMonitorListByUserIdOneAndMemberId(task.getUserId(),task.getMemberId());
+                if (ObjectUtils.isNotNull(memberMonitorList)) {
+                    for (MemberMonitor memberMonitor : memberMonitorList) {
+                        taskUser = new TaskUser();
+                        taskUser.setUserId(memberMonitor.getUserIdTwo());
+                        taskUser.setTaskId(task.getId());
+                        taskUser.setDisabled(1);
+                        taskUserList.add(taskUser);
+                    }
+                }
+                taskUserDao.insertTaskUserBatch(taskUserList);
                 return ServerResponse.createBySuccess(task.getId());
             }
         }

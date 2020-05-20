@@ -13,13 +13,16 @@
             <input type="hidden" name="pageNum" id="pageNum">
             <div class="row form-group">
                 <div class="col-md-2">
-                    <input name="projectName" id="projectName" type="text" class="form-control" value="${(data.projectName)!}" placeholder="项目名称">
+                    <input name="projectName" id="projectName" type="text" class="form-control"
+                           value="${(data.projectName)!}" placeholder="项目名称">
                 </div>
                 <div class="col-md-2">
-                    <input name="memberName" id="memberName" type="text" class="form-control" value="${(data.memberName)!}" placeholder="执行人">
+                    <input name="memberName" id="memberName" type="text" class="form-control"
+                           value="${(data.memberName)!}" placeholder="执行人">
                 </div>
                 <div class="col-md-2">
-                    <input name="taskLabelName" id="taskLabelName" type="text" class="form-control" value="${(data.taskLabelName)!}" placeholder="任务标签">
+                    <input name="taskLabelName" id="taskLabelName" type="text" class="form-control"
+                           value="${(data.taskLabelName)!}" placeholder="任务标签">
                 </div>
                 <div class="col-md-2">
                     <select name="status" id="status" class="form-control">
@@ -29,7 +32,8 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <input name="finishTime" id="finishTime" type="text" class="form-control datepicker" value="<#if (data.finishTime)??>${data.finishTime?date}</#if>" placeholder="完成时间" readonly>
+                    <input name="finishTime" id="finishTime" type="text" class="form-control datepicker"
+                           value="<#if (data.finishTime)??>${data.finishTime?date}</#if>" placeholder="完成时间" readonly>
                 </div>
                 <div class="col-md-2">
                     <button type="button" class="btn btn-info" data-page="1" id="fengyulou-search">查询</button>
@@ -38,15 +42,16 @@
             </div>
             <div class="row form-group">
                 <div class="col-md-10">
-                    <input name="sketch" id="sketch" type="text" class="form-control" value="${(data.sketch)!}" placeholder="任务简述">
+                    <input name="sketch" id="sketch" type="text" class="form-control" value="${(data.sketch)!}"
+                           placeholder="任务简述">
                 </div>
             </div>
         </form>
         <div class="fun-btn btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btn-success" id="fengyulou-insert">添加</button>
-            <button type="button" class="btn btn-primary" id="fengyulou-update">修改</button>
-            <button type="button" class="btn btn-danger" id="fengyulou-delete">删除</button>
-            <button type="button" class="btn btn-success" id="fengyulou-finish">完成</button>
+            <button type="button" class="btn btn-primary" disabled="disabled" id="fengyulou-update">修改</button>
+            <button type="button" class="btn btn-danger" disabled="disabled" id="fengyulou-delete">删除</button>
+            <button type="button" class="btn btn-success" disabled="disabled" id="fengyulou-finish">完成</button>
         </div>
         <form id="dataForm"></form>
         <table class="table table-bordered table-hover">
@@ -64,10 +69,14 @@
             <tbody>
             <#list pageInfo.list as data>
             <tr>
-                <td><input type="checkbox" name="ids" value="${data.id}" class="checkbox"></td>
+                <td>
+                    <input type="checkbox" name="ids" value="${data.id}" class="checkbox">
+                    <input type="hidden" id="id${data.id}" value="${data.disabled}">
+                </td>
                 <td><span class="label label-success">${(data.projectName)!}</span></td>
                 <td>${(data.sketch)!}</td>
-                <td><#if data.status==0><span class="label label-danger">未完成</span><#else><span class="label label-success">已完成</span></#if></td>
+                <td><#if data.status==0><span class="label label-danger">未完成</span><#else><span
+                        class="label label-success">已完成</span></#if></td>
                 <td>${(data.taskLabelName)!}</td>
                 <td>
                     <#if (data.finishTime)??>
@@ -85,7 +94,7 @@
 
 <#include "../common/footer-script.ftl">
 <script>
-    $(function(){
+    $(function () {
         // 添加
         $('#fengyulou-insert').on('click', function () {
             openPage('/fyl/task/insert')
@@ -104,7 +113,7 @@
                 return;
             }
             delFun('/fyl/task/ajax/delete', $("#dataForm").serialize(), function (data) {
-                msgFunCallBack(data.msg,function(){
+                msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
                         location.reload()
                     }
@@ -116,7 +125,7 @@
                 return;
             }
             ajaxFunParam('/fyl/task/ajax/updateStatus', $("#dataForm").serialize(), function (data) {
-                msgFunCallBack(data.msg,function(){
+                msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
                         location.reload()
                     }
@@ -124,6 +133,26 @@
             })
         })
     })
+
+    //选择复选框
+    function check() {
+        var id = $(".checkbox:checked")[0].value;
+        var val = $("#id" + id).val();
+        $("#fengyulou-update,#fengyulou-delete,#fengyulou-finish").removeAttr("disabled");
+        if (val == 1) {
+            $("#fengyulou-update,#fengyulou-delete").attr("disabled", "disabled");
+        }
+    }
+
+    //取消选择复选框
+    function unCheck() {
+        if (!checkSelect()) {
+            $("#fengyulou-update,#fengyulou-delete,#fengyulou-finish").attr("disabled", "disabled");
+        } else {
+            var id = $(".checkbox:checked")[0].value;
+            check(id)
+        }
+    }
 </script>
 </body>
 </html>

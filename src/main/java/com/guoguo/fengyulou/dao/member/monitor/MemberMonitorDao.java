@@ -10,15 +10,13 @@ public interface MemberMonitorDao {
 
     int insertMemberMonitor(MemberMonitor memberMonitor);
 
-    int getMemberMonitorCountByMemberMonitor(MemberMonitor memberMonitor);
+    int deleteMemberMonitorByUserIdTwoAndMemberId(MemberMonitor memberMonitor);
 
-    int updateMemberMonitorByIdAndUserId(MemberMonitor memberMonitor);
+    MemberMonitor getMemberMonitorByUserTwoIdAndMemberId(MemberMonitor memberMonitor);
 
-    int getMemberMonitorCountByMobileAndUserId(MemberMonitor memberMonitor);
+    int updateMemberMonitor(MemberMonitor memberMonitor);
 
-    MemberMonitor getMemberMonitorByIdAndUserId(MemberMonitor memberMonitor);
+    List<MemberMonitor> getMemberMonitorListByUserIdOne(@Param("userIdOne") Long userIdOne);
 
-    int deleteMemberMonitorByIdsAndUserId(@Param("ids") List<Long> ids, @Param("userId") Long userId);
-
-    int deleteMemberMonitorByUserIdAndMemberId(MemberMonitor memberMonitor);
+    List<MemberMonitor> getMemberMonitorListByUserIdOneAndMemberId(@Param("userIdOne") Long userIdOne, @Param("memberId") Long memberId);
 }

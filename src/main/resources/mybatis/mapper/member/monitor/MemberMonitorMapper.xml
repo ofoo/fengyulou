@@ -4,39 +4,38 @@
     <insert id="insertMemberMonitor" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_member_monitor(user_id_one,`member_id`,user_id_two,insert_time) values (#{userIdOne},#{memberId},#{userIdTwo},now())
     </insert>
-    <update id="deleteMemberMonitorByUserIdAndMemberId">
-        update fengyulou_member_monitor set `delete`=1 where user_id=#{userId} and member_id=#{memberId} and `delete`=0
+    <update id="deleteMemberMonitorByUserIdTwoAndMemberId">
+        update fengyulou_member_monitor set `delete`=1,delete_time=now() where user_id_two=#{userIdTwo} and member_id=#{memberId} and `delete`=0
+    </update>
+    <update id="updateMemberMonitor">
+        update fengyulou_member_monitor set `delete`=0,insert_time=now(),update_time=null,delete_time=null where id=#{id}
     </update>
 
     <select id="getMemberMonitorList" resultType="com.guoguo.fengyulou.entity.member.monitor.MemberMonitor">
         select
         fengyulou_member_monitor.id,
+        fengyulou_member_monitor.member_id,
         fengyulou_user.name userOneName,
-        fengyulou_member.name memberName
+        fengyulou_member.name memberName,
+        fengyulou_member_monitor.insert_time
         from fengyulou_member_monitor
         left join fengyulou_user on fengyulou_user.id=fengyulou_member_monitor.user_id_one
         left join fengyulou_member on fengyulou_member.id=fengyulou_member_monitor.member_id
         <where>
-            fengyulou_member.`delete`=0
+            fengyulou_member_monitor.`delete`=0
+            and fengyulou_member_monitor.user_id_two=#{userIdTwo}
         </where>
-        order by fengyulou_member.id desc
     </select>
-    <select id="getMemberMonitorCountByMemberMonitor" resultType="java.lang.Integer">
-        select ifnull(count(1),0) from fengyulou_member where mobile=#{mobile} and user_id=#{userId} and id!=#{id}
+    <select id="getMemberMonitorByUserTwoIdAndMemberId"
+            resultType="com.guoguo.fengyulou.entity.member.monitor.MemberMonitor">
+        select id from fengyulou_member_monitor where `delete`=1 and user_id_two=#{userIdTwo} and member_id=#{memberId}
     </select>
-    <select id="getMemberMonitorCountByMobileAndUserId" resultType="java.lang.Integer">
-        select ifnull(count(1),0) from fengyulou_member where mobile=#{mobile} and user_id=#{userId}
+    <select id="getMemberMonitorListByUserIdOne"
+            resultType="com.guoguo.fengyulou.entity.member.monitor.MemberMonitor">
+        select user_id_two from fengyulou_member_monitor where `delete`=0 and user_id_one=#{userIdOne}
     </select>
-    <select id="getMemberMonitorByIdAndUserId" resultType="com.guoguo.fengyulou.entity.member.monitor.MemberMonitor">
-        select id,`name`,member_label_id,mobile from fengyulou_member where id=#{id} and user_id=#{userId} limit 1
+    <select id="getMemberMonitorListByUserIdOneAndMemberId"
+            resultType="com.guoguo.fengyulou.entity.member.monitor.MemberMonitor">
+        select user_id_two from fengyulou_member_monitor where `delete`=0 and user_id_one=#{userIdOne} and member_id=#{memberId}
     </select>
-    <!--CREATE TABLE `fengyulou_member` (
-    `Id` int(11) NOT NULL AUTO_INCREMENT,
-    `name` varchar(255) NOT NULL DEFAULT '' COMMENT '人员名称',
-    `member_label_id` int(11) NOT NULL DEFAULT '0' COMMENT '人员标签id',
-    `mobile` varchar(255) DEFAULT '' COMMENT '人员手机',
-    `delete` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0正常 1删除',
-    `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
-    PRIMARY KEY (`Id`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='人员表';-->
 </mapper>

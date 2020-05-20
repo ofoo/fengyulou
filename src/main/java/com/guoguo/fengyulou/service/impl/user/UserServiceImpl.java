@@ -124,6 +124,7 @@ public class UserServiceImpl implements UserService {
             userMember.setNocheck(true);
             List<UserMember> children = memberService.getUserMemberListByUserId(userMember.getId());
             userMember.setChildren(children);
+            userMember.setId(null);
         }
         return list;
     }
