@@ -49,6 +49,13 @@ public class UserController {
         return "user/user-list";
     }
 
+    @RequestMapping("/user/ajax/list")
+    public String ajaxList(HttpServletRequest request, HttpSession session, User user, Model model) {
+        request.setAttribute("data", user);
+        request.setAttribute("pageInfo", userService.getUserListPage(user));
+        return "user/user-list-ajax";
+    }
+
     /**
      * 添加页面
      *

@@ -53,7 +53,7 @@
         layer.prompt({title: '添加人员标签'}, function (pass, index) {
             ajaxFunParam("/fyl/memberLabel/ajax/save", {'name': pass}, function (data) {
                 if (data.status == 0) {
-                    ajaxFunText("/fyl/memberLabel/ajax/list", function (data) {
+                    ajaxFunText("/fyl/memberLabel/ajax/content", function (data) {
                         $("#memberLabelId").html(data);
                     })
                     layer.close(index);

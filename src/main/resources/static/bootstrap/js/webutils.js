@@ -65,8 +65,11 @@ function delFun(url, param, callBack) {
 
 $('#fengyulou-search,.page-search').on('click', function () {
     $('#pageNum').val($(this).data("page"))
-    $('.search-from').submit()
+    // $('.search-from').submit()
+    searchData()
 })
+//查询数据方法
+function searchData(){}
 
 $('.radio').iCheck({
     radioClass: 'iradio_square-blue',

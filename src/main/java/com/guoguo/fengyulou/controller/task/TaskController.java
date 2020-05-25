@@ -53,6 +53,14 @@ public class TaskController {
         return "task/task-list";
     }
 
+    @RequestMapping("/task/ajax/list")
+    public String ajaxList(HttpServletRequest request, HttpSession session, Task task) {
+        task.setUserId(currentUserManager.getUserId());
+        request.setAttribute("pageInfo", taskService.getTaskListPage(task));
+        request.setAttribute("data", task);
+        return "task/task-list-ajax";
+    }
+
     /**
      * 添加页面
      *

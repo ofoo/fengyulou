@@ -49,6 +49,14 @@ public class MemberController {
         return "/member/member-list";
     }
 
+    @RequestMapping("/member/ajax/list")
+    public String ajaxList(HttpServletRequest request, HttpSession session, Member member) {
+        request.setAttribute("data", member);
+        member.setUserId(currentUserManager.getUserId());
+        request.setAttribute("pageInfo", memberService.getMemberListPage(member));
+        return "/member/member-list-ajax";
+    }
+
     /**
      * 添加页面
      *
@@ -132,7 +140,7 @@ public class MemberController {
      * @param request
      * @return
      */
-    @RequestMapping("/member/ajax/list")
+    @RequestMapping("/member/ajax/content")
     public String ajaxList(HttpServletRequest request, HttpSession session) {
         Member member = new Member();
         member.setUserId(currentUserManager.getUserId());

@@ -18,7 +18,7 @@
         and user_id=#{userId}
     </update>
     <update id="deleteTaskByIdsAndUserId">
-        update fengyulou_task set `delete`=1,delte_time=now() where id in
+        update fengyulou_task set `delete`=1,delete_time=now() where id in
         <foreach collection="ids" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>

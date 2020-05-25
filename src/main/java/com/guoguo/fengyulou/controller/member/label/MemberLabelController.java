@@ -43,6 +43,14 @@ public class MemberLabelController {
         return "/member/label/member-label-list";
     }
 
+    @RequestMapping("/memberLabel/ajax/list")
+    public String ajaxList(HttpServletRequest request, HttpSession session, MemberLabel memberLabel) {
+        request.setAttribute("data", memberLabel);
+        memberLabel.setUserId(currentUserManager.getUserId());
+        request.setAttribute("pageInfo", memberLabelService.getMemberLabelListPage(memberLabel));
+        return "/member/label/member-label-list-ajax";
+    }
+
     /**
      * 添加页面
      *
@@ -109,7 +117,7 @@ public class MemberLabelController {
      * @param request
      * @return
      */
-    @RequestMapping("/memberLabel/ajax/list")
+    @RequestMapping("/memberLabel/ajax/content")
     public String ajaxList(HttpServletRequest request, HttpSession session) {
         MemberLabel memberLabel = new MemberLabel();
         memberLabel.setUserId(currentUserManager.getUserId());

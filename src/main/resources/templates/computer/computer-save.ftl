@@ -63,7 +63,7 @@
         layer.prompt({title: '添加项目'}, function (pass, index) {
             ajaxFunParam("/fyl/project/ajax/save", {'name': pass}, function (data) {
                 if (data.status == 0) {
-                    ajaxFunText("/fyl/project/ajax/list", function (data) {
+                    ajaxFunText("/fyl/project/ajax/content", function (data) {
                         $("#projectId").html(data);
                     })
                     layer.close(index);

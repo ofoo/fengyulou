@@ -43,6 +43,14 @@ public class TaskLabelController {
         return "task/label/task-label-list";
     }
 
+    @RequestMapping("/taskLabel/ajax/list")
+    public String ajaxList(HttpServletRequest request, HttpSession session, TaskLabel taskLabel) {
+        taskLabel.setUserId(currentUserManager.getUserId());
+        request.setAttribute("pageInfo", taskLabelService.getTaskLabelListPage(taskLabel));
+        request.setAttribute("data", taskLabel);
+        return "task/label/task-label-list-ajax";
+    }
+
     /**
      * 添加页面
      *
@@ -108,7 +116,7 @@ public class TaskLabelController {
      *
      * @return
      */
-    @RequestMapping("/taskLabel/ajax/list")
+    @RequestMapping("/taskLabel/ajax/content")
     public String ajaxList(HttpServletRequest request, HttpSession session) {
         TaskLabel taskLabel = new TaskLabel();
         taskLabel.setUserId(currentUserManager.getUserId());

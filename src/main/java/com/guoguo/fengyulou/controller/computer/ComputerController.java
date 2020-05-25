@@ -49,6 +49,14 @@ public class ComputerController {
         return "computer/computer-list";
     }
 
+    @RequestMapping("/computer/ajax/list")
+    public String ajaxList(HttpServletRequest request, HttpSession session, Computer computer) {
+        computer.setUserId(currentUserManager.getUserId());
+        request.setAttribute("pageInfo", computerService.getComputerListPage(computer));
+        request.setAttribute("data", computer);
+        return "computer/computer-list-ajax";
+    }
+
     /**
      * 添加页面
      *

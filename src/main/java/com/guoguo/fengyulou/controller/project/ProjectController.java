@@ -41,6 +41,14 @@ public class ProjectController {
         return "project/project-list";
     }
 
+    @RequestMapping("/project/ajax/list")
+    public String ajaxList(HttpServletRequest request, HttpSession session, Project project) {
+        project.setUserId(currentUserManager.getUserId());
+        request.setAttribute("pageInfo", projectService.getProjectListPage(project));
+        request.setAttribute("data", project);
+        return "project/project-list-ajax";
+    }
+
     /**
      * 添加页面
      *
@@ -107,7 +115,7 @@ public class ProjectController {
      * @param request
      * @return
      */
-    @RequestMapping("/project/ajax/list")
+    @RequestMapping("/project/ajax/content")
     public String ajaxList(HttpServletRequest request, HttpSession session) {
         Project project = new Project();
         project.setUserId(currentUserManager.getUserId());

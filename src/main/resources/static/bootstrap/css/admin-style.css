@@ -5,7 +5,7 @@
 }
 
 .admin-left {
-    width: 15%;
+    width: 13%;
     border-right: 1px solid #ddd;
     text-align: center;
 }
@@ -23,11 +23,24 @@
     margin-bottom: 20px;
 }
 
+.admin-left .page-header{
+    margin: 0;
+    padding: 0;
+}
+
 .admin-right {
-    width: 85%;
-    left: 15%;
-    padding-left: 40px;
-    padding-right: 40px;
+    width: 87%;
+    left: 13%;
+}
+
+.admin-right .page-header{
+    margin: 0;
+    padding: 0;
+}
+.admin-right .page-header h1{
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .search-from {
@@ -64,8 +77,12 @@
 
 .exit {
     position: absolute;
-    top: 40px;
-    right: 40px;
+    top: 21px;
+    right: 20px;
+}
+
+.exit button{
+    height: 36px;
 }
 
 .login {
@@ -97,4 +114,10 @@ h1 {
 }
 .mb20{
     margin-bottom: 20px;
+}
+
+.parcel{
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }

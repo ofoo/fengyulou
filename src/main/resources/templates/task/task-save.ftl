@@ -83,7 +83,7 @@
         layer.prompt({title: '添加项目'}, function (pass, index) {
             ajaxFunParam("/fyl/project/ajax/save", {'name': pass}, function (data) {
                 if (data.status == 0) {
-                    ajaxFunText("/fyl/project/ajax/list", function (data) {
+                    ajaxFunText("/fyl/project/ajax/content", function (data) {
                         $("#projectId").html(data);
                     })
                     layer.close(index);
@@ -96,7 +96,7 @@
         layer.prompt({title: '添加任务标签'}, function (pass, index) {
             ajaxFunParam("/fyl/taskLabel/ajax/save", {'name': pass}, function (data) {
                 if (data.status == 0) {
-                    ajaxFunText("/fyl/taskLabel/ajax/list", function (data) {
+                    ajaxFunText("/fyl/taskLabel/ajax/content", function (data) {
                         $("#taskLabelId").html(data);
                     })
                     layer.close(index);
@@ -121,7 +121,7 @@
 
     function initFun(){
         // 刷新人员列表
-        ajaxFunText("/fyl/member/ajax/list", function (data) {
+        ajaxFunText("/fyl/member/ajax/content", function (data) {
             $("#memberId").html(data);
         })
     }
