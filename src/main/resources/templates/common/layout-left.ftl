@@ -3,7 +3,7 @@
         <h1>风雨楼</h1>
     </div>
     <div class="menu">
-        <ul>
+        <#--<ul>
             <li>
                 <span>任务管理<i class="icon"></i></span>
                 <dl>
@@ -38,6 +38,6 @@
                 </dl>
             </li>
             </#if>
-        </ul>
+        </ul>-->
     </div>
 </div>

@@ -8,3 +8,4 @@
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
 <script src="/datepicker/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
 <script src="/bootstrap/js/webutils.js"></script>
+<script src="/js/left-menu.js"></script>
