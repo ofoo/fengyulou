@@ -9,20 +9,6 @@
     <form class="form-horizontal data-form" id="dataForm">
         <input type="hidden" name="id" value="${(data.id)!}">
         <div class="form-group">
-            <label class="col-sm-2 control-label text-danger">知识名称</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="knowledgeId" name="projectId">
-                    <#list knowledgeList as item>
-                        <option value="${item.id}"
-                                <#if ((data.knowledgeId)!0)==item.id>selected</#if>>${item.name}</option>
-                    </#list>
-                </select>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-success" id="knowledge-insert">添加</button>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-md-2 control-label text-danger">指令名称</label>
             <div class="col-md-5">
                 <input name="name" type="text" class="form-control" id="name" value="${(data.name)!}"
@@ -34,6 +20,20 @@
             <div class="col-md-5">
                 <input name="sketch" type="text" class="form-control" id="sketch" value="${(data.sketch)!}"
                        placeholder="指令简述">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-danger">知识名称</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="knowledgeId" name="knowledgeId">
+                    <#list knowledgeList as item>
+                        <option value="${item.id}"
+                                <#if ((data.knowledgeId)!0)==item.id>selected</#if>>${item.name}</option>
+                    </#list>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-success" id="knowledge-insert">添加</button>
             </div>
         </div>
         <div class="form-group">

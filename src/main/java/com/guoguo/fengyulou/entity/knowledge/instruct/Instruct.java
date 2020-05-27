@@ -20,7 +20,7 @@ public class Instruct extends BaseEntity {
     /**
      * 知识id
      */
-    private String knowledgeId;
+    private Long knowledgeId;
     /**
      * 用户id
      */
