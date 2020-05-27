@@ -119,8 +119,8 @@
         })
     })
 
+    // 刷新人员下拉选
     function initFun(){
-        // 刷新人员列表
         ajaxFunText("/fyl/member/ajax/content", function (data) {
             $("#memberId").html(data);
         })
