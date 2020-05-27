@@ -68,7 +68,7 @@ public class TaskController {
      * @return
      */
     @RequestMapping("/task/insert")
-    public String insert(HttpServletRequest request, HttpSession session) {
+    public String insert(HttpServletRequest request) {
         request.setAttribute("pageTitle", "添加任务");
         //获取用户id
         Long userId = currentUserManager.getUserId();

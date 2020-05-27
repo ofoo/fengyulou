@@ -7,25 +7,12 @@ $(function () {
             }
         }
     })
-    // 左侧导航
-    $(".menu ul li").click(function () {
-        $(this).find("dl").slideToggle("fast").parent().siblings().find("dl").slideUp("fast");
-        $(this).find("span i").toggleClass('action').parents().siblings().find("span i").removeClass('action');
-    })
-    // 左侧导航选中
-    var current = $("[href='" + location.pathname + "']");
-    current.click();
-    current.addClass("text-primary");
-    current.parent().parent().parent().find("span").addClass("text-primary");
     // 取消文本输入框自动补全功能
-    $("input").attr("autocomplete", "off");
-    // 关闭页面，并刷新
-    $("#fengyulou-close-refresh").on("click", function () {
-        closePageRefresh();
-    })
+    $("input[type='text']").attr("autocomplete", "off");
     // 关闭页面
     $("#fengyulou-close").on("click", function () {
-        closePage();
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
     })
     // 后退页面
     $("#fengyulou-retreat").on("click", function () {
@@ -48,7 +35,67 @@ $(function () {
         clearBtn: true,//清除按钮
         todayBtn: 'linked',//今日按钮
     });
+
+    initCallBack();
 })
+
+//初始化回调
+function initCallBack() {
+    fuZhiBtnInit();
+    xuanXiangInit();
+    pagingInit();
+}
+
+//复制功能初始化
+function fuZhiBtnInit() {
+    var clipboard = new ClipboardJS('.copy', {
+        text: function (trigger) {
+            return $("#copyText" + $(trigger).attr("id")).text();
+        }
+    });
+    clipboard.on('success', function (e) {
+        // console.log(e);
+        layer.msg("复制成功 ~~~", {time: 1200, icon: 6});
+    });
+    clipboard.on('error', function (e) {
+        // console.log(e);
+        layer.msg("复制失败 ~~~", {time: 1200, icon: 5});
+    });
+}
+
+//复选框功能初始化
+function xuanXiangInit() {
+    $('.radio').iCheck({
+        radioClass: 'iradio_square-blue',
+    })
+    $('.checkall,.checkbox').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+    })
+    $('.checkall').on('ifClicked', function (event) {
+        // 全选
+        if (!event.target.checked) {
+            $(".checkbox").iCheck('check');
+        } else {
+            $(".checkbox").iCheck('uncheck');
+        }
+    });
+    $('.checkbox').on('ifChecked', function (event) {
+        var len = $('.checkbox').length;
+        var checkLen = $('.checkbox:checked').length;
+        if (len == checkLen) {
+            $(".checkall").iCheck('check');
+        }
+        var val = $(this).val();
+        var input = '<input type="hidden" id="cb' + val + '" value="' + val + '" name="ids">';
+        $('#dataForm').append(input);
+    });
+    $('.checkbox').on('ifUnchecked', function (event) {
+        // 取消全选
+        $(".checkall").iCheck('uncheck');
+        var val = $(this).val();
+        $('#cb' + val).remove();
+    });
+}
 
 /**
  * 删除方法，带参数
@@ -63,47 +110,17 @@ function delFun(url, param, callBack) {
     });
 }
 
-$('#fengyulou-search,.page-search').on('click', function () {
-    $('#pageNum').val($(this).data("page"))
-    // $('.search-from').submit()
-    searchData()
-})
+//分页按钮初始化
+function pagingInit() {
+    $('#fengyulou-search,.page-search').on('click', function () {
+        $('#pageNum').val($(this).data("page"))
+        searchData()
+    })
+}
+
 //查询数据方法
-function searchData(){}
-
-$('.radio').iCheck({
-    radioClass: 'iradio_square-blue',
-})
-
-$('.checkall,.checkbox').iCheck({
-    checkboxClass: 'icheckbox_square-blue',
-})
-
-// 全选
-$('.checkall').on('ifClicked', function (event) {
-    if (!event.target.checked) {
-        $(".checkbox").iCheck('check');
-    } else {
-        $(".checkbox").iCheck('uncheck');
-    }
-});
-$('.checkbox').on('ifChecked', function (event) {
-    var len = $('.checkbox').length;
-    var checkLen = $('.checkbox:checked').length;
-    if (len == checkLen) {
-        $(".checkall").iCheck('check');
-    }
-    var val = $(this).val();
-    var input = '<input type="hidden" id="cb' + val + '" value="' + val + '" name="ids">';
-    $('#dataForm').append(input);
-});
-
-// 取消全选
-$('.checkbox').on('ifUnchecked', function (event) {
-    $(".checkall").iCheck('uncheck');
-    var val = $(this).val();
-    $('#cb' + val).remove();
-});
+function searchData() {
+}
 
 /**
  * 打开页面
@@ -119,6 +136,21 @@ function openPage(url) {
         closeBtn: false,
         shadeClose: true,
         content: url,
+    })
+}
+
+//打开页面，带页面关闭回调
+function openPageEnd(url, callBack) {
+    layer.open({
+        type: 2,
+        area: ['100%', '100%'],
+        fixed: false, //不固定
+        scrollbar: false,
+        title: false,
+        closeBtn: false,
+        shadeClose: true,
+        content: url,
+        end: callBack
     })
 }
 
@@ -190,16 +222,6 @@ function openPromptValue(title, value, callBack) {
  */
 function closePageRefresh() {
     parent.location.reload()
-}
-
-/**
- * 关闭页面
- */
-function closePage() {
-    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-    console.log(index)
-    parent.layer.close(index); //再执行关闭
-    parent.initFun()
 }
 
 /**
@@ -280,6 +302,7 @@ function ajaxFunText(url, callBack) {
 var ajaxUrl;//记录上次ajax分页的url
 var ajaxparameters;//记录上次ajax分页的参数
 var ajaxcallBack;
+
 function ajaxPage(url, parameters, pageNum, callBack) {
     ajaxUrl = url;
     ajaxparameters = parameters;

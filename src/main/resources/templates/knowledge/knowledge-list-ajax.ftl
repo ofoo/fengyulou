@@ -2,16 +2,16 @@
     <thead>
     <tr>
         <th width="2%"><input type="checkbox" class="checkall"></th>
-        <th><strong>用户账号</strong></th>
-        <th><strong>用户姓名</strong></th>
+        <th width="30%"><strong>知识名称</strong></th>
+        <th><strong>知识简述</strong></th>
     </tr>
     </thead>
     <tbody>
             <#list pageInfo.list as data>
             <tr>
                 <td><input type="checkbox" name="ids" value="${data.id}" class="checkbox"></td>
-                <td>${(data.loginName)!}</td>
-                <td>${(data.name)!"暂无"}</td>
+                <td>${(data.name)!}</td>
+                <td>${(data.sketch)!}</td>
             </tr>
             </#list>
     </tbody>

@@ -50,7 +50,7 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="button" class="btn btn-primary" id="fengyulou-save">提交</button>
                 <button type="reset" class="btn btn-primary">重置</button>
-                <button type="button" class="btn btn-danger" id="fengyulou-close-refresh">关闭</button>
+                <button type="button" class="btn btn-danger" id="fengyulou-close">关闭</button>
             </div>
         </div>
     </form>

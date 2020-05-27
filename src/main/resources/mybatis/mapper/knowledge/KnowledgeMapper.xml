@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guoguo.fengyulou.dao.knowledge.KnowledgeDao">
+    <insert id="insertKnowledge" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into fengyulou_knowledge(`name`,sketch,user_id,insert_time) values (#{name},#{sketch},#{userId},now())
+    </insert>
+    <update id="updateKnowledgeByIdAndUserId">
+        update fengyulou_knowledge set `name`=#{name},sketch=#{sketch},update_time=now() where id=#{id} and user_id=#{userId}
+    </update>
+    <update id="deleteKnowledgeByIdsAndUserId">
+        update fengyulou_knowledge set `delete`=1,delete_time=now() where id in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and user_id=#{userId}
+    </update>
+
+    <select id="getKnowledgeList" resultType="com.guoguo.fengyulou.entity.knowledge.Knowledge">
+        select id,`name`,sketch
+        from fengyulou_knowledge
+        <where>
+            `delete`=0
+            and user_id=#{userId}
+            <if test="name!=null and name!=''">
+                and `name` like CONCAT('%',#{name},'%')
+            </if>
+        </where>
+        order by id desc
+    </select>
+    <select id="getKnowledgeCountByKnowledge" resultType="java.lang.Integer">
+        select ifnull(count(1),0) from fengyulou_knowledge where `name`=#{name} and user_id=#{userId} and id!=#{id}
+    </select>
+    <select id="getKnowledgeByIdAndUserId" resultType="com.guoguo.fengyulou.entity.knowledge.Knowledge">
+        select id,`name`,sketch from fengyulou_knowledge where id=#{id} and user_id=#{userId} limit 1
+    </select>
+    <select id="getKnowledgeCountByNameAndUserId" resultType="java.lang.Integer">
+        select ifnull(count(1),0) from fengyulou_knowledge where `name`=#{name} and user_id=#{userId}
+    </select>
+</mapper>

@@ -9,10 +9,17 @@
     <form class="form-horizontal data-form" id="dataForm">
         <input type="hidden" name="id" id="dataId" value="${(data.id)!}">
         <div class="form-group">
-            <label class="col-md-2 control-label text-danger">项目名称</label>
+            <label class="col-md-2 control-label text-danger">知识名称</label>
             <div class="col-md-5">
                 <input name="name" type="text" class="form-control" id="name" value="${(data.name)!}"
-                       placeholder="请输入项目名称">
+                       placeholder="知识名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label text-danger">知识简述</label>
+            <div class="col-md-5">
+                <input name="sketch" type="text" class="form-control" id="sketch" value="${(data.sketch)!}"
+                       placeholder="知识简述">
             </div>
         </div>
         <div class="form-group">
@@ -29,7 +36,7 @@
 <script>
     // 保存数据
     $("#fengyulou-save").on("click", function () {
-        ajaxFunParam("/fyl/project/ajax/save", $("#dataForm").serialize(), function (data) {
+        ajaxFunParam("/fyl/knowledge/ajax/save", $("#dataForm").serialize(), function (data) {
             msgFunCallBack(data.msg,function(){
                 if (data.status == 0) {
                     $("#dataId").val(data.data)

@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <#assign title="用户列表">
-    <#include "../common/header-script.ftl">
+    <#assign title="指令列表">
+    <#include "../../common/header-script.ftl">
 </head>
 <body>
 <div class="admin">
-    <#include "../common/layout-left.ftl">
+    <#include "../../common/layout-left.ftl">
     <div class="admin-right">
-        <#include "../common/layout-navtitle.ftl">
+        <#include "../../common/layout-navtitle.ftl">
         <div class="parcel">
             <div class="parcel-head">
                 <form class="search-from" method="post" id="searchForm">
                     <input type="hidden" name="pageNum" id="pageNum">
                     <div class="row">
-                        <div class="col-md-2">
-                            <input name="loginName" id="loginName" type="text" class="form-control"
-                                   value="${(data.loginName)!}"
-                                   placeholder="用户账号">
+                        <div class="col-md-3">
+                            <input name="knowledgeName" id="knowledgeName" type="text" class="form-control"
+                                   value="${(data.knowledgeName)!}"
+                                   placeholder="知识名称">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <input name="name" id="name" type="text" class="form-control" value="${(data.name)!}"
-                                   placeholder="用户姓名">
+                                   placeholder="指令名称">
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-info" data-page="1" id="fengyulou-search">查询</button>
@@ -41,33 +41,33 @@
                     <thead>
                     <tr>
                         <th width="2%"><input type="checkbox" class="checkall"></th>
-                        <th><strong>用户账号</strong></th>
-                        <th><strong>用户姓名</strong></th>
+                        <th width="30%"><strong>指令名称</strong></th>
+                        <th><strong>指令简述</strong></th>
                     </tr>
                     </thead>
                     <tbody>
             <#list pageInfo.list as data>
             <tr>
                 <td><input type="checkbox" name="ids" value="${data.id}" class="checkbox"></td>
-                <td>${(data.loginName)!}</td>
-                <td>${(data.name)!"暂无"}</td>
+                <td class="clearfix"><div class="pull-left" id="copyText${data.id}">${(data.name)!}</div><div class="pull-right"><button type="button" class="btn btn-primary btn-xs copy" id="${data.id}">复制</button></div></td>
+                <td>${(data.sketch)!}</td>
             </tr>
             </#list>
                     </tbody>
                 </table>
-        <#include "../common/layout-page.ftl">
+    <#include "../../common/layout-page.ftl">
             </div>
         </div>
     </div>
 </div>
 
-<#include "../common/footer-script.ftl">
+<#include "../../common/footer-script.ftl">
 <script>
     $(function () {
         // 添加
         $('#fengyulou-insert').on('click', function () {
-            openPageEnd('/fyl/user/insert', function () {
-                location.reload()
+            openPageEnd('/fyl/instruct/insert', function () {
+                location.reload();
             })
         })
         // 修改
@@ -76,8 +76,8 @@
                 return;
             }
             var id = $(".checkbox:checked")[0].value;
-            openPageEnd('/fyl/user/update/' + id, function () {
-                location.reload()
+            openPageEnd('/fyl/instruct/update?id=' + id, function () {
+                location.reload();
             })
         })
         // 删除
@@ -85,7 +85,7 @@
             if (!checkSelect("请选择数据")) {
                 return;
             }
-            delFun('/fyl/user/ajax/delete', $("#dataForm").serialize(), function (data) {
+            delFun('/fyl/instruct/ajax/delete', $("#dataForm").serialize(), function (data) {
                 msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
                         location.reload()
@@ -94,9 +94,10 @@
             })
         })
     })
+
     // 查询数据
     function searchData() {
-        ajaxFunParamText("/fyl/user/ajax/list", $("#searchForm").serialize(), function (data) {
+        ajaxFunParamText("/fyl/instruct/ajax/list", $("#searchForm").serialize(), function (data) {
             $(".parcel-body").html(data);
             initCallBack();
         })

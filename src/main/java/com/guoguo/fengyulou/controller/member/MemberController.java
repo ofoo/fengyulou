@@ -70,10 +70,6 @@ public class MemberController {
         MemberLabel memberLabel = new MemberLabel();
         memberLabel.setUserId(currentUserManager.getUserId());
         request.setAttribute("memberLabelList", memberLabelService.getMemberLabelList(memberLabel));
-        // task=任务页面打开
-        String str = request.getParameter("str");
-        logger.info("str={}", str);
-        request.setAttribute("str", str);
         return "member/member-save";
     }
 

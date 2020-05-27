@@ -72,7 +72,9 @@
     $(function () {
         // 添加
         $('#fengyulou-insert').on('click', function () {
-            openPage('/fyl/member/insert')
+            openPageEnd('/fyl/member/insert', function () {
+                location.reload()
+            })
         })
         // 修改
         $('#fengyulou-update').on('click', function () {
@@ -80,7 +82,9 @@
                 return;
             }
             var id = $(".checkbox:checked")[0].value;
-            openPage('/fyl/member/update?id=' + id)
+            openPageEnd('/fyl/member/update?id=' + id, function () {
+                location.reload()
+            })
         })
         // 删除
         $('#fengyulou-delete').on('click', function () {
@@ -96,10 +100,12 @@
             })
         })
     })
+
     // 查询数据
     function searchData() {
         ajaxFunParamText("/fyl/member/ajax/list", $("#searchForm").serialize(), function (data) {
             $(".parcel-body").html(data);
+            initCallBack();
         })
     }
 </script>

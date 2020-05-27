@@ -63,12 +63,12 @@
                     <thead>
                     <tr>
                         <th width="2%"><input type="checkbox" class="checkall"></th>
-                        <th width="10%"><strong>项目名称</strong></th>
+                        <th width="8%"><strong>项目名称</strong></th>
                         <th><strong>任务简述</strong></th>
-                        <th width="9%"><strong>任务状态</strong></th>
-                        <th width="9%"><strong>任务标签</strong></th>
-                        <th width="9%"><strong>完成时间</strong></th>
-                        <th width="6%"><strong>执行人</strong></th>
+                        <th width="8%"><strong>任务状态</strong></th>
+                        <th width="8%"><strong>任务标签</strong></th>
+                        <th width="8%"><strong>完成时间</strong></th>
+                        <th width="8%"><strong>执行人</strong></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -101,7 +101,9 @@
     $(function () {
         // 添加
         $('#fengyulou-insert').on('click', function () {
-            openPage('/fyl/task/insert')
+            openPageEnd('/fyl/task/insert', function () {
+                location.reload();
+            })
         })
         // 修改
         $('#fengyulou-update').on('click', function () {
@@ -109,7 +111,9 @@
                 return;
             }
             var id = $(".checkbox:checked")[0].value;
-            openPage('/fyl/task/update?id=' + id)
+            openPageEnd('/fyl/task/update?id=' + id, function () {
+                location.reload();
+            })
         })
         // 删除
         $('#fengyulou-delete').on('click', function () {
@@ -142,6 +146,7 @@
     function searchData() {
         ajaxFunParamText("/fyl/task/ajax/list", $("#searchForm").serialize(), function (data) {
             $(".parcel-body").html(data);
+            initCallBack();
         })
     }
 </script>

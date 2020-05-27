@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.guoguo.fengyulou.dao.knowledge.instruct.InstructDao">
+    <insert id="insertInstruct" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into fengyulou_instruct(`name`,sketch,user_id,insert_time) values (#{name},#{sketch},#{userId},now())
+    </insert>
+    <update id="updateInstructByIdAndUserId">
+        update fengyulou_instruct set `name`=#{name},sketch=#{sketch},update_time=now() where id=#{id} and user_id=#{userId}
+    </update>
+    <update id="deleteInstructByIdsAndUserId">
+        update fengyulou_instruct set `delete`=1,delete_time=now() where id in
+        <foreach collection="ids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and user_id=#{userId}
+    </update>
+
+    <select id="getInstructList" resultType="com.guoguo.fengyulou.entity.knowledge.instruct.Instruct">
+        select
+        fengyulou_instruct.id,
+        fengyulou_instruct.`name`,
+        fengyulou_instruct.sketch,
+        fengyulou_knowledge.name knowledgeName
+        from fengyulou_instruct
+        left join fengyulou_knowledge on fengyulou_instruct.knowledge_id=fengyulou_knowledge.id
+        <where>
+            fengyulou_instruct.`delete`=0
+            and fengyulou_instruct.user_id=#{userId}
+            <if test="name!=null and name!=''">
+                and fengyulou_instruct.`name` like concat('%',#{name},'%')
+            </if>
+            <if test="knowledgeName!=null and knowledgeName!=''">
+                and fengyulou_knowledge.`name` like concat('%',#{knowledgeName},'%')
+            </if>
+        </where>
+        order by fengyulou_instruct.id desc
+    </select>
+    <select id="getInstructCountByInstruct" resultType="java.lang.Integer">
+        select ifnull(count(1),0) from fengyulou_instruct where `name`=#{name} and user_id=#{userId} and id!=#{id}
+    </select>
+    <select id="getInstructByIdAndUserId" resultType="com.guoguo.fengyulou.entity.knowledge.instruct.Instruct">
+        select id,`name`,sketch,knowledge_id from fengyulou_instruct where id=#{id} and user_id=#{userId} limit 1
+    </select>
+    <select id="getInstructCountByNameByUserId" resultType="java.lang.Integer">
+        select ifnull(count(1),0) from fengyulou_instruct where `name`=#{name} and user_id=#{userId}
+    </select>
+</mapper>

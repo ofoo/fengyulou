@@ -23,4 +23,3 @@
     </tbody>
 </table>
 <#include "../common/layout-page.ftl">
-<script src="/js/ajaxListInit.js"></script>

@@ -59,7 +59,9 @@
     $(function () {
         // 添加
         $('#fengyulou-insert').on('click', function () {
-            openPage('/fyl/taskLabel/insert')
+            openPageEnd('/fyl/taskLabel/insert', function () {
+                location.reload()
+            })
         })
         // 修改
         $('#fengyulou-update').on('click', function () {
@@ -67,7 +69,9 @@
                 return;
             }
             var id = $(".checkbox:checked")[0].value;
-            openPage('/fyl/taskLabel/update?id=' + id)
+            openPageEnd('/fyl/taskLabel/update?id=' + id, function () {
+                location.reload()
+            })
         })
         // 删除
         $('#fengyulou-delete').on('click', function () {
@@ -87,6 +91,7 @@
     function searchData() {
         ajaxFunParamText("/fyl/taskLabel/ajax/list", $("#searchForm").serialize(), function (data) {
             $(".parcel-body").html(data);
+            initCallBack();
         })
     }
 </script>

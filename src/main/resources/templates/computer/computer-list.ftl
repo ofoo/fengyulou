@@ -11,39 +11,39 @@
         <#include "../common/layout-navtitle.ftl">
         <div class="parcel">
             <div class="parcel-head">
-            <form class="search-from" method="post" action="/fyl/computer/list/page">
-                <input type="hidden" name="pageNum" id="pageNum">
-                <div class="row form-group">
-                    <div class="col-md-3">
-                        <input name="projectName" id="projectName" type="text" class="form-control"
-                               value="${(data.projectName)!}" placeholder="项目名称">
+                <form class="search-from" method="post" action="/fyl/computer/list/page">
+                    <input type="hidden" name="pageNum" id="pageNum">
+                    <div class="row form-group">
+                        <div class="col-md-3">
+                            <input name="projectName" id="projectName" type="text" class="form-control"
+                                   value="${(data.projectName)!}" placeholder="项目名称">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-info" data-page="1" id="fengyulou-search">查询</button>
+                            <button type="button" class="btn btn-warning" id="fengyulou-clear">清空</button>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-info" data-page="1" id="fengyulou-search">查询</button>
-                        <button type="button" class="btn btn-warning" id="fengyulou-clear">清空</button>
-                    </div>
+                </form>
+                <div class="fun-btn btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-success" id="fengyulou-insert">添加</button>
+                    <button type="button" class="btn btn-primary" id="fengyulou-update">修改</button>
+                    <button type="button" class="btn btn-danger" id="fengyulou-delete">删除</button>
                 </div>
-            </form>
-            <div class="fun-btn btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-success" id="fengyulou-insert">添加</button>
-                <button type="button" class="btn btn-primary" id="fengyulou-update">修改</button>
-                <button type="button" class="btn btn-danger" id="fengyulou-delete">删除</button>
-            </div>
-            <form id="dataForm"></form>
+                <form id="dataForm"></form>
             </div>
             <div class="parcel-body">
-            <table class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th width="2%"><input type="checkbox" class="checkall"></th>
-                    <th width="15%"><strong>项目名称</strong></th>
-                    <th width="15%"><strong>主机</strong></th>
-                    <th width="15%"><strong>端口</strong></th>
-                    <th width="15%"><strong>账号</strong></th>
-                    <th><strong>密码</strong></th>
-                </tr>
-                </thead>
-                <tbody>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th width="2%"><input type="checkbox" class="checkall"></th>
+                        <th width="15%"><strong>项目名称</strong></th>
+                        <th width="15%"><strong>主机</strong></th>
+                        <th width="15%"><strong>端口</strong></th>
+                        <th width="15%"><strong>账号</strong></th>
+                        <th><strong>密码</strong></th>
+                    </tr>
+                    </thead>
+                    <tbody>
             <#list pageInfo.list as data>
             <tr>
                 <td><input type="checkbox" name="ids" value="${data.id}" class="checkbox"></td>
@@ -54,8 +54,8 @@
                 <td>${(data.password)!}</td>
             </tr>
             </#list>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
         <#include "../common/layout-page.ftl">
             </div>
         </div>
@@ -67,7 +67,9 @@
     $(function () {
         // 添加
         $('#fengyulou-insert').on('click', function () {
-            openPage('/fyl/computer/insert')
+            openPageEnd('/fyl/computer/insert', function () {
+                location.reload()
+            })
         })
         // 修改
         $('#fengyulou-update').on('click', function () {
@@ -75,7 +77,9 @@
                 return;
             }
             var id = $(".checkbox:checked")[0].value;
-            openPage('/fyl/computer/update?id=' + id)
+            openPageEnd('/fyl/computer/update?id=' + id, function () {
+                location.reload()
+            })
         })
         // 删除
         $('#fengyulou-delete').on('click', function () {
@@ -91,6 +95,7 @@
             })
         })
     })
+
     // 查询数据
     function searchData() {
         ajaxFunParamText("/fyl/computer/ajax/list", $("#searchForm").serialize(), function (data) {

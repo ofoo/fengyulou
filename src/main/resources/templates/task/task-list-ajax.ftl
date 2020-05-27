@@ -2,12 +2,12 @@
     <thead>
     <tr>
         <th width="2%"><input type="checkbox" class="checkall"></th>
-        <th width="10%"><strong>项目名称</strong></th>
+        <th width="8%"><strong>项目名称</strong></th>
         <th><strong>任务简述</strong></th>
-        <th width="9%"><strong>任务状态</strong></th>
-        <th width="9%"><strong>任务标签</strong></th>
-        <th width="9%"><strong>完成时间</strong></th>
-        <th width="6%"><strong>执行人</strong></th>
+        <th width="8%"><strong>任务状态</strong></th>
+        <th width="8%"><strong>任务标签</strong></th>
+        <th width="8%"><strong>完成时间</strong></th>
+        <th width="8%"><strong>执行人</strong></th>
     </tr>
     </thead>
     <tbody>
@@ -30,4 +30,3 @@
     </tbody>
 </table>
 <#include "../common/layout-page.ftl">
-<script src="/js/ajaxListInit.js"></script>

@@ -70,7 +70,7 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="button" class="btn btn-primary" id="fengyulou-save">提交</button>
                 <button type="reset" class="btn btn-primary">重置</button>
-                <button type="button" class="btn btn-danger" id="fengyulou-close-refresh">关闭</button>
+                <button type="button" class="btn btn-danger" id="fengyulou-close">关闭</button>
             </div>
         </div>
     </form>
@@ -106,7 +106,11 @@
     })
     // 添加执行人
     $("#member-insert").on("click", function () {
-        openPage("/fyl/member/insert?str=task");
+        openPageEnd("/fyl/member/insert",function () {
+            ajaxFunText("/fyl/member/ajax/content", function (data) {
+                $("#memberId").html(data);
+            })
+        });
     })
     // 保存任务
     $("#fengyulou-save").on("click", function () {
@@ -118,13 +122,6 @@
             })
         })
     })
-
-    // 刷新人员下拉选
-    function initFun(){
-        ajaxFunText("/fyl/member/ajax/content", function (data) {
-            $("#memberId").html(data);
-        })
-    }
 </script>
 </body>
 </html>
