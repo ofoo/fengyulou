@@ -1,5 +1,5 @@
 <div class="page-header clearfix">
-    <h1 class="clearfix">${title}
+    <h1 class="clearfix" style="line-height: 100%">${title}
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">

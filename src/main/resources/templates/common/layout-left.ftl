@@ -1,6 +1,6 @@
 <div class="admin-left">
     <div class="page-header">
-        <h1>风雨楼</h1>
+        <h1 style="line-height: 100%">风雨楼</h1>
     </div>
     <div class="menu">
         <#--<ul>
