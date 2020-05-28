@@ -49,7 +49,7 @@
             <#list pageInfo.list as data>
             <tr>
                 <td><input type="checkbox" name="ids" value="${data.id}" class="checkbox"></td>
-                <td class="clearfix"><div class="pull-left" id="copyText${data.id}">${(data.name)!}</div><div class="pull-right"><button type="button" class="btn btn-primary btn-xs copy" id="${data.id}">复制</button></div></td>
+                <td class="clearfix"><div class="pull-left" style="width: 80%" id="copyText${data.id}">${(data.name)!}</div><div class="pull-right"><button type="button" class="btn btn-primary btn-xs copy" id="${data.id}">复制</button></div></td>
                 <td>${(data.sketch)!}</td>
             </tr>
             </#list>
