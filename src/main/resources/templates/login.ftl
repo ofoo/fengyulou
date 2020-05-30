@@ -23,10 +23,10 @@
                 <h1 class="text-center" style="margin: 0px">风雨楼</h1>
             </div>
             <div class="form-group">
-                <input type="text" name="loginName" class="form-control" placeholder="账号" value="郭超">
+                <input type="text" name="loginName" class="form-control" placeholder="账号" value="">
             </div>
             <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="密码" value="123">
+                <input type="password" name="password" class="form-control" placeholder="密码" value="">
             </div>
             <div class="form-group">
                 <button id="fengyulou-login" type="button" class="btn btn-primary btn-block">登录</button>
