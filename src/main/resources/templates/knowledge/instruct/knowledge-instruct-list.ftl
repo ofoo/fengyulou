@@ -69,7 +69,7 @@
         // 添加
         $('#fengyulou-insert').on('click', function () {
             openPageEnd('/fyl/instruct/insert', function () {
-                location.reload();
+                // location.reload();
             })
         })
         // 修改
@@ -79,7 +79,13 @@
             }
             var id = $(".checkbox:checked")[0].value;
             openPageEnd('/fyl/instruct/update?id=' + id, function () {
-                location.reload();
+                searchData();
+            })
+        })
+        // 修改
+        $('.fyl-update').on('click', function () {
+            openPageEnd('/fyl/instruct/update?id=' + $(this).data("id"), function () {
+                searchData()
             })
         })
         // 删除
@@ -88,6 +94,16 @@
                 return;
             }
             delFun('/fyl/instruct/ajax/delete', $("#dataForm").serialize(), function (data) {
+                msgFunCallBack(data.msg, function () {
+                    if (data.status == 0) {
+                        location.reload()
+                    }
+                })
+            })
+        })
+        //删除
+        $('.fyl-delete').on('click', function () {
+            delFun('/fyl/instruct/ajax/delete', {"ids":$(this).data("id")}, function (data) {
                 msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
                         location.reload()

@@ -51,7 +51,6 @@
     // 添加项目
     $("#knowledge-insert").on("click", function () {
         openPageEnd("/fyl/knowledge/insert",function(){
-            console.log(123)
             ajaxFunText("/fyl/knowledge/ajax/content", function (data) {
                 $("#knowledgeId").html(data);
             })
@@ -60,7 +59,11 @@
     // 保存任务
     $("#fengyulou-save").on("click", function () {
         ajaxFunParam("/fyl/instruct/ajax/save", $("#dataForm").serialize(), function (data) {
-            msgFun(data.msg)
+            msgFunCallBack(data.msg,function(){
+                if(data.status==0){
+                    parent.searchData()
+                }
+            })
         })
     })
 </script>
