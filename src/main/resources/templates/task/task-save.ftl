@@ -117,7 +117,7 @@
         ajaxFunParam("/fyl/task/ajax/save", $("#dataForm").serialize(), function (data) {
             msgFunCallBack(data.msg,function(){
                 if (data.status == 0) {
-                    $("#dataId").val(data.data)
+                    parent.searchData();
                 }
             })
         })

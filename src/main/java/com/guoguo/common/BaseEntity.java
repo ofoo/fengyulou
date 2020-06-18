@@ -10,6 +10,7 @@ import java.util.Date;
  */
 @Data
 public class BaseEntity implements Serializable {
+    private Long id;
     /**
      * 添加时间
      */

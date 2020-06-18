@@ -8,7 +8,6 @@ import lombok.Data;
  */
 @Data
 public class Computer extends BaseEntity {
-    private Long id;
     /**
      * 项目id
      */

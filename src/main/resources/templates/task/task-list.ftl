@@ -59,7 +59,7 @@
                 <form id="dataForm"></form>
             </div>
             <div class="parcel-body">
-                <table class="table table-bordered table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th width="2%"><input type="checkbox" class="checkall"></th>
@@ -67,7 +67,7 @@
                         <th><strong>任务简述</strong></th>
                         <th width="8%"><strong>任务状态</strong></th>
                         <th width="8%"><strong>任务标签</strong></th>
-                        <th width="8%"><strong>完成时间</strong></th>
+                        <th width="8%"><strong>添加时间</strong></th>
                         <th width="8%"><strong>执行人</strong></th>
                     </tr>
                     </thead>
@@ -81,8 +81,8 @@
                         class="label label-success">已完成</span></#if></td>
                 <td>${(data.taskLabelName)!}</td>
                 <td>
-                    <#if (data.finishTime)??>
-                        ${data.finishTime?date}
+                    <#if (data.isnertTime)??>
+                        ${data.insertTime?date}
                     </#if>
                 </td>
                 <td><span class="label label-primary">${data.memberName}</span></td>
@@ -102,7 +102,7 @@
         // 添加
         $('#fengyulou-insert').on('click', function () {
             openPageEnd('/fyl/task/insert', function () {
-                location.reload();
+                searchData();
             })
         })
         // 修改
@@ -112,7 +112,7 @@
             }
             var id = $(".checkbox:checked")[0].value;
             openPageEnd('/fyl/task/update?id=' + id, function () {
-                location.reload();
+                searchData();
             })
         })
         // 删除
@@ -123,7 +123,7 @@
             delFun('/fyl/task/ajax/delete', $("#dataForm").serialize(), function (data) {
                 msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
-                        location.reload()
+                        searchData();
                     }
                 })
             })

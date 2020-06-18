@@ -11,19 +11,19 @@
         <div class="form-group">
             <label class="col-md-2 control-label text-danger">指令名称</label>
             <div class="col-md-5">
-                <input name="name" type="text" class="form-control" id="name" value="${(data.name)!}"
-                       placeholder="指令名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label text-danger">指令简述</label>
-            <div class="col-md-5">
                 <input name="sketch" type="text" class="form-control" id="sketch" value="${(data.sketch)!}"
                        placeholder="指令简述">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label text-danger">知识名称</label>
+            <label class="col-md-2 control-label text-danger">指令</label>
+            <div class="col-md-5">
+                <input name="name" type="text" class="form-control" id="name" value="${(data.name)!}"
+                       placeholder="指令名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-danger">类型</label>
             <div class="col-sm-3">
                 <select class="form-control" id="knowledgeId" name="knowledgeId">
                     <#list knowledgeList as item>
@@ -51,7 +51,6 @@
     // 添加项目
     $("#knowledge-insert").on("click", function () {
         openPageEnd("/fyl/knowledge/insert",function(){
-            console.log(123)
             ajaxFunText("/fyl/knowledge/ajax/content", function (data) {
                 $("#knowledgeId").html(data);
             })
@@ -60,7 +59,11 @@
     // 保存任务
     $("#fengyulou-save").on("click", function () {
         ajaxFunParam("/fyl/instruct/ajax/save", $("#dataForm").serialize(), function (data) {
-            msgFun(data.msg)
+            msgFunCallBack(data.msg,function(){
+                if(data.status==0){
+                    parent.searchData()
+                }
+            })
         })
     })
 </script>

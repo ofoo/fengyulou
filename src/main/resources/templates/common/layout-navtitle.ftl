@@ -1,7 +1,7 @@
 <div class="page-header clearfix">
     <h1 class="clearfix" style="line-height: 100%">${title}
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
             ${curUser.name} <span class="caret"></span>
             </button>

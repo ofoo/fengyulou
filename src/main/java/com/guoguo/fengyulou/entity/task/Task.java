@@ -11,7 +11,6 @@ import java.util.Date;
  */
 @Data
 public class Task extends BaseEntity {
-    private Long id;
     /**
      * 项目id
      */

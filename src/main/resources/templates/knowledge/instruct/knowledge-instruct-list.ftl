@@ -37,20 +37,22 @@
                 <form id="dataForm"></form>
             </div>
             <div class="parcel-body">
-                <table class="table table-bordered table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th width="2%"><input type="checkbox" class="checkall"></th>
-                        <th width="30%"><strong>指令名称</strong></th>
-                        <th><strong>指令简述</strong></th>
+                        <th width="15%"><strong>指令名称</strong></th>
+                        <th width="10%"><strong>类型</strong></th>
+                        <th><strong>指令</strong></th>
                     </tr>
                     </thead>
                     <tbody>
             <#list pageInfo.list as data>
             <tr>
                 <td><input type="checkbox" name="ids" value="${data.id}" class="checkbox"></td>
-                <td class="clearfix"><div class="pull-left" style="width: 80%;overflow: hidden;" id="copyText${data.id}"><span class="label label-success">${(data.name)!}</span></div><div class="pull-right"><button type="button" class="btn btn-primary btn-xs copy" id="${data.id}">复制</button></div></td>
                 <td>${(data.sketch)!}</td>
+                <td>${(data.knowledgeName)!}</td>
+                <td class="clearfix"><div class="pull-left" style="width: 80%;overflow: hidden;" id="copyText${data.id}"><span class="label label-success">${(data.name)!}</span></div><div class="pull-right"><button type="button" class="btn btn-primary btn-xs copy" id="${data.id}">复制</button></div></td>
             </tr>
             </#list>
                     </tbody>
@@ -67,7 +69,7 @@
         // 添加
         $('#fengyulou-insert').on('click', function () {
             openPageEnd('/fyl/instruct/insert', function () {
-                location.reload();
+                searchData();
             })
         })
         // 修改
@@ -77,7 +79,7 @@
             }
             var id = $(".checkbox:checked")[0].value;
             openPageEnd('/fyl/instruct/update?id=' + id, function () {
-                location.reload();
+                searchData();
             })
         })
         // 删除
@@ -88,7 +90,7 @@
             delFun('/fyl/instruct/ajax/delete', $("#dataForm").serialize(), function (data) {
                 msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
-                        location.reload()
+                        searchData();
                     }
                 })
             })

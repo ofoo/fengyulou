@@ -30,7 +30,11 @@
     // 保存任务
     $("#fengyulou-save").on("click", function () {
         ajaxFunParam("/fyl/memberLabel/ajax/save", $("#dataForm").serialize(), function (data) {
-            msgFun(data.msg)
+            msgFunCallBack(data.msg,function(){
+                if (data.status == 0) {
+                    parent.searchData();
+                }
+            })
         })
     })
 </script>

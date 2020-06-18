@@ -32,7 +32,7 @@
                 <form id="dataForm"></form>
             </div>
             <div class="parcel-body">
-                <table class="table table-bordered table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th width="2%"><input type="checkbox" class="checkall"></th>
@@ -68,7 +68,7 @@
         // 添加
         $('#fengyulou-insert').on('click', function () {
             openPageEnd('/fyl/computer/insert', function () {
-                location.reload()
+                searchData();
             })
         })
         // 修改
@@ -78,7 +78,7 @@
             }
             var id = $(".checkbox:checked")[0].value;
             openPageEnd('/fyl/computer/update?id=' + id, function () {
-                location.reload()
+                searchData();
             })
         })
         // 删除
@@ -89,7 +89,7 @@
             delFun('/fyl/computer/ajax/delete', $("#dataForm").serialize(), function (data) {
                 msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
-                        location.reload()
+                        searchData();
                     }
                 })
             })
