@@ -1,8 +1,8 @@
-<table class="table table-hover">
+<table class="table table-bordered table-hover">
     <thead>
     <tr>
         <th width="2%"><input type="checkbox" class="checkall"></th>
-        <th><strong>项目名称</strong></th>
+        <th><strong>${explain}名称</strong></th>
     </tr>
     </thead>
     <tbody>

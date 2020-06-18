@@ -8,7 +8,6 @@ import lombok.Data;
  */
 @Data
 public class TaskLabel extends BaseEntity {
-    private Long id;
     /**
      * 名称
      */

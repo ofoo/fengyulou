@@ -11,19 +11,19 @@
         <div class="form-group">
             <label class="col-md-2 control-label text-danger">指令名称</label>
             <div class="col-md-5">
-                <input name="name" type="text" class="form-control" id="name" value="${(data.name)!}"
-                       placeholder="指令名称">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label text-danger">指令简述</label>
-            <div class="col-md-5">
                 <input name="sketch" type="text" class="form-control" id="sketch" value="${(data.sketch)!}"
                        placeholder="指令简述">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label text-danger">知识名称</label>
+            <label class="col-md-2 control-label text-danger">指令</label>
+            <div class="col-md-5">
+                <input name="name" type="text" class="form-control" id="name" value="${(data.name)!}"
+                       placeholder="指令名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label text-danger">类型</label>
             <div class="col-sm-3">
                 <select class="form-control" id="knowledgeId" name="knowledgeId">
                     <#list knowledgeList as item>

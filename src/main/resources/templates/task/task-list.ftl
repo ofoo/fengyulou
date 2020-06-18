@@ -59,7 +59,7 @@
                 <form id="dataForm"></form>
             </div>
             <div class="parcel-body">
-                <table class="table table-bordered table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th width="2%"><input type="checkbox" class="checkall"></th>

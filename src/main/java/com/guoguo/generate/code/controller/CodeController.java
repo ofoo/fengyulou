@@ -27,7 +27,6 @@ public class CodeController {
      */
     @RequestMapping("/code")
     public String index(Model model) {
-        codeService.test();
         return "generate/code/generate-code";
     }
 
@@ -41,9 +40,7 @@ public class CodeController {
     @RequestMapping("/create/code")
     public String createCode(Model model, Code code) {
         // 执行操作
-        List<CodeFile> codeFileList = codeService.createCode(code);
-        // 封装结果
-        model.addAttribute("list", codeFileList);
+        codeService.createCode(code);
         // 返回页面
         return "code-show";
     }

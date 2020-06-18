@@ -1,12 +1,11 @@
 package com.guoguo.generate.code.service;
 
-import com.guoguo.fengyulou.Template;
+import com.guoguo.generate.code.config.CodeConfig;
 import com.guoguo.generate.code.entity.Attr;
 import com.guoguo.generate.code.entity.Code;
 import com.guoguo.generate.code.entity.CodeFile;
 import com.guoguo.generate.code.util.FreemarkerUtils;
 import com.guoguo.generate.code.util.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -18,23 +17,12 @@ import java.util.Map;
 @Service
 public class CodeService {
 
-    //存放代码路径
-    @Value("${fengyulou.generate.code.path}")
-    private String codePath;
-    //代码模板路径
-    @Value("${fengyulou.generate.code.templates.path}")
-    private String codeTemplatePath;
-    //代码包路径
-    @Value("${fengyulou.generate.code.package.path}")
-    private String codePackagePath;
-
-
     /**
      * 创建代码
      *
      * @param code
      */
-    public List<CodeFile> createCode(Code code) {
+    public void createCode(Code code) {
         /* 属性集合 */
         List<Attr> attrList = new ArrayList<>();
         // 属性类型集合
@@ -45,6 +33,8 @@ public class CodeService {
         List<String> updateFieldList = new ArrayList<>();
         // 表分页查询SQL条件集合
         List<String> selectFieldList = new ArrayList<>();
+        //唯一
+        String soleWhere = "";
 
         for (String s : code.getAttr()) {
             String[] array = StringUtils.strTurnStringArray(s, StringUtils.SYMBOL);
@@ -55,6 +45,12 @@ public class CodeService {
             attr.setName(array[1]);
             attr.setDesc(array[2]);
             attrList.add(attr);
+
+            //验证唯一
+            String sole = array[3];
+            if (StringUtils.isBlank(sole) && sole.equals("true")) {
+                soleWhere = "`" + StringUtils.toUnderlineCase(array[1]) + "`" + "=" + "#{" + array[1] + "}";
+            }
 
             // 获取属性类型值
             String attrType = getAttrType(array[0]);
@@ -93,116 +89,85 @@ public class CodeService {
 
         // 封装模板使用到的值
         Map root = new HashMap();
-        root.put("packName", code.getPackName());
+        root.put("packName", CodeConfig.CODE_PACKAGE_PATH);
         root.put("explain", code.getExplain());
         root.put("entity", code.getEntity());
         root.put("attrList", attrList);
         root.put("attrTypeList", attrTypeList);
-        root.put("table", code.getTable());
+        root.put("table", CodeConfig.CODE_TABLE_PREFIX + entity.toLowerCase());
         root.put("fieldList", fieldList);
         root.put("updateFieldList", updateFieldList);
         root.put("selectFieldList", selectFieldList);
         root.put("requestRootUrl", code.getRequestRootUrl());
+        //数据表前缀
+        root.put("tablePrefix", CodeConfig.CODE_TABLE_PREFIX);
+        //唯一条件
+        root.put("soleWhere", soleWhere);
 
-        List<CodeFile> list = new ArrayList<>();
 
         // 生成entity代码
-        File file = new File(code.getCodeFilePath() + "\\entity\\" + entity.toLowerCase());
+        File file = new File(code.getCodeFilePath() + File.separator + "entity" + File.separator + entity.toLowerCase());
         if (!file.exists()) {
             file.mkdirs();
         }
-        FreemarkerUtils.filePath = file.getPath() + "\\" + entity + ".java";
-        CodeFile codeFile = new CodeFile();
-        codeFile.setName(entity + ".java");
-        codeFile.setContent(FreemarkerUtils.createEntity(root));
-        codeFile.setType(CodeFile.ENTITY);
-        list.add(codeFile);
+        FreemarkerUtils.filePath = file.getPath() + File.separator + entity + ".java";
+        FreemarkerUtils.createEntity(root);
 
         // 生成constant代码
-        file = new File(code.getCodeFilePath() + "\\constant\\" + entity.toLowerCase());
+        file = new File(code.getCodeFilePath() + File.separator + "constant" + File.separator + entity.toLowerCase());
         if (!file.exists()) {
             file.mkdirs();
         }
-        FreemarkerUtils.filePath = file.getPath() + "\\" + entityConstant + ".java";
-        codeFile = new CodeFile();
-        codeFile.setName(entityConstant + ".java");
-        codeFile.setContent(FreemarkerUtils.createEntityConstant(root));
-        codeFile.setType(CodeFile.CONSTANT);
-        list.add(codeFile);
+        FreemarkerUtils.filePath = file.getPath() + File.separator + entityConstant + ".java";
+        FreemarkerUtils.createEntityConstant(root);
 
         // 生成dao代码
-        file = new File(code.getCodeFilePath() + "\\dao\\" + entity.toLowerCase());
+        file = new File(code.getCodeFilePath() + File.separator + "dao" + File.separator + entity.toLowerCase());
         if (!file.exists()) {
             file.mkdirs();
         }
-        FreemarkerUtils.filePath = file.getPath() + "\\" + entityDao + ".java";
-        codeFile = new CodeFile();
-        codeFile.setName(entityDao + ".java");
-        codeFile.setContent(FreemarkerUtils.createEntityDao(root));
-        codeFile.setType(CodeFile.DAO);
-        list.add(codeFile);
+        FreemarkerUtils.filePath = file.getPath() + File.separator + entityDao + ".java";
+        FreemarkerUtils.createEntityDao(root);
 
         // 生成service代码
-        file = new File(code.getCodeFilePath() + "\\service\\" + entity.toLowerCase());
+        file = new File(code.getCodeFilePath() + File.separator + "service" + File.separator + entity.toLowerCase());
         if (!file.exists()) {
             file.mkdirs();
         }
-        FreemarkerUtils.filePath = file.getPath() + "\\" + entityService + ".java";
-        codeFile = new CodeFile();
-        codeFile.setName(entityService + ".java");
-        codeFile.setContent(FreemarkerUtils.createEntityService(root));
-        codeFile.setType(CodeFile.SERVICE);
-        list.add(codeFile);
+        FreemarkerUtils.filePath = file.getPath() + File.separator + entityService + ".java";
+        FreemarkerUtils.createEntityService(root);
 
         // 生成controller代码
-        file = new File(code.getCodeFilePath() + "\\controller\\" + entity.toLowerCase());
+        file = new File(code.getCodeFilePath() + File.separator + "controller" + File.separator + entity.toLowerCase());
         if (!file.exists()) {
             file.mkdirs();
         }
-        FreemarkerUtils.filePath = file.getPath() + "\\" + entityController + ".java";
-        codeFile = new CodeFile();
-        codeFile.setName(entityController + ".java");
-        codeFile.setContent(FreemarkerUtils.createEntityController(root));
-        codeFile.setType(CodeFile.CONTROLLER);
-        list.add(codeFile);
+        FreemarkerUtils.filePath = file.getPath() + File.separator + entityController + ".java";
+        FreemarkerUtils.createEntityController(root);
 
         // 生成mapper代码
-        file = new File(code.getMapperFilePath() + "\\" + entity.toLowerCase());
+        file = new File(code.getMapperFilePath() + File.separator + entity.toLowerCase());
         if (!file.exists()) {
             file.mkdirs();
         }
-        FreemarkerUtils.filePath = file.getPath() + "\\" + entityMapper + ".xml";
-        codeFile = new CodeFile();
-        codeFile.setName(entityMapper + ".xml");
-        codeFile.setContent(FreemarkerUtils.createEntityMapper(root));
-        codeFile.setType(CodeFile.MAPPER);
-        list.add(codeFile);
+        FreemarkerUtils.filePath = file.getPath() + File.separator + entityMapper + ".xml";
+        FreemarkerUtils.createEntityMapper(root);
 
         // 生成list.html代码
-        file = new File(code.getPageFilePath() + "\\" + entity.toLowerCase());
+        file = new File(code.getPageFilePath() + File.separator + entity.toLowerCase());
         if (!file.exists()) {
             file.mkdirs();
         }
-        FreemarkerUtils.filePath = file.getPath() + "\\" + entityList + ".html";
-        codeFile = new CodeFile();
-        codeFile.setName(entityList + ".html");
-        codeFile.setContent(FreemarkerUtils.createPageList(root));
-        codeFile.setType(CodeFile.LIST);
-        list.add(codeFile);
+        FreemarkerUtils.filePath = file.getPath() + File.separator + entityList + ".html";
+        FreemarkerUtils.createPageList(root);
 
         // 生成save.html代码
-        file = new File(code.getPageFilePath() + "\\" + entity.toLowerCase());
+        file = new File(code.getPageFilePath() + File.separator + entity.toLowerCase());
         if (!file.exists()) {
             file.mkdirs();
         }
-        FreemarkerUtils.filePath = file.getPath() + "\\" + entitySave + ".html";
-        codeFile = new CodeFile();
-        codeFile.setName(entitySave + ".html");
-        codeFile.setContent(FreemarkerUtils.createPageSave(root));
-        codeFile.setType(CodeFile.SAVE);
-        list.add(codeFile);
-
-        return list;
+        FreemarkerUtils.filePath = file.getPath() + File.separator + entitySave + ".html";
+        FreemarkerUtils.createPageSave(root);
     }
 
     /**
@@ -221,11 +186,5 @@ public class CodeService {
                 break;
         }
         return type;
-    }
-
-    public void test() {
-        System.out.println(codePath);
-        System.out.println(codeTemplatePath);
-        System.out.println(codePackagePath);
     }
 }

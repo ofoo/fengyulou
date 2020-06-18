@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <#assign title="项目列表">
-    <#include "../common/header-script.ftl">
+    ${"<#assign"} title="${explain}列表">
+    ${"<#include"} "../common/header-script.ftl">
 </head>
 <body>
 <div class="admin">
-    <#include "../common/layout-left.ftl">
+    ${"<#include"} "../common/layout-left.ftl">
     <div class="admin-right">
-        <#include "../common/layout-navtitle.ftl">
+        ${"<#include"} "../common/layout-navtitle.ftl">
         <div class="parcel">
             <div class="parcel-head">
                 <form class="search-from" method="post" id="searchForm">
                     <input type="hidden" name="pageNum" id="pageNum">
                     <div class="row">
                         <div class="col-md-3">
-                            <input name="name" id="name" type="text" class="form-control" value="${(data.name)!}"
-                                   placeholder="项目名称">
+                            <input name="name" id="name" type="text" class="form-control" value="$${"{(data.name)!}"}"
+                                   placeholder="${explain}名称">
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-info" data-page="1" id="fengyulou-search">查询</button>
@@ -32,29 +32,29 @@
                 <form id="dataForm"></form>
             </div>
             <div class="parcel-body">
-                <table class="table table-hover">
+                <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
                         <th width="2%"><input type="checkbox" class="checkall"></th>
-                        <th><strong>项目名称</strong></th>
+                        <th><strong>${explain}名称</strong></th>
                     </tr>
                     </thead>
                     <tbody>
-            <#list pageInfo.list as data>
+            ${"<#list"} pageInfo.list as data>
             <tr>
                 <td><input type="checkbox" name="ids" value="${data.id}" class="checkbox"></td>
                 <td>${(data.name)!}</td>
             </tr>
-            </#list>
+            ${"</#list>"}
                     </tbody>
                 </table>
-        <#include "../common/layout-page.ftl">
+        ${"<#include"} "../common/layout-page.ftl">
             </div>
         </div>
     </div>
 </div>
 
-<#include "../common/footer-script.ftl">
+${"<#include"} "../common/footer-script.ftl">
 <script>
     $(function () {
         // 添加

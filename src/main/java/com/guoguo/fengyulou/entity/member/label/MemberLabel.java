@@ -8,7 +8,6 @@ import lombok.Data;
  */
 @Data
 public class MemberLabel extends BaseEntity {
-    private Long id;
     /**
      * 名称
      */

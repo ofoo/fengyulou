@@ -8,7 +8,6 @@ import lombok.Data;
  */
 @Data
 public class Instruct extends BaseEntity {
-    private Long id;
     /**
      * 名称
      */

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 字符串工具类
  */
-public class StringUtils {
+public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(com.guoguo.util.StringUtils.class);
 
