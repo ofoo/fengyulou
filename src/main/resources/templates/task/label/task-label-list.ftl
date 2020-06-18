@@ -60,7 +60,7 @@
         // 添加
         $('#fengyulou-insert').on('click', function () {
             openPageEnd('/fyl/taskLabel/insert', function () {
-                location.reload()
+                searchData();
             })
         })
         // 修改
@@ -70,7 +70,7 @@
             }
             var id = $(".checkbox:checked")[0].value;
             openPageEnd('/fyl/taskLabel/update?id=' + id, function () {
-                location.reload()
+                searchData();
             })
         })
         // 删除
@@ -81,7 +81,7 @@
             delFun('/fyl/taskLabel/ajax/delete', $("#dataForm").serialize(), function (data) {
                 msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
-                        location.reload()
+                        searchData();
                     }
                 })
             })

@@ -148,7 +148,7 @@ function openPageEnd(url, callBack) {
         fixed: false, //不固定
         scrollbar: false,
         // title: false,
-        // closeBtn: false,
+        closeBtn: false,
         // shadeClose: false,
         // content: [url, 'no'],
         content: url,

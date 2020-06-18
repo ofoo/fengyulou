@@ -62,7 +62,7 @@
         // 添加
         $('#fengyulou-insert').on('click', function () {
             openPageEnd('/fyl/knowledge/insert', function () {
-                location.reload();
+                searchData();
             })
         })
         // 修改
@@ -72,7 +72,7 @@
             }
             var id = $(".checkbox:checked")[0].value;
             openPageEnd('/fyl/knowledge/update?id=' + id, function () {
-                location.reload()
+                searchData();
             })
         })
         // 删除
@@ -83,7 +83,7 @@
             delFun('/fyl/knowledge/ajax/delete', $("#dataForm").serialize(), function (data) {
                 msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
-                        location.reload()
+                        searchData();
                     }
                 })
             })
