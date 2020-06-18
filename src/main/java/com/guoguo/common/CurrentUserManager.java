@@ -1,11 +1,10 @@
 package com.guoguo.common;
 
-import com.guoguo.fengyulou.entity.user.User;
+import com.guoguo.fengyulou.user.entity.User;
 import com.guoguo.util.ObjectUtils;
 import com.guoguo.util.StringUtils;
 import com.guoguo.util.WebUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

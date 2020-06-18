@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.guoguo.fengyulou.dao.task.TaskDao">
+<mapper namespace="com.guoguo.fengyulou.task.dao.TaskDao">
     <insert id="insertTask" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_task(project_id, sketch, task_label_id, member_id,user_id,insert_time) values (#{projectId},#{sketch},#{taskLabelId},#{memberId},#{userId},now())
     </insert>
@@ -32,7 +32,7 @@
         and user_id=#{userId}
     </update>
 
-    <select id="getTaskList" resultType="com.guoguo.fengyulou.entity.task.Task">
+    <select id="getTaskList" resultType="com.guoguo.fengyulou.task.entity.Task">
         select
         fengyulou_task.id,
         fengyulou_project.name projectName,
@@ -69,7 +69,7 @@
         </where>
         order by fengyulou_task.status,fengyulou_task.id desc
     </select>
-    <select id="getTaskByIdAndUserId" resultType="com.guoguo.fengyulou.entity.task.Task">
+    <select id="getTaskByIdAndUserId" resultType="com.guoguo.fengyulou.task.entity.Task">
         select
         fengyulou_task.id,
         fengyulou_task.project_id,

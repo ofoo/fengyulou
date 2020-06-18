@@ -2,8 +2,8 @@ package com.guoguo.config;
 
 import com.guoguo.common.CommonConstant;
 import com.guoguo.common.CurrentUserManager;
-import com.guoguo.fengyulou.constant.UserConstant;
-import com.guoguo.fengyulou.entity.user.User;
+import com.guoguo.fengyulou.user.constant.UserConstant;
+import com.guoguo.fengyulou.user.entity.User;
 import com.guoguo.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

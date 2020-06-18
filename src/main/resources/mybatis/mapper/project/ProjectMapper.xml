@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.guoguo.fengyulou.dao.project.ProjectDao">
+<mapper namespace="com.guoguo.fengyulou.project.dao.ProjectDao">
     <insert id="insertProject" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_project(`name`,user_id,insert_time) values (#{name},#{userId},now())
     </insert>
@@ -15,7 +15,7 @@
         and user_id=#{userId}
     </update>
 
-    <select id="getProjectList" resultType="com.guoguo.fengyulou.entity.project.Project">
+    <select id="getProjectList" resultType="com.guoguo.fengyulou.project.entity.Project">
         select id,`name` from fengyulou_project
         <where>
             `delete`=0
@@ -29,7 +29,7 @@
     <select id="getProjectCountByProject" resultType="java.lang.Integer">
         select ifnull(count(1),0) from fengyulou_project where `name`=#{name} and user_id=#{userId} and id!=#{id}
     </select>
-    <select id="getProjectByIdAndUserId" resultType="com.guoguo.fengyulou.entity.project.Project">
+    <select id="getProjectByIdAndUserId" resultType="com.guoguo.fengyulou.project.entity.Project">
         select id,`name` from fengyulou_project where id=#{id} and user_id=#{userId} limit 1
     </select>
     <select id="getProjectCountByNameAndUserId" resultType="java.lang.Integer">

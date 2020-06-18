@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.guoguo.fengyulou.dao.knowledge.KnowledgeDao">
+<mapper namespace="com.guoguo.fengyulou.knowledge.dao.KnowledgeDao">
     <insert id="insertKnowledge" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_knowledge(`name`,sketch,user_id,insert_time) values (#{name},#{sketch},#{userId},now())
     </insert>
@@ -15,7 +15,7 @@
         and user_id=#{userId}
     </update>
 
-    <select id="getKnowledgeList" resultType="com.guoguo.fengyulou.entity.knowledge.Knowledge">
+    <select id="getKnowledgeList" resultType="com.guoguo.fengyulou.knowledge.entity.Knowledge">
         select id,`name`,sketch
         from fengyulou_knowledge
         <where>
@@ -30,7 +30,7 @@
     <select id="getKnowledgeCountByKnowledge" resultType="java.lang.Integer">
         select ifnull(count(1),0) from fengyulou_knowledge where `name`=#{name} and user_id=#{userId} and id!=#{id}
     </select>
-    <select id="getKnowledgeByIdAndUserId" resultType="com.guoguo.fengyulou.entity.knowledge.Knowledge">
+    <select id="getKnowledgeByIdAndUserId" resultType="com.guoguo.fengyulou.knowledge.entity.Knowledge">
         select id,`name`,sketch from fengyulou_knowledge where id=#{id} and user_id=#{userId} limit 1
     </select>
     <select id="getKnowledgeCountByNameAndUserId" resultType="java.lang.Integer">

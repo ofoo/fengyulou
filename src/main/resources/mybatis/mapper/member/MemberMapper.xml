@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.guoguo.fengyulou.dao.member.MemberDao">
+<mapper namespace="com.guoguo.fengyulou.member.dao.MemberDao">
     <insert id="insertMember" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_member(`name`,member_label_id,mobile,user_id,insert_time) values (#{name},#{memberLabelId},#{mobile},#{userId},now())
     </insert>
@@ -15,7 +15,7 @@
         and user_id=#{userId}
     </update>
 
-    <select id="getMemberList" resultType="com.guoguo.fengyulou.entity.member.Member">
+    <select id="getMemberList" resultType="com.guoguo.fengyulou.member.entity.Member">
         select
         fengyulou_member.id,
         fengyulou_member.`name`,
@@ -44,7 +44,7 @@
     <select id="getMemberCountByMobileAndUserId" resultType="java.lang.Integer">
         select ifnull(count(1),0) from fengyulou_member where mobile=#{mobile} and user_id=#{userId}
     </select>
-    <select id="getMemberByIdAndUserId" resultType="com.guoguo.fengyulou.entity.member.Member">
+    <select id="getMemberByIdAndUserId" resultType="com.guoguo.fengyulou.member.entity.Member">
         select id,`name`,member_label_id,mobile from fengyulou_member where id=#{id} and user_id=#{userId} limit 1
     </select>
 </mapper>

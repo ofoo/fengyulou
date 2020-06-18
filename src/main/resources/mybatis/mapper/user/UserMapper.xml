@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.guoguo.fengyulou.dao.user.UserDao">
+<mapper namespace="com.guoguo.fengyulou.user.dao.UserDao">
     <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into fengyulou_user(login_name,password,`name`,insert_time) value(#{loginName},#{password},#{name},now())
     </insert>
@@ -18,10 +18,10 @@
         </foreach>
     </update>
 
-    <select id="getUserByLoginName" resultType="com.guoguo.fengyulou.entity.user.User">
+    <select id="getUserByLoginName" resultType="com.guoguo.fengyulou.user.entity.User">
         select id,login_name,password,`name`,`type` from fengyulou_user where login_name=#{loginName} and `delete`=0
     </select>
-    <select id="getUserList" resultType="com.guoguo.fengyulou.entity.user.User">
+    <select id="getUserList" resultType="com.guoguo.fengyulou.user.entity.User">
         select
         id,
         login_name,
@@ -38,7 +38,7 @@
         </where>
         order by id desc
     </select>
-    <select id="getUserById" resultType="com.guoguo.fengyulou.entity.user.User">
+    <select id="getUserById" resultType="com.guoguo.fengyulou.user.entity.User">
         select id,login_name,`name` from fengyulou_user where id=#{id} limit 1
     </select>
     <select id="getUserCountByProject" resultType="java.lang.Integer">

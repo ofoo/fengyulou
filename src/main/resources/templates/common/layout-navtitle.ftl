@@ -7,6 +7,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="javascript:void(0)" id="fengyulou-pwd">修改密码</a></li>
+                <li role="separator" class="divider"></li>
                 <li><a href="/fyl/user/logout">退出</a></li>
             </ul>
         </div>
