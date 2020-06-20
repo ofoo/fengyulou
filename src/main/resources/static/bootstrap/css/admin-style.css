@@ -1,10 +1,9 @@
-.admin .admin-left, .admin .admin-right {
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-}
-
 .admin-left {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
     width: 13%;
     border-right: 1px solid #ddd;
     text-align: center;
@@ -29,8 +28,12 @@
 }
 
 .admin-right {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
     width: 87%;
-    left: 13%;
 }
 
 .admin-right .page-header{

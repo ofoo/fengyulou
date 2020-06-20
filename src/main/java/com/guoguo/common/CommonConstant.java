@@ -24,7 +24,7 @@ public class CommonConstant {
     /**
      * 首页面
      */
-    public static final String INDEX = "/fyl/task/list/page";
+    public static final String INDEX = "/fyl/task/list";
     /**
      * 登录页
      */
