@@ -101,7 +101,7 @@
     $(function () {
         // 添加
         $('#fengyulou-insert').on('click', function () {
-            openPageEnd('/fyl/task/insert', function () {
+            openPageEnd('添加任务','/fyl/task/insert', function () {
                 searchData();
             })
         })
@@ -111,7 +111,7 @@
                 return;
             }
             var id = $(".checkbox:checked")[0].value;
-            openPageEnd('/fyl/task/update?id=' + id, function () {
+            openPageEnd('修改任务','/fyl/task/update?id=' + id, function () {
                 searchData();
             })
         })

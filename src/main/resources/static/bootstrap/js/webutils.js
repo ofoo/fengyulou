@@ -140,21 +140,21 @@ function openPage(url) {
 }
 
 //打开页面，带页面关闭回调
-function openPageEnd(url, callBack) {
+function openPageEnd(title,url, callBack) {
     layer.closeAll('iframe');
     layer.open({
         type: 2,
-        area: ['40%', '100%'],
+        area: ['50%', '50%'],
         fixed: false, //不固定
         scrollbar: false,
-        // title: false,
-        closeBtn: false,
+        title: title,
+        closeBtn: true,
         // shadeClose: false,
         // content: [url, 'no'],
         content: url,
-        offset: 'rb',
-        shade: 0,
-        anim: 2,
+        // offset: 'rb',
+        // shade: 0,
+        // anim: 2,
         end: callBack
     })
 }

@@ -67,7 +67,7 @@
     $(function () {
         // 添加
         $('#fengyulou-insert').on('click', function () {
-            openPageEnd('/fyl/computer/insert', function () {
+            openPageEnd('添加机器','/fyl/computer/insert', function () {
                 searchData();
             })
         })
@@ -77,7 +77,7 @@
                 return;
             }
             var id = $(".checkbox:checked")[0].value;
-            openPageEnd('/fyl/computer/update?id=' + id, function () {
+            openPageEnd('修改机器','/fyl/computer/update?id=' + id, function () {
                 searchData();
             })
         })

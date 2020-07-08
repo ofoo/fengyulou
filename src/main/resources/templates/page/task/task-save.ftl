@@ -106,7 +106,7 @@
     })
     // 添加执行人
     $("#member-insert").on("click", function () {
-        openPageEnd("/fyl/member/insert",function () {
+        openPageEnd('添加执行人',"/fyl/member/insert",function () {
             ajaxFunText("/fyl/member/ajax/content", function (data) {
                 $("#memberId").html(data);
             })
