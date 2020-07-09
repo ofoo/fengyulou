@@ -46,20 +46,29 @@
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-success" id="member-insert">添加</button>
                 </span>
-            <select class="form-control" id="memberId" name="memberId">
-                <#list memberList as item>
-                    <option value="${item.id}"
-                                <#if ((data.memberId)!0)==item.id>selected</#if>>${item.name}</option>
-                </#list>
-            </select>
+            <div id="memberId" class="xm-select-demo"></div>
+        <#--<select class="form-control" id="memberId" name="memberId">
+            <#list memberList as item>
+                <option value="${item.id}"
+                            <#if ((data.memberId)!0)==item.id>selected</#if>>${item.name}</option>
+            </#list>
+        </select>-->
         </div>
     </div>
     <div class="form-group">
-        <label for="sketch">任务状态</label>
-        <select class="form-control" id="status" name="status">
-            <option value="0" <#if ((data.status)!0)==0>selected</#if>>未完成</option>
-            <option value="1" <#if ((data.status)!0)==1>selected</#if>>已完成</option>
-        </select>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="sketch">开始时间</label>
+                <input type="text" name="startTime" class="form-control" placeholder="开始时间" id="startTime" readonly>
+            </div>
+            <div class="col-md-3">
+                <label for="sketch">任务状态</label>
+                <select class="form-control" id="status" name="status">
+                    <option value="0" <#if ((data.status)!0)==0>selected</#if>>未完成</option>
+                    <option value="1" <#if ((data.status)!0)==1>selected</#if>>已完成</option>
+                </select>
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <button type="button" class="btn btn-primary" id="fengyulou-save">提交</button>
@@ -74,12 +83,14 @@
     $("#project-insert").on("click", function () {
         layer.prompt({title: '添加项目'}, function (pass, index) {
             ajaxFunParam("/fyl/project/ajax/save", {'name': pass}, function (data) {
-                if (data.status == 0) {
-                    ajaxFunText("/fyl/project/ajax/content", function (data) {
-                        $("#projectId").html(data);
-                    })
-                    layer.close(index);
-                }
+                msgFunCallBack(data.msg, function () {
+                    if (data.status == 0) {
+                        ajaxFunText("/fyl/project/ajax/content", function (data) {
+                            $("#projectId").html(data);
+                        })
+                        layer.close(index);
+                    }
+                })
             })
         });
     })
@@ -100,7 +111,7 @@
     $("#member-insert").on("click", function () {
         openPageEnd('添加执行人', "/fyl/member/insert", function () {
             ajaxFunText("/fyl/member/ajax/content", function (data) {
-                $("#memberId").html(data);
+                // $("#memberId").html(data);
             })
         });
     })
@@ -109,10 +120,39 @@
         ajaxFunParam("/fyl/task/ajax/save", $("#dataForm").serialize(), function (data) {
             msgFunCallBack(data.msg, function () {
                 if (data.status == 0) {
-                    parent.searchData();
+                    closePage();
                 }
             })
         })
+    })
+    ctc("startTime");
+    var demo6 = xmSelect.render({
+        el: '#memberId',
+        //配置搜索
+        filterable: true,
+        //配置远程分页
+        paging: true,
+        pageRemote: true,
+        //数据处理
+        remoteMethod: function (val, cb, show, pageIndex) {
+            //val: 搜索框的内容, 不开启搜索默认为空, cb: 回调函数, show: 当前下拉框是否展开, pageIndex: 当前第几页
+
+            //这里的axios类似于ajax
+            ajax("/fyl/member/ajax/content", {
+                "name": val,
+                "pageNum": pageIndex,
+            }, function (response) {
+                if (response.status == 0) {
+                    console.log(response)
+                    //这里是success的处理
+                    var res = response.data;
+                    //回调需要两个参数, 第一个: 数据数组, 第二个: 总页码
+                    cb(res.list, res.pages)
+                }
+            }, function () {
+                cb([], 0)
+            })
+        }
     })
 </script>
 </body>

@@ -3,6 +3,7 @@
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 <script src="/bootstrap/js/bootstrap.min.js"></script>
 <script src="/layer/layer.js"></script>
+<script src="/laydate/laydate.js"></script>
 <script type="text/javascript" src="/bootstrap/js/webuploader.js"></script>
 <script src="/iCheck/js/icheck.js"></script>
 <script src="/datepicker/js/bootstrap-datepicker.js"></script>
@@ -10,3 +11,4 @@
 <script src="/js/clipboard.min.js"></script>
 <script src="/bootstrap/js/webutils.js"></script>
 <script src="/js/left-menu.js"></script>
+<script src="/js/xm-select.js"></script>

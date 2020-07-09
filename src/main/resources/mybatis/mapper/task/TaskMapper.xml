@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guoguo.fengyulou.task.dao.TaskDao">
     <insert id="insertTask" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into fengyulou_task(project_id, sketch, task_label_id, member_id,user_id,insert_time) values (#{projectId},#{sketch},#{taskLabelId},#{memberId},#{userId},now())
+        insert into fengyulou_task(project_id, sketch, task_label_id, member_id,user_id,insert_time,start_time) values (#{projectId},#{sketch},#{taskLabelId},#{memberId},#{userId},now(),#{startTime})
     </insert>
     <update id="updateTaskByIdAndUserId">
         update fengyulou_task set
@@ -12,6 +12,7 @@
         status=#{status},
         <if test="status==0">finish_time=null,</if>
         <if test="status==1">finish_time=now(),</if>
+        <if test="startTime!=null">start_time=#{startTime},</if>
         member_id=#{memberId},
         update_time=now()
         where id=#{id}
@@ -40,6 +41,7 @@
         fengyulou_task_label.name taskLabelName,
         fengyulou_task.status,
         fengyulou_task.finish_time,
+        fengyulou_task.start_time,
         fengyulou_member.name memberName
         from fengyulou_task
         left join fengyulou_project on fengyulou_task.project_id=fengyulou_project.id

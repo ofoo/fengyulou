@@ -35,6 +35,11 @@ public class Task extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date finishTime;
     /**
+     * 开始时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date startTime;
+    /**
      * 人员id
      */
     private Long memberId;

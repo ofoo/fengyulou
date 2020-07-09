@@ -1,5 +1,6 @@
 package com.guoguo.fengyulou.member.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.guoguo.common.CurrentUserManager;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.member.entity.Member;
@@ -8,6 +9,7 @@ import com.guoguo.fengyulou.member.service.MemberService;
 import com.guoguo.fengyulou.member_label.service.MemberLabelService;
 import com.guoguo.util.ObjectUtils;
 import com.guoguo.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +20,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 人员管理
  */
 @Controller
 @RequestMapping("/fyl")
+@Slf4j
 public class MemberController {
-
-    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     @Autowired
     private MemberService memberService;
@@ -136,11 +139,26 @@ public class MemberController {
      * @param request
      * @return
      */
-    @RequestMapping("/member/ajax/content")
+    /*@RequestMapping("/member/ajax/content")
     public String ajaxList(HttpServletRequest request, HttpSession session) {
         Member member = new Member();
         member.setUserId(currentUserManager.getUserId());
-        request.setAttribute("list", memberService.getMemberList(member));
+        request.setAttribute("list", memberService.getMemberListPage(member));
         return "common/select-item";
-    }
+    }*/
+    /**
+     * 下拉选列表
+     *
+     * @param member
+     * @return
+     */
+    @RequestMapping("/member/ajax/content")
+    @ResponseBody
+    public ServerResponse ajaxList(Member member) {
+        member.setUserId(currentUserManager.getUserId());
+        PageInfo<Member> pageInfo = memberService.getMemberListPage(member);
+        Map<String,Object> map = new HashMap<>();
+        map.put("list",pageInfo.getList());
+        map.put("pages",pageInfo.getPages());
+        return ServerResponse.createBySuccess(map);    }
 }

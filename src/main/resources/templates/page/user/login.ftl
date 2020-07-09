@@ -41,19 +41,19 @@
     </style>
 </head>
 <body>
-<div class="box">
+<div class="row box">
     <div class="col-md-offset-4 col-md-4">
         <form id="dataForm">
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
+                    <div class="col-md-12">
                         <h1 class="text-muted">风雨楼</h1>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
+                    <div class="col-md-12">
                         <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="basic-addon1">
                         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
@@ -65,7 +65,7 @@
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
+                    <div class="col-md-12">
                         <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="basic-addon1">
                         <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
@@ -77,7 +77,7 @@
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
+                    <div class="col-md-12">
                         <button id="fengyulou-login" type="button" class="btn btn-primary btn-block btn-lg">登录</button>
                     </div>
                 </div>

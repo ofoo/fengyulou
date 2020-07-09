@@ -11,8 +11,7 @@ $(function () {
     $("input[type='text']").attr("autocomplete", "off");
     // 关闭页面
     $("#fengyulou-close").on("click", function () {
-        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-        parent.layer.close(index); //再执行关闭
+        closePage();
     })
     // 后退页面
     $("#fengyulou-retreat").on("click", function () {
@@ -28,15 +27,15 @@ $(function () {
         $(".search-from select").val(-1)
     })
     // 日历控件
-    /*$('.datepicker').datepicker({
+    $('.datepicker').datepicker({
         format: "yyyy-m-d",
         language: "zh-CN",
         autoclose: true,//选中之后自动隐藏日期选择框
         clearBtn: true,//清除按钮
         todayBtn: 'linked',//今日按钮
-    });*/
+    });
 
-    // initCallBack();
+    initCallBack();
 })
 
 //初始化回调
@@ -140,22 +139,33 @@ function openPage(url) {
 }
 
 //打开页面，带页面关闭回调
-function openPageEnd(title,url, callBack) {
+function openPageEnd(title, url, callBack) {
     // layer.closeAll('iframe');
     layer.open({
         type: 2,
         area: ['70%', '90%'],
-        fixed: false, //不固定
-        scrollbar: false,
         title: title,
-        closeBtn: true,
-        // shadeClose: false,
-        // content: [url, 'no'],
         content: url,
-        // offset: 'rb',
+        resize: false,
+        // moveOut:true,
+        // maxmin: true,
         // shade: 0,
-        // anim: 2,
-        end: callBack
+        end: callBack,
+        /*btn: ['保存', '重置', '关闭'],
+        yes: function(index, layero){
+            console.log(layero)
+            //do something
+            //layer.close(index); //如果设定了yes回调，需进行手工关闭
+        },btn2: function(index, layero){
+            //按钮【按钮二】的回调
+
+            //return false 开启该代码可禁止点击该按钮关闭
+        }
+        ,btn3: function(index, layero){
+            //按钮【按钮三】的回调
+
+            //return false 开启该代码可禁止点击该按钮关闭
+        }*/
     })
 }
 
@@ -245,6 +255,17 @@ function ajaxFunParam(url, data, callBack) {
         error: function () {
             console.log('操作失败')
         }
+    });
+}
+
+function ajax(url, data, success,error) {
+    $.ajax({
+        url: url,
+        type: "post",
+        data: data,
+        dataType: "json",
+        success: success,
+        error: error
     });
 }
 
@@ -397,3 +418,19 @@ function verticalCenter(str) {
 }
 
 var resizeArray = new Array();
+
+//关闭页面
+function closePage() {
+    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+    parent.layer.close(index); //再执行关闭
+}
+
+//创建时间控件
+function ctc(id) {
+    laydate.render({
+        elem: '#' + id //指定元素
+        , type: 'datetime'
+        , theme: '#393D49'
+        ,trigger: 'click'
+    });
+}
