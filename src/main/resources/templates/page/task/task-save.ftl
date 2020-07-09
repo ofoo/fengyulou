@@ -5,76 +5,68 @@
     <#include "../../common/header-script.ftl">
 </head>
 <body>
-<div class="container-fluid">
-    <form class="form-horizontal data-form" id="dataForm">
-        <input type="hidden" name="id" id="dataId" value="${(data.id)!}">
-        <div class="form-group">
-            <label class="col-md-2 control-label text-danger">任务简述</label>
-            <div class="col-md-5">
-                <textarea name="sketch" class="form-control" rows="3" id="sketch"
-                          placeholder="任务简述">${(data.sketch)!}</textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label text-danger">项目名称</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="projectId" name="projectId">
+<form class="data-form" id="dataForm">
+    <input type="hidden" name="id" id="dataId" value="${(data.id)!}">
+    <div class="form-group">
+        <label for="sketch">任务简述</label>
+        <textarea name="sketch" class="form-control" rows="8" id="sketch"
+                  placeholder="任务简述">${(data.sketch)!}</textarea>
+    </div>
+    <div class="form-group">
+        <label for="sketch">项目名称</label>
+        <div class="input-group">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-success" id="project-insert">添加</button>
+                </span>
+            <select class="form-control" id="projectId" name="projectId">
                     <#list projectList as item>
                         <option value="${item.id}"
                                 <#if ((data.projectId)!0)==item.id>selected</#if>>${item.name}</option>
                     </#list>
-                </select>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-success" id="project-insert">添加</button>
-            </div>
+            </select>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label text-danger">任务标签</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="taskLabelId" name="taskLabelId">
-                <#list taskLabelList as item>
-                    <option value="${item.id}"
-                                <#if ((data.taskLabelId)!0)==item.id>selected</#if>>${item.name}</option>
-                </#list>
-                </select>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-success" id="taskLabel-insert">添加</button>
-            </div>
+    </div>
+    <div class="form-group">
+        <label for="sketch">任务标签</label>
+        <div class="input-group">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-success" id="taskLabel-insert">添加</button>
+                </span>
+            <select class="form-control" id="taskLabelId" name="taskLabelId">
+                    <#list taskLabelList as item>
+                        <option value="${item.id}"
+                                    <#if ((data.taskLabelId)!0)==item.id>selected</#if>>${item.name}</option>
+                    </#list>
+            </select>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label text-danger">执行人</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="memberId" name="memberId">
+    </div>
+    <div class="form-group">
+        <label for="sketch">执行人</label>
+        <div class="input-group">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-success" id="member-insert">添加</button>
+                </span>
+            <select class="form-control" id="memberId" name="memberId">
                 <#list memberList as item>
                     <option value="${item.id}"
                                 <#if ((data.memberId)!0)==item.id>selected</#if>>${item.name}</option>
                 </#list>
-                </select>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-success" id="member-insert">添加</button>
-            </div>
+            </select>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label text-danger">任务状态</label>
-            <div class="col-sm-5">
-                <select class="form-control" id="status" name="status">
-                    <option value="0" <#if ((data.status)!0)==0>selected</#if>>未完成</option>
-                    <option value="1" <#if ((data.status)!0)==1>selected</#if>>已完成</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="button" class="btn btn-primary" id="fengyulou-save">提交</button>
-                <button type="reset" class="btn btn-primary">重置</button>
-                <button type="button" class="btn btn-danger" id="fengyulou-close">关闭</button>
-            </div>
-        </div>
-    </form>
-</div>
+    </div>
+    <div class="form-group">
+        <label for="sketch">任务状态</label>
+        <select class="form-control" id="status" name="status">
+            <option value="0" <#if ((data.status)!0)==0>selected</#if>>未完成</option>
+            <option value="1" <#if ((data.status)!0)==1>selected</#if>>已完成</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-primary" id="fengyulou-save">提交</button>
+        <button type="reset" class="btn btn-warning">重置</button>
+        <button type="button" class="btn btn-danger" id="fengyulou-close">关闭</button>
+    </div>
+</form>
 
 <#include "../../common/footer-script.ftl">
 <script>
@@ -106,7 +98,7 @@
     })
     // 添加执行人
     $("#member-insert").on("click", function () {
-        openPageEnd('添加执行人',"/fyl/member/insert",function () {
+        openPageEnd('添加执行人', "/fyl/member/insert", function () {
             ajaxFunText("/fyl/member/ajax/content", function (data) {
                 $("#memberId").html(data);
             })
@@ -115,7 +107,7 @@
     // 保存任务
     $("#fengyulou-save").on("click", function () {
         ajaxFunParam("/fyl/task/ajax/save", $("#dataForm").serialize(), function (data) {
-            msgFunCallBack(data.msg,function(){
+            msgFunCallBack(data.msg, function () {
                 if (data.status == 0) {
                     parent.searchData();
                 }

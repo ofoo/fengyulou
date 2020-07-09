@@ -83,36 +83,6 @@
                 </div>
             </div>
         </form>
-
-            <#--<div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="panel panel-default">
-
-                        <div class="panel-heading">风雨楼</div>
-                        <div class="panel-body">
-                            <form id="dataForm">
-                                <div class="form-group">
-                                    <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                </span>
-                                        <input type="text" name="loginName" class="form-control" placeholder="账号" value="">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">
-                    <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-                </span>
-                                        <input type="password" name="password" class="form-control" placeholder="密码" value="">
-                                    </div>
-                                </div>
-                                <button id="fengyulou-login" type="button" class="btn btn-primary btn-block">登录</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
     </div>
 </div>
 
@@ -123,7 +93,7 @@
             ajaxFunParam("/fyl/user/ajaxLogin", $("#dataForm").serialize(), function (data) {
                 msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
-                        location.href = '/fyl/task/list/page';
+                        location.href = '/fyl/task/list';
                     }
                 })
             })

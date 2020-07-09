@@ -28,15 +28,15 @@ $(function () {
         $(".search-from select").val(-1)
     })
     // 日历控件
-    $('.datepicker').datepicker({
+    /*$('.datepicker').datepicker({
         format: "yyyy-m-d",
         language: "zh-CN",
         autoclose: true,//选中之后自动隐藏日期选择框
         clearBtn: true,//清除按钮
         todayBtn: 'linked',//今日按钮
-    });
+    });*/
 
-    initCallBack();
+    // initCallBack();
 })
 
 //初始化回调
@@ -141,10 +141,10 @@ function openPage(url) {
 
 //打开页面，带页面关闭回调
 function openPageEnd(title,url, callBack) {
-    layer.closeAll('iframe');
+    // layer.closeAll('iframe');
     layer.open({
         type: 2,
-        area: ['50%', '50%'],
+        area: ['70%', '90%'],
         fixed: false, //不固定
         scrollbar: false,
         title: title,
