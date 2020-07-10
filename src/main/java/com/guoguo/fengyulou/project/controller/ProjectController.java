@@ -1,6 +1,8 @@
 package com.guoguo.fengyulou.project.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.guoguo.common.CurrentUserManager;
+import com.guoguo.common.SelectEntity;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.project.entity.Project;
 import com.guoguo.fengyulou.project.service.ProjectService;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 项目管理
@@ -115,11 +120,38 @@ public class ProjectController {
      * @param request
      * @return
      */
-    @RequestMapping("/project/ajax/content")
+    /*@RequestMapping("/project/ajax/content")
     public String ajaxList(HttpServletRequest request, HttpSession session) {
         Project project = new Project();
         project.setUserId(currentUserManager.getUserId());
         request.setAttribute("list", projectService.getProjectList(project));
         return "common/select-item";
+    }*/
+
+    /**
+     * 下拉选列表
+     *
+     * @param project
+     * @return
+     */
+    @RequestMapping("/project/ajax/content")
+    @ResponseBody
+    public ServerResponse ajaxList(Project project) {
+        //查询数据
+        project.setUserId(currentUserManager.getUserId());
+        PageInfo<Project> pageInfo = projectService.getProjectListPage(project);
+        //处理数据
+        List<SelectEntity> list = new ArrayList<>();
+        for (Project p : pageInfo.getList()) {
+            SelectEntity select = new SelectEntity();
+            select.setValue(p.getId());
+            select.setName(p.getName());
+            list.add(select);
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", list);
+        map.put("pages", pageInfo.getPages());
+        return ServerResponse.createBySuccess(map);
     }
+
 }

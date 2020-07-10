@@ -146,6 +146,7 @@ public class MemberController {
         request.setAttribute("list", memberService.getMemberListPage(member));
         return "common/select-item";
     }*/
+
     /**
      * 下拉选列表
      *
@@ -157,8 +158,9 @@ public class MemberController {
     public ServerResponse ajaxList(Member member) {
         member.setUserId(currentUserManager.getUserId());
         PageInfo<Member> pageInfo = memberService.getMemberListPage(member);
-        Map<String,Object> map = new HashMap<>();
-        map.put("list",pageInfo.getList());
-        map.put("pages",pageInfo.getPages());
-        return ServerResponse.createBySuccess(map);    }
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", pageInfo.getList());
+        map.put("pages", pageInfo.getPages());
+        return ServerResponse.createBySuccess(map);
+    }
 }

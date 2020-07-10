@@ -12,7 +12,7 @@
         <textarea name="sketch" class="form-control" rows="8" id="sketch"
                   placeholder="任务简述">${(data.sketch)!}</textarea>
     </div>
-    <div class="form-group">
+    <#--<div class="form-group">
         <label for="sketch">项目名称</label>
         <div class="input-group">
                 <span class="input-group-btn">
@@ -25,34 +25,56 @@
                     </#list>
             </select>
         </div>
+    </div>-->
+    <div class="form-group">
+        <label for="sketch">项目名称</label>
+        <div class="row">
+            <div class="col-md-1">
+                <button type="button" class="btn btn-success" id="project-insert">添加</button>
+            </div>
+            <div class="col-md-11">
+                <div id="projectId" class="xm-select-demo"></div>
+                <#--<select class="form-control" id="projectId" name="projectId">
+                    <#list projectList as item>
+                        <option value="${item.id}"
+                                <#if ((data.projectId)!0)==item.id>selected</#if>>${item.name}</option>
+                    </#list>
+                </select>-->
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <label for="sketch">任务标签</label>
-        <div class="input-group">
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" id="taskLabel-insert">添加</button>
-                </span>
-            <select class="form-control" id="taskLabelId" name="taskLabelId">
+        <div class="row">
+            <div class="col-md-1">
+                <button type="button" class="btn btn-success" id="taskLabel-insert">添加</button>
+            </div>
+            <div class="col-md-11">
+                <div id="taskLabelId" class="xm-select-demo"></div>
+                <#--<select class="form-control" id="taskLabelId" name="taskLabelId">
                     <#list taskLabelList as item>
                         <option value="${item.id}"
                                     <#if ((data.taskLabelId)!0)==item.id>selected</#if>>${item.name}</option>
                     </#list>
-            </select>
+                </select>-->
+            </div>
         </div>
     </div>
     <div class="form-group">
         <label for="sketch">执行人</label>
-        <div class="input-group">
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" id="member-insert">添加</button>
-                </span>
-            <div id="memberId" class="xm-select-demo"></div>
-        <#--<select class="form-control" id="memberId" name="memberId">
+        <div class="row">
+            <div class="col-md-1">
+                <button type="button" class="btn btn-success" id="member-insert">添加</button>
+            </div>
+            <div class="col-md-11">
+                <#--<select class="form-control" id="memberId" name="memberId">
             <#list memberList as item>
                 <option value="${item.id}"
                             <#if ((data.memberId)!0)==item.id>selected</#if>>${item.name}</option>
             </#list>
-        </select>-->
+                </select>-->
+                    <div id="memberId" class="xm-select-demo"></div>
+            </div>
         </div>
     </div>
     <div class="form-group">
@@ -86,7 +108,7 @@
                 msgFunCallBack(data.msg, function () {
                     if (data.status == 0) {
                         ajaxFunText("/fyl/project/ajax/content", function (data) {
-                            $("#projectId").html(data);
+                            // $("#projectId").html(data);
                         })
                         layer.close(index);
                     }
@@ -100,7 +122,7 @@
             ajaxFunParam("/fyl/taskLabel/ajax/save", {'name': pass}, function (data) {
                 if (data.status == 0) {
                     ajaxFunText("/fyl/taskLabel/ajax/content", function (data) {
-                        $("#taskLabelId").html(data);
+                        // $("#taskLabelId").html(data);
                     })
                     layer.close(index);
                 }
@@ -126,34 +148,9 @@
         })
     })
     ctc("startTime");
-    var demo6 = xmSelect.render({
-        el: '#memberId',
-        //配置搜索
-        filterable: true,
-        //配置远程分页
-        paging: true,
-        pageRemote: true,
-        //数据处理
-        remoteMethod: function (val, cb, show, pageIndex) {
-            //val: 搜索框的内容, 不开启搜索默认为空, cb: 回调函数, show: 当前下拉框是否展开, pageIndex: 当前第几页
-
-            //这里的axios类似于ajax
-            ajax("/fyl/member/ajax/content", {
-                "name": val,
-                "pageNum": pageIndex,
-            }, function (response) {
-                if (response.status == 0) {
-                    console.log(response)
-                    //这里是success的处理
-                    var res = response.data;
-                    //回调需要两个参数, 第一个: 数据数组, 第二个: 总页码
-                    cb(res.list, res.pages)
-                }
-            }, function () {
-                cb([], 0)
-            })
-        }
-    })
+    var projectId =cxs("projectId","/fyl/project/ajax/content","请选择项目");
+    var taskLabelId =cxs("taskLabelId","/fyl/taskLabel/ajax/content","请选择任务标签");
+    var memberId =cxs("memberId","/fyl/member/ajax/content","请选择执行人");
 </script>
 </body>
 </html>

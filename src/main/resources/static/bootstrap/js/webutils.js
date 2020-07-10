@@ -434,3 +434,38 @@ function ctc(id) {
         ,trigger: 'click'
     });
 }
+
+//创建xm-select下拉选
+function cxs(id,url,tips){
+    xmSelect.render({
+        el: '#'+id,
+        //配置搜索
+        filterable: true,
+        //配置远程分页
+        paging: true,
+        pageRemote: true,
+        //数据处理
+        remoteMethod: function (val, cb, show, pageIndex) {
+            //val: 搜索框的内容, 不开启搜索默认为空, cb: 回调函数, show: 当前下拉框是否展开, pageIndex: 当前第几页
+
+            //这里的axios类似于ajax
+            ajax(url, {
+                "name": val,
+                "pageNum": pageIndex,
+            }, function (response) {
+                if (response.status == 0) {
+                    //这里是success的处理
+                    var res = response.data;
+                    //回调需要两个参数, 第一个: 数据数组, 第二个: 总页码
+                    cb(res.list, res.pages)
+                }
+            }, function () {
+                cb([], 0)
+            })
+        }
+        ,tips: tips
+        ,theme: {
+            color: '#337ab7',
+        }
+    })
+}

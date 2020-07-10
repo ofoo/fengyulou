@@ -1,5 +1,6 @@
 package com.guoguo.fengyulou.task_label.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.guoguo.common.CurrentUserManager;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.task_label.entity.TaskLabel;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 任务标签标签管理
@@ -116,12 +119,29 @@ public class TaskLabelController {
      *
      * @return
      */
-    @RequestMapping("/taskLabel/ajax/content")
+    /*@RequestMapping("/taskLabel/ajax/content")
     public String ajaxList(HttpServletRequest request, HttpSession session) {
         TaskLabel taskLabel = new TaskLabel();
         taskLabel.setUserId(currentUserManager.getUserId());
         request.setAttribute("list", taskLabelService.getTaskLabelList(taskLabel));
         return "/common/select-item";
+    }*/
+
+    /**
+     * 下拉选子项
+     *
+     * @return
+     */
+    @RequestMapping("/taskLabel/ajax/content")
+    @ResponseBody
+    public ServerResponse ajaxList(TaskLabel taskLabel) {
+        taskLabel.setUserId(currentUserManager.getUserId());
+        PageInfo<TaskLabel> pageInfo = taskLabelService.getTaskLabelListPage(taskLabel);
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", pageInfo.getList());
+        map.put("pages", pageInfo.getPages());
+        return ServerResponse.createBySuccess(map);
     }
+
 }
 
