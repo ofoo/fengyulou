@@ -92,13 +92,13 @@
 <#include "../../common/footer-script.ftl">
 <script>
     // var myObject = [{'name':'Kasun', 'address':'columbo','age': '29'},{'name':'Kasun', 'address':'columbo','age': '29'}]
-    function get(obj){
+    /*function get(obj){
         if (obj instanceof Array){
 
         }else{
             $("#table").append(obj.)
         }
-    }
+    }*/
     $(function () {
         // get(myObject)
         // var count = Object.keys(myObject).length;

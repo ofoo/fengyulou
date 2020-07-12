@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guoguo.fengyulou.task.dao.TaskDao">
     <insert id="insertTask" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into fengyulou_task(project_id, sketch, task_label_id, member_id,user_id,insert_time,start_time) values (#{projectId},#{sketch},#{taskLabelId},#{memberId},#{userId},now(),#{startTime})
+        insert into fengyulou_task(project_id, sketch, task_label_id, member_id,user_id,insert_time,start_time,end_time) values (#{projectId},#{sketch},#{taskLabelId},#{memberId},#{userId},now(),#{startTime},#{endTime})
     </insert>
     <update id="updateTaskByIdAndUserId">
         update fengyulou_task set
@@ -13,6 +13,7 @@
         <if test="status==0">finish_time=null,</if>
         <if test="status==1">finish_time=now(),</if>
         <if test="startTime!=null">start_time=#{startTime},</if>
+        <if test="endTime!=null">end_time=#{endTime},</if>
         member_id=#{memberId},
         update_time=now()
         where id=#{id}

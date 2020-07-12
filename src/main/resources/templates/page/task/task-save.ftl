@@ -78,19 +78,19 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="row">
-            <div class="col-md-3">
-                <label for="sketch">开始时间</label>
-                <input type="text" name="startTime" class="form-control" placeholder="开始时间" id="startTime" readonly>
-            </div>
-            <div class="col-md-3">
-                <label for="sketch">任务状态</label>
-                <select class="form-control" id="status" name="status">
-                    <option value="0" <#if ((data.status)!0)==0>selected</#if>>未完成</option>
-                    <option value="1" <#if ((data.status)!0)==1>selected</#if>>已完成</option>
-                </select>
-            </div>
-        </div>
+        <label for="sketch">开始时间</label>
+        <input type="text" name="startTime" class="form-control" placeholder="开始时间" id="startTime" readonly>
+    </div>
+    <div class="form-group">
+        <label for="sketch">结束时间</label>
+        <input type="text" name="endTime" class="form-control" placeholder="结束时间" id="endTime" readonly>
+    </div>
+    <div class="form-group">
+        <label for="sketch">任务状态</label>
+        <select class="form-control" id="status" name="status">
+            <option value="0" <#if ((data.status)!0)==0>selected</#if>>未完成</option>
+            <option value="1" <#if ((data.status)!0)==1>selected</#if>>已完成</option>
+        </select>
     </div>
     <div class="form-group">
         <button type="button" class="btn btn-primary" id="fengyulou-save">提交</button>
@@ -148,7 +148,8 @@
         })
     })
     ctc("startTime");
-    var projectId =cxs("projectId","/fyl/project/ajax/content","请选择项目");
+    ctc("endTime");
+    var projectId =cxsRadio("projectId","/fyl/project/ajax/content","请选择项目");
     var taskLabelId =cxs("taskLabelId","/fyl/taskLabel/ajax/content","请选择任务标签");
     var memberId =cxs("memberId","/fyl/member/ajax/content","请选择执行人");
 </script>
