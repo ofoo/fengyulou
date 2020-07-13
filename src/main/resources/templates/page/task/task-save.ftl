@@ -7,25 +7,28 @@
 <body>
 <form class="data-form" id="dataForm">
     <input type="hidden" name="id" id="dataId" value="${(data.id)!}">
+    <input type="hidden" name="projectId" id="projectId" value="${(data.projectId)!}">
+    <input type="hidden" name="taskLabelId" id="taskLabelId" value="${(data.taskLabelId)!}">
+    <input type="hidden" name="memberId" id="memberId" value="${(data.memberId)!}">
     <div class="form-group">
         <label for="sketch">任务简述</label>
         <textarea name="sketch" class="form-control" rows="8" id="sketch"
                   placeholder="任务简述">${(data.sketch)!}</textarea>
     </div>
-    <#--<div class="form-group">
-        <label for="sketch">项目名称</label>
-        <div class="input-group">
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" id="project-insert">添加</button>
-                </span>
-            <select class="form-control" id="projectId" name="projectId">
-                    <#list projectList as item>
-                        <option value="${item.id}"
-                                <#if ((data.projectId)!0)==item.id>selected</#if>>${item.name}</option>
-                    </#list>
-            </select>
-        </div>
-    </div>-->
+<#--<div class="form-group">
+    <label for="sketch">项目名称</label>
+    <div class="input-group">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-success" id="project-insert">添加</button>
+            </span>
+        <select class="form-control" id="projectId" name="projectId">
+                <#list projectList as item>
+                    <option value="${item.id}"
+                            <#if ((data.projectId)!0)==item.id>selected</#if>>${item.name}</option>
+                </#list>
+        </select>
+    </div>
+</div>-->
     <div class="form-group">
         <label for="sketch">项目名称</label>
         <div class="row">
@@ -34,12 +37,12 @@
             </div>
             <div class="col-md-11">
                 <div id="projectId" class="xm-select-demo"></div>
-                <#--<select class="form-control" id="projectId" name="projectId">
-                    <#list projectList as item>
-                        <option value="${item.id}"
-                                <#if ((data.projectId)!0)==item.id>selected</#if>>${item.name}</option>
-                    </#list>
-                </select>-->
+            <#--<select class="form-control" id="projectId" name="projectId">
+                <#list projectList as item>
+                    <option value="${item.id}"
+                            <#if ((data.projectId)!0)==item.id>selected</#if>>${item.name}</option>
+                </#list>
+            </select>-->
             </div>
         </div>
     </div>
@@ -51,12 +54,12 @@
             </div>
             <div class="col-md-11">
                 <div id="taskLabelId" class="xm-select-demo"></div>
-                <#--<select class="form-control" id="taskLabelId" name="taskLabelId">
-                    <#list taskLabelList as item>
-                        <option value="${item.id}"
-                                    <#if ((data.taskLabelId)!0)==item.id>selected</#if>>${item.name}</option>
-                    </#list>
-                </select>-->
+            <#--<select class="form-control" id="taskLabelId" name="taskLabelId">
+                <#list taskLabelList as item>
+                    <option value="${item.id}"
+                                <#if ((data.taskLabelId)!0)==item.id>selected</#if>>${item.name}</option>
+                </#list>
+            </select>-->
             </div>
         </div>
     </div>
@@ -67,13 +70,13 @@
                 <button type="button" class="btn btn-success" id="member-insert">添加</button>
             </div>
             <div class="col-md-11">
-                <#--<select class="form-control" id="memberId" name="memberId">
-            <#list memberList as item>
-                <option value="${item.id}"
-                            <#if ((data.memberId)!0)==item.id>selected</#if>>${item.name}</option>
-            </#list>
-                </select>-->
-                    <div id="memberId" class="xm-select-demo"></div>
+            <#--<select class="form-control" id="memberId" name="memberId">
+        <#list memberList as item>
+            <option value="${item.id}"
+                        <#if ((data.memberId)!0)==item.id>selected</#if>>${item.name}</option>
+        </#list>
+            </select>-->
+                <div id="memberId" class="xm-select-demo"></div>
             </div>
         </div>
     </div>
@@ -101,6 +104,13 @@
 
 <#include "../../common/footer-script.ftl">
 <script>
+    <#if ((data.id)??)>
+    $(function () {
+        projectId.setValue([${data.projectId}])
+        taskLabelId.setValue([${data.taskLabelId}])
+        memberId.setValue([${data.memberId}])
+    })
+    </#if>
     // 添加项目
     $("#project-insert").on("click", function () {
         layer.prompt({title: '添加项目'}, function (pass, index) {
@@ -139,6 +149,18 @@
     })
     // 保存任务
     $("#fengyulou-save").on("click", function () {
+        //获取项目id
+        var pIds = projectId.getValue('valueStr');
+        //获取任务标签id
+        var tlIds = taskLabelId.getValue('valueStr');
+        //获取执行人id
+        var mIds = memberId.getValue('valueStr');
+        //设置项目id
+        $("#projectId").val(pIds);
+        //设置任务标签id
+        $("#taskLabelId").val(tlIds);
+        //设置执行人id
+        $("#memberId").val(mIds);
         ajaxFunParam("/fyl/task/ajax/save", $("#dataForm").serialize(), function (data) {
             msgFunCallBack(data.msg, function () {
                 if (data.status == 0) {
@@ -149,9 +171,9 @@
     })
     ctc("startTime");
     ctc("endTime");
-    var projectId =cxsRadio("projectId","/fyl/project/ajax/content","请选择项目");
-    var taskLabelId =cxs("taskLabelId","/fyl/taskLabel/ajax/content","请选择任务标签");
-    var memberId =cxs("memberId","/fyl/member/ajax/content","请选择执行人");
+    var projectId = cxsRadio("projectId", "/fyl/project/ajax/content", "请选择项目");
+    var taskLabelId = cxsRadio("taskLabelId", "/fyl/taskLabel/ajax/content", "请选择任务标签");
+    var memberId = cxsRadio("memberId", "/fyl/member/ajax/content", "请选择执行人");
 </script>
 </body>
 </html>

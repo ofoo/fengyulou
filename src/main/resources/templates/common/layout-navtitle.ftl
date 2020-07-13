@@ -3,7 +3,7 @@
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-            ${curUser.name} <span class="caret"></span>
+            ${curUser.loginName} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
                 <li><a href="javascript:void(0)" id="fengyulou-pwd">修改密码</a></li>

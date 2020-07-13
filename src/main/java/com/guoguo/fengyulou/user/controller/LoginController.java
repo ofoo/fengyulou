@@ -19,8 +19,8 @@ public class LoginController {
      *
      * @return
      */
-    @RequestMapping({"/","","/login"})
-    public String login(HttpSession session) {
+    @RequestMapping({"/","","/login",""})
+    public String login() {
         if (currentUserManager.verifyLogin()) {
             return "redirect:" + CommonConstant.INDEX;
         }
