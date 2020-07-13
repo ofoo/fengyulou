@@ -125,3 +125,8 @@ h1 {
     padding-left: 20px;
     padding-right: 20px;
 }
+.fyl-form-btn{
+    position: fixed;
+    top: 35px;
+    right: 10%;
+}

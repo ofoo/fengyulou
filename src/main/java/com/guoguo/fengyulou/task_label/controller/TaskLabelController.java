@@ -2,6 +2,7 @@ package com.guoguo.fengyulou.task_label.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.guoguo.common.CurrentUserManager;
+import com.guoguo.common.SelectEntity;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.task_label.entity.TaskLabel;
 import com.guoguo.fengyulou.task_label.service.TaskLabelService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,10 +137,19 @@ public class TaskLabelController {
     @RequestMapping("/taskLabel/ajax/content")
     @ResponseBody
     public ServerResponse ajaxList(TaskLabel taskLabel) {
+        //查询数据
         taskLabel.setUserId(currentUserManager.getUserId());
         PageInfo<TaskLabel> pageInfo = taskLabelService.getTaskLabelListPage(taskLabel);
+        //处理数据
+        List<SelectEntity> list = new ArrayList<>();
+        for (TaskLabel p : pageInfo.getList()) {
+            SelectEntity select = new SelectEntity();
+            select.setValue(p.getId());
+            select.setName(p.getName());
+            list.add(select);
+        }
         Map<String, Object> map = new HashMap<>();
-        map.put("list", pageInfo.getList());
+        map.put("list", list);
         map.put("pages", pageInfo.getPages());
         return ServerResponse.createBySuccess(map);
     }

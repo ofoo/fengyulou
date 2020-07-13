@@ -80,7 +80,9 @@
         fengyulou_task.task_label_id,
         fengyulou_task.status,
         fengyulou_task.finish_time,
-        fengyulou_task.member_id
+        fengyulou_task.member_id,
+        fengyulou_task.start_time,
+        fengyulou_task.end_time
         from fengyulou_task
         where id=#{id}
         and user_id=#{userId}

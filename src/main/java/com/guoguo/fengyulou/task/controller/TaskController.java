@@ -1,6 +1,7 @@
 package com.guoguo.fengyulou.task.controller;
 
 import com.guoguo.common.CurrentUserManager;
+import com.guoguo.common.SelectEntity;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.member.entity.Member;
 import com.guoguo.fengyulou.project.entity.Project;
@@ -166,7 +167,64 @@ public class TaskController {
      */
     @RequestMapping("/task/ajax/updateStatus")
     @ResponseBody
-    private ServerResponse ajaxUpdateStatus(@RequestParam List<Long> ids, HttpSession session) {
+    public ServerResponse ajaxUpdateStatus(@RequestParam List<Long> ids, HttpSession session) {
         return taskService.updateStatusByIdsAndUserId(ids, currentUserManager.getUserId());
+    }
+
+    /**
+     * 获取任务项目
+     *
+     * @param project
+     * @return
+     */
+    @RequestMapping("/task/ajax/project")
+    @ResponseBody
+    public SelectEntity ajaxTaskProject(Project project) {
+        //获取数据
+        project.setUserId(currentUserManager.getUserId());
+        project = projectService.getProjectByIdAndUserId(project);
+        //处理数据
+        SelectEntity select = new SelectEntity();
+        select.setValue(project.getId());
+        select.setName(project.getName());
+        return select;
+    }
+
+    /**
+     * 获取任务标签
+     *
+     * @param taskLabel
+     * @return
+     */
+    @RequestMapping("/task/ajax/label")
+    @ResponseBody
+    public SelectEntity ajaxTaskLabel(TaskLabel taskLabel) {
+        //获取数据
+        taskLabel.setUserId(currentUserManager.getUserId());
+        taskLabel = taskLabelService.getTaskLabelByIdAndUserId(taskLabel);
+        //处理数据
+        SelectEntity select = new SelectEntity();
+        select.setValue(taskLabel.getId());
+        select.setName(taskLabel.getName());
+        return select;
+    }
+
+    /**
+     * 获取任务项目
+     *
+     * @param member
+     * @return
+     */
+    @RequestMapping("/task/ajax/member")
+    @ResponseBody
+    public SelectEntity ajaxTaskMember(Member member) {
+        //获取数据
+        member.setUserId(currentUserManager.getUserId());
+        member = memberService.getMemberByIdAndUserId(member);
+        //处理数据
+        SelectEntity select = new SelectEntity();
+        select.setValue(member.getId());
+        select.setName(member.getName());
+        return select;
     }
 }

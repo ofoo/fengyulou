@@ -2,6 +2,7 @@ package com.guoguo.fengyulou.member.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.guoguo.common.CurrentUserManager;
+import com.guoguo.common.SelectEntity;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.member.entity.Member;
 import com.guoguo.fengyulou.member_label.entity.MemberLabel;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,10 +158,19 @@ public class MemberController {
     @RequestMapping("/member/ajax/content")
     @ResponseBody
     public ServerResponse ajaxList(Member member) {
+        //查询数据
         member.setUserId(currentUserManager.getUserId());
         PageInfo<Member> pageInfo = memberService.getMemberListPage(member);
+        //处理数据
+        List<SelectEntity> list = new ArrayList<>();
+        for (Member p : pageInfo.getList()) {
+            SelectEntity select = new SelectEntity();
+            select.setValue(p.getId());
+            select.setName(p.getName());
+            list.add(select);
+        }
         Map<String, Object> map = new HashMap<>();
-        map.put("list", pageInfo.getList());
+        map.put("list", list);
         map.put("pages", pageInfo.getPages());
         return ServerResponse.createBySuccess(map);
     }

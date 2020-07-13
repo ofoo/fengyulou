@@ -143,12 +143,12 @@ function openPageEnd(title, url, callBack) {
     // layer.closeAll('iframe');
     layer.open({
         type: 2,
-        area: ['70%', '90%'],
+        area: ['75%', '90%'],
         title: title,
         content: url,
         resize: false,
         // moveOut:true,
-        // maxmin: true,
+        maxmin: true,
         // shade: 0,
         end: callBack,
         /*btn: ['保存', '重置', '关闭'],
@@ -264,6 +264,7 @@ function ajax(url, data, success,error) {
         type: "post",
         data: data,
         dataType: "json",
+        async: false,
         success: success,
         error: error
     });
@@ -437,7 +438,7 @@ function ctc(id) {
 
 //创建xm-select下拉选
 function cxs(id,url,tips){
-    xmSelect.render({
+    return xmSelect.render({
         el: '#'+id,
         //配置搜索
         filterable: true,
@@ -467,12 +468,13 @@ function cxs(id,url,tips){
         ,theme: {
             color: '#337ab7',
         }
+        ,autoRow: true
     })
 }
 
 //创建xm-select下拉选
 function cxsRadio(id,url,tips){
-    xmSelect.render({
+    return xmSelect.render({
         el: '#'+id,
         //配置搜索
         filterable: true,
@@ -492,7 +494,7 @@ function cxsRadio(id,url,tips){
                     //这里是success的处理
                     var res = response.data;
                     //回调需要两个参数, 第一个: 数据数组, 第二个: 总页码
-                    cb(res.list, res.pages)
+                    cb(res.list, res.pages);
                 }
             }, function () {
                 cb([], 0)
@@ -503,5 +505,6 @@ function cxsRadio(id,url,tips){
             color: '#337ab7',
         }
         ,radio: true
+        ,autoRow: true
     })
 }
