@@ -69,7 +69,7 @@ public class MemberController {
      * @return
      */
     @RequestMapping("/member/insert")
-    public String insert(HttpServletRequest request, HttpSession session) {
+    public String insert(HttpServletRequest request) {
         request.setAttribute("pageTitle", "添加人员");
         // 查询人员标签列表
         MemberLabel memberLabel = new MemberLabel();
@@ -138,20 +138,6 @@ public class MemberController {
     /**
      * 下拉选列表
      *
-     * @param request
-     * @return
-     */
-    /*@RequestMapping("/member/ajax/content")
-    public String ajaxList(HttpServletRequest request, HttpSession session) {
-        Member member = new Member();
-        member.setUserId(currentUserManager.getUserId());
-        request.setAttribute("list", memberService.getMemberListPage(member));
-        return "common/select-item";
-    }*/
-
-    /**
-     * 下拉选列表
-     *
      * @param member
      * @return
      */
@@ -173,5 +159,24 @@ public class MemberController {
         map.put("list", list);
         map.put("pages", pageInfo.getPages());
         return ServerResponse.createBySuccess(map);
+    }
+
+    /**
+     * 获取任务项目
+     *
+     * @param memberLabel
+     * @return
+     */
+    @RequestMapping("/member/ajax/label")
+    @ResponseBody
+    public SelectEntity ajaxMemberLabel(MemberLabel memberLabel) {
+        //获取数据
+        memberLabel.setUserId(currentUserManager.getUserId());
+        memberLabel = memberLabelService.getMemberLabelByIdAndUserId(memberLabel);
+        //处理数据
+        SelectEntity select = new SelectEntity();
+        select.setValue(memberLabel.getId());
+        select.setName(memberLabel.getName());
+        return select;
     }
 }

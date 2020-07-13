@@ -474,7 +474,7 @@ function cxs(id,url,tips){
 
 //创建xm-select下拉选
 function cxsRadio(id,url,tips){
-    return xmSelect.render({
+    var sr= xmSelect.render({
         el: '#'+id,
         //配置搜索
         filterable: true,
@@ -506,5 +506,8 @@ function cxsRadio(id,url,tips){
         }
         ,radio: true
         ,autoRow: true
-    })
+        ,clickClose: true
+        ,pageEmptyShow: false
+    });
+    return sr;
 }

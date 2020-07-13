@@ -72,7 +72,7 @@
     $(function () {
         // 添加
         $('#fengyulou-insert').on('click', function () {
-            openPageEnd('/fyl/member/insert', function () {
+            openPageEnd('添加人员','/fyl/member/insert', function () {
                 searchData();
             })
         })
@@ -82,7 +82,7 @@
                 return;
             }
             var id = $(".checkbox:checked")[0].value;
-            openPageEnd('/fyl/member/update?id=' + id, function () {
+            openPageEnd('修改人员','/fyl/member/update?id=' + id, function () {
                 searchData();
             })
         })

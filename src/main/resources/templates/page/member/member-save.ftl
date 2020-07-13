@@ -5,45 +5,45 @@
     <#include "../../common/header-script.ftl">
 </head>
 <body>
-<div class="container-fluid">
-    <form class="form-horizontal data-form" id="dataForm">
+<div class="fyl-form-left">
+    <form class="data-form" id="dataForm">
         <input type="hidden" name="id" id="dataId" value="${(data.id)!}">
+        <input type="hidden" name="memberLabelId" id="memberLabelId" value="${(data.memberLabelId)!}">
         <div class="form-group">
-            <label class="col-md-2 control-label text-danger">人员姓名</label>
-            <div class="col-md-5">
-                <input name="name" type="text" class="form-control" id="name" value="${(data.name)!}"
-                       placeholder="请输入人员姓名">
+            <label for="name">人员姓名</label>
+            <input name="name" type="text" class="form-control" id="name" value="${(data.name)!}"
+                   placeholder="请输入人员姓名">
+        </div>
+        <div class="form-group">
+            <label for="memberLabelId">人员标签</label>
+            <div class="row">
+                <div class="col-xs-1">
+                    <button type="button" class="btn btn-success" id="memberLabel-insert">添加</button>
+                </div>
+                <div class="col-xs-11">
+                    <div id="memberLabel-control" class="xm-select-demo"></div>
+                </div>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label text-danger">人员标签</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="memberLabelId" name="memberLabelId">
-                <#list memberLabelList as item>
-                    <option value="${item.id}"
-                                <#if ((data.memberLabelId)!0)==item.id>selected</#if>>${item.name}</option>
-                </#list>
-                </select>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-success" id="memberLabel-insert">添加</button>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="mobile" class="col-md-2 control-label">人员手机号</label>
-            <div class="col-md-5">
-                <input name="mobile" type="text" class="form-control" id="mobile" value="${(data.type)!}"
-                       placeholder="请输入人员手机号">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="button" class="btn btn-primary" id="fengyulou-save">提交</button>
-                <button type="reset" class="btn btn-primary">重置</button>
-                <button type="button" class="btn btn-danger" <#if ((str)!'')=='task'>id="fengyulou-close"<#else>id="fengyulou-close"</#if>>关闭</button>
-            </div>
+            <label for="mobile">人员手机号</label>
+            <input name="mobile" type="text" class="form-control" id="mobile" value="${(data.type)!}"
+                   placeholder="请输入人员手机号">
         </div>
     </form>
+</div>
+<div class="fyl-form-btn">
+    <div class="fyl-form-btn-box">
+        <p>
+            <button type="button" class="btn btn-primary btn-block" id="fengyulou-save">提交</button>
+        </p>
+        <p>
+            <button type="reset" class="btn btn-warning btn-block">重置</button>
+        </p>
+        <p>
+            <button type="button" class="btn btn-danger btn-block" id="fengyulou-close">关闭</button>
+        </p>
+    </div>
 </div>
 
 <#include "../../common/footer-script.ftl">
@@ -63,14 +63,27 @@
     })
     // 保存任务
     $("#fengyulou-save").on("click", function () {
+        //获取人员标签id
+        var mlIds = memberLabelId.getValue('valueStr');
+        //设置人员标签id
+        $("#memberLabelId").val(mlIds);
         ajaxFunParam("/fyl/member/ajax/save", $("#dataForm").serialize(), function (data) {
-            msgFunCallBack(data.msg,function(){
+            msgFunCallBack(data.msg, function () {
                 if (data.status == 0) {
-                    parent.searchData();
+                    closePage();
                 }
             })
         })
     })
+    //查询人员标签
+    var memberLabelId = cxsRadio("memberLabel-control", "/fyl/memberLabel/ajax/content", "请选择项目");
+    //数据回显
+    <#if ((data.id)??)>
+    //修改人员标签选中
+    ajaxFunParam("/fyl/member/ajax/label", {"id": "${(data.memberLabelId)}"}, function (data) {
+        memberLabelId.setValue([data]);
+    })
+    </#if>
 </script>
 </body>
 </html>

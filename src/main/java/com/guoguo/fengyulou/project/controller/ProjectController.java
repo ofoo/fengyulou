@@ -117,20 +117,6 @@ public class ProjectController {
     /**
      * 下拉选列表
      *
-     * @param request
-     * @return
-     */
-    /*@RequestMapping("/project/ajax/content")
-    public String ajaxList(HttpServletRequest request, HttpSession session) {
-        Project project = new Project();
-        project.setUserId(currentUserManager.getUserId());
-        request.setAttribute("list", projectService.getProjectList(project));
-        return "common/select-item";
-    }*/
-
-    /**
-     * 下拉选列表
-     *
      * @param project
      * @return
      */

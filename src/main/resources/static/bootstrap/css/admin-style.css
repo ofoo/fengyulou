@@ -127,6 +127,17 @@ h1 {
 }
 .fyl-form-btn{
     position: fixed;
-    top: 35px;
-    right: 10%;
+    left: 80%;
+    width: 20%;
+}
+.fyl-form-left{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    bottom: 0;
+    overflow: auto;
+}
+.fyl-form-btn-box{
+    padding: 35px 20px 0 0;
 }

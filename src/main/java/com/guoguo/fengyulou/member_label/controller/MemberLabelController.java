@@ -1,6 +1,8 @@
 package com.guoguo.fengyulou.member_label.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.guoguo.common.CurrentUserManager;
+import com.guoguo.common.SelectEntity;
 import com.guoguo.common.ServerResponse;
 import com.guoguo.fengyulou.member_label.entity.MemberLabel;
 import com.guoguo.fengyulou.member_label.service.MemberLabelService;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 人员标签管理
@@ -114,14 +119,26 @@ public class MemberLabelController {
     /**
      * 下拉选列表
      *
-     * @param request
+     * @param memberLabel
      * @return
      */
     @RequestMapping("/memberLabel/ajax/content")
-    public String ajaxList(HttpServletRequest request, HttpSession session) {
-        MemberLabel memberLabel = new MemberLabel();
+    @ResponseBody
+    public ServerResponse ajaxList(MemberLabel memberLabel) {
+        //查询数据
         memberLabel.setUserId(currentUserManager.getUserId());
-        request.setAttribute("list", memberLabelService.getMemberLabelList(memberLabel));
-        return "common/select-item";
+        PageInfo<MemberLabel> pageInfo = memberLabelService.getMemberLabelListPage(memberLabel);
+        //处理数据
+        List<SelectEntity> list = new ArrayList<>();
+        for (MemberLabel p : pageInfo.getList()) {
+            SelectEntity select = new SelectEntity();
+            select.setValue(p.getId());
+            select.setName(p.getName());
+            list.add(select);
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", list);
+        map.put("pages", pageInfo.getPages());
+        return ServerResponse.createBySuccess(map);
     }
 }
