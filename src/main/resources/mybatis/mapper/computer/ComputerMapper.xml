@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.guoguo.fengyulou.computer.dao.ComputerDao">
     <insert id="insertComputer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        insert into fengyulou_computer(project_id, host, port, account,password,user_id,insert_time) values (#{projectId},#{host},#{port},#{account},#{password},#{userId},now())
+        insert into fengyulou_computer(project_id, host, port, account,password,user_id,insert_time,`name`) values (#{projectId},#{host},#{port},#{account},#{password},#{userId},now(),#{name})
     </insert>
     <update id="updateComputerByIdAndUserId">
         update fengyulou_computer set
@@ -11,7 +11,8 @@
         port=#{port},
         account=#{account},
         password=#{password},
-        update_time=now()
+        update_time=now(),
+        `name`=#{name}
         where id=#{id}
         and user_id=#{userId}
     </update>
@@ -30,7 +31,8 @@
         fengyulou_computer.host,
         fengyulou_computer.port,
         fengyulou_computer.account,
-        fengyulou_computer.password
+        fengyulou_computer.password,
+        fengyulou_computer.name
         from fengyulou_computer
         left join fengyulou_project on fengyulou_computer.project_id=fengyulou_project.id
         <where>
@@ -49,7 +51,8 @@
         fengyulou_computer.host,
         fengyulou_computer.port,
         fengyulou_computer.account,
-        fengyulou_computer.password
+        fengyulou_computer.password,
+        fengyulou_computer.name
         from fengyulou_computer
         where id=#{id}
         limit 1
@@ -61,7 +64,8 @@
         fengyulou_computer.host,
         fengyulou_computer.port,
         fengyulou_computer.account,
-        fengyulou_computer.password
+        fengyulou_computer.password,
+        fengyulou_computer.name
         from fengyulou_computer
         where id=#{id}
         and user_id=#{userId}

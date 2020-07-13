@@ -140,4 +140,23 @@ public class ProjectController {
         return ServerResponse.createBySuccess(map);
     }
 
+    /**
+     * 获取项目
+     *
+     * @param project
+     * @return
+     */
+    @RequestMapping("/project/ajax/info")
+    @ResponseBody
+    public SelectEntity ajaxProjectInfo(Project project) {
+        //获取数据
+        project.setUserId(currentUserManager.getUserId());
+        project = projectService.getProjectByIdAndUserId(project);
+        //处理数据
+        SelectEntity select = new SelectEntity();
+        select.setValue(project.getId());
+        select.setName(project.getName());
+        return select;
+    }
+
 }

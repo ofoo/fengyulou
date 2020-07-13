@@ -83,12 +83,11 @@ public class ComputerController {
      * 修改页面
      *
      * @param request
-     * @param session
      * @param computer
      * @return
      */
     @RequestMapping("/computer/update")
-    public String update(HttpServletRequest request, HttpSession session, Computer computer) {
+    public String update(HttpServletRequest request, Computer computer) {
         request.setAttribute("pageTitle", "修改任务");
         //获取用户id
         Long userId = currentUserManager.getUserId();
@@ -103,7 +102,7 @@ public class ComputerController {
         Member member = new Member();
         member.setUserId(userId);
         request.setAttribute("memberList", memberService.getMemberList(member));
-        return "computer/computer-save";
+        return "page/computer/computer-save";
     }
 
     /**

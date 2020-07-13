@@ -17,7 +17,7 @@
                       placeholder="任务简述">${(data.sketch)!}</textarea>
         </div>
         <div class="form-group">
-            <label for="sketch">项目名称</label>
+            <label>项目名称</label>
             <div class="row">
                 <div class="col-sm-1">
                     <button type="button" class="btn btn-success" id="project-insert">添加</button>
@@ -146,7 +146,7 @@
     var memberId = cxsRadio("member-control", "/fyl/member/ajax/content", "请选择执行人");
     //数据回显
     <#if ((data.id)??)>
-    ajaxFunParam("/fyl/task/ajax/project", {"id": "${(data.projectId)}"}, function (data) {
+    ajaxFunParam("/fyl/project/ajax/info", {"id": "${(data.projectId)}"}, function (data) {
         projectId.setValue([data]);
     })
     ajaxFunParam("/fyl/task/ajax/label", {"id": "${(data.taskLabelId)}"}, function (data) {

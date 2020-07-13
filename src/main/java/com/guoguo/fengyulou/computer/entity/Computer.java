@@ -15,6 +15,10 @@ public class Computer extends BaseEntity {
      */
     private Long projectId;
     /**
+     * 名称
+     */
+    private String name;
+    /**
      * 主机
      */
     private String host;

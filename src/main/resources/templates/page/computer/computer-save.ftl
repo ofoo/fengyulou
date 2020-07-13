@@ -5,55 +5,56 @@
     <#include "../../common/header-script.ftl">
 </head>
 <body>
-<div class="container-fluid">
-    <form class="form-horizontal data-form" id="dataForm">
+<div class="fyl-form-left">
+    <form class="data-form" id="dataForm">
         <input type="hidden" name="id" id="dataId" value="${(data.id)!}">
         <div class="form-group">
-            <label class="col-sm-2 control-label text-danger">项目名称</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="projectId" name="projectId">
-                    <#list projectList as item>
-                        <option value="${item.id}"
-                                <#if ((data.projectId)!0)==item.id>selected</#if>>${item.name}</option>
-                    </#list>
-                </select>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-success" id="project-insert">添加</button>
+            <label>项目名称</label>
+            <div class="row">
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-success" id="project-insert">添加</button>
+                </div>
+                <div class="col-sm-11">
+                    <div id="project-control" class="xm-select-demo"></div>
+                </div>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2 control-label text-danger">主机</label>
-            <div class="col-md-5">
-                <input type="text" name="host" class="form-control" id="host" value="${(data.host)!}" placeholder="主机">
-            </div>
+            <label>名称</label>
+            <input type="text" name="name" class="form-control" id="name" value="${(data.name)!}" placeholder="名称">
         </div>
         <div class="form-group">
-            <label class="col-md-2 control-label text-danger">端口</label>
-            <div class="col-md-5">
-                <input type="text" name="port" class="form-control" id="port" value="${(data.port)!22}" placeholder="端口">
-            </div>
+            <label>主机</label>
+            <input type="text" name="host" class="form-control" id="host" value="${(data.host)!}" placeholder="主机">
         </div>
         <div class="form-group">
-            <label class="col-md-2 control-label text-danger">账号</label>
-            <div class="col-md-5">
-                <input type="text" name="account" class="form-control" id="host" value="${(data.account)!'root'}" placeholder="账号">
-            </div>
+            <label>端口</label>
+            <input type="text" name="port" class="form-control" id="port" value="${(data.port)!22}" placeholder="端口">
         </div>
         <div class="form-group">
-            <label class="col-md-2 control-label text-danger">密码</label>
-            <div class="col-md-5">
-                <input type="text" name="password" class="form-control" id="password" value="${(data.password)!}" placeholder="密码">
-            </div>
+            <label>账号</label>
+            <input type="text" name="account" class="form-control" id="host" value="${(data.account)!'root'}"
+                   placeholder="账号">
         </div>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="button" class="btn btn-primary" id="fengyulou-save">提交</button>
-                <button type="reset" class="btn btn-primary">重置</button>
-                <button type="button" class="btn btn-danger" id="fengyulou-close">关闭</button>
-            </div>
+            <label>密码</label>
+            <input type="text" name="password" class="form-control" id="password" value="${(data.password)!}"
+                   placeholder="密码">
         </div>
     </form>
+</div>
+<div class="fyl-form-btn">
+    <div class="fyl-form-btn-box">
+        <p>
+            <button type="button" class="btn btn-primary btn-block" id="fengyulou-save">提交</button>
+        </p>
+        <p>
+            <button type="reset" class="btn btn-warning btn-block">重置</button>
+        </p>
+        <p>
+            <button type="button" class="btn btn-danger btn-block" id="fengyulou-close">关闭</button>
+        </p>
+    </div>
 </div>
 
 <#include "../../common/footer-script.ftl">
@@ -62,27 +63,34 @@
     $("#project-insert").on("click", function () {
         layer.prompt({title: '添加项目'}, function (pass, index) {
             ajaxFunParam("/fyl/project/ajax/save", {'name': pass}, function (data) {
-                if (data.status == 0) {
-                    ajaxFunText("/fyl/project/ajax/content", function (data) {
-                        $("#projectId").html(data);
-                    })
-                    layer.close(index);
-                }else{
-                    msgFun(data.msg)
-                }
+                msgFunCallBack(data.msg, function () {
+                    if (data.status == 0) {
+                        layer.close(index);
+                    }
+                })
             })
         });
     })
     // 保存任务
     $("#fengyulou-save").on("click", function () {
         ajaxFunParam("/fyl/computer/ajax/save", $("#dataForm").serialize(), function (data) {
-            msgFunCallBack(data.msg,function(){
+            msgFunCallBack(data.msg, function () {
                 if (data.status == 0) {
-                    parent.searchData();
+                    closePage();
                 }
             })
         })
     })
+    //查询项目
+    var projectId = cxsRadioForm("project-control", "/fyl/project/ajax/content", "请选择项目", "projectId");
+    //数据回显
+    <#if ((data.id)??)>
+    console.log(11)
+    //修改人员标签选中
+    ajaxFunParam("/fyl/project/ajax/info", {"id": "${(data.projectId)}"}, function (data) {
+        projectId.setValue([data]);
+    })
+    </#if>
 </script>
 </body>
 </html>

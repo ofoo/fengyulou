@@ -172,25 +172,6 @@ public class TaskController {
     }
 
     /**
-     * 获取任务项目
-     *
-     * @param project
-     * @return
-     */
-    @RequestMapping("/task/ajax/project")
-    @ResponseBody
-    public SelectEntity ajaxTaskProject(Project project) {
-        //获取数据
-        project.setUserId(currentUserManager.getUserId());
-        project = projectService.getProjectByIdAndUserId(project);
-        //处理数据
-        SelectEntity select = new SelectEntity();
-        select.setValue(project.getId());
-        select.setName(project.getName());
-        return select;
-    }
-
-    /**
      * 获取任务标签
      *
      * @param taskLabel
