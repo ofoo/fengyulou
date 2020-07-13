@@ -5,7 +5,7 @@
     <#include "../../common/header-script.ftl">
 </head>
 <body>
-<div>
+<div class="row">
     <div class="col-md-9">
         <form class="data-form" id="dataForm">
             <input type="hidden" name="id" id="dataId" value="${(data.id)!}">
