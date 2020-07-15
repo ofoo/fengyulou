@@ -26,7 +26,7 @@ public class Task extends BaseEntity {
      */
     private Long taskLabelId;
     /**
-     * 任务状态 0未完成 1已完成
+     * 任务状态 0未完成 1已完成 2进行中
      */
     private Integer status;
     /**
