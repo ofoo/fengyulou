@@ -57,7 +57,7 @@
         <div class="form-group">
             <label for="sketch">结束时间</label>
             <input type="text" name="endTime" class="form-control" placeholder="结束时间" id="endTime" readonly
-                   value="<#if (data.startTime)??>${data.endTime?string('yyyy-MM-dd HH:mm:ss')}</#if>">
+                   value="<#if (data.endTime)??>${data.endTime?string('yyyy-MM-dd HH:mm:ss')}</#if>">
         </div>
         <div class="form-group">
             <label for="sketch">任务状态</label>
